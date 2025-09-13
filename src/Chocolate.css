@@ -1,0 +1,152 @@
+.choco-container {
+  background: #f3e9dc; /* light creamy chocolate color */
+  padding: 30px 50px;
+  border-radius: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.choco-heading {
+  color: #6f4e37; /* chocolate brown */
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Price filter style */
+.choco-price-filter {
+  background: #e8d6c0;
+  border-radius: 12px;
+  padding: 20px 40px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: 600;
+  color: #5b3a29;
+  box-shadow: inset 0 0 12px #c7a17a;
+}
+
+.choco-price-range {
+  width: 90%;
+  margin-top: 10px;
+  accent-color: #6f4e37;
+  cursor: pointer;
+}
+
+/* Card styling */
+.choco-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px #b5886e;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.choco-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px #6f4e37;
+}
+
+.choco-img {
+  width: 100%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 220px;
+  object-fit: contain;
+  background: #f8f1e7;
+}
+
+.choco-overlay {
+  padding: 15px 20px;
+  color: #5b3a29;
+  text-align: center;
+}
+
+.choco-name {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.choco-price-amount {
+  color: #a47149;
+  font-weight: 600;
+  margin-left: 6px;
+  font-size: 1.15rem;
+}
+
+.choco-desc {
+  font-size: 0.9rem;
+  color: #7c5e45;
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+.choco-btn-add {
+  background-color: #6f4e37;
+  border: none;
+  padding: 10px 25px;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.choco-btn-add:hover {
+  background-color: #543a27;
+}
+
+.choco-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.choco-btn-counter {
+  background-color: #d1b89d;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #6f4e37;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.choco-btn-counter:hover {
+  background-color: #b99572;
+}
+
+.choco-quantity {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #6f4e37;
+}
+
+.choco-pagination .btn-outline-secondary {
+  border-color: #6f4e37;
+  color: #6f4e37;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.choco-pagination .btn-outline-secondary:hover:not(:disabled) {
+  background-color: #6f4e37;
+  color: white;
+}
+
+.choco-pagination .btn-secondary {
+  background-color: #6f4e37;
+  color: white;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.choco-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

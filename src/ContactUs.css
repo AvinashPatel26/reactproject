@@ -1,0 +1,173 @@
+/* Background Gradient */
+.choco-bg {
+  background: linear-gradient(to right, #fceabb, #f8b500); /* warm chocolate colors */
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title & Subtitle */
+.choco-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #6f4e37; /* chocolate brown */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.choco-subtitle {
+  font-size: 1.1rem;
+  color: #7a5c43;
+}
+
+/* Card Design */
+.choco-card {
+  background-color: #fff7e6;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 6px 16px rgba(111, 78, 55, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  cursor: default;
+}
+
+/* Hover effect on card */
+.choco-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(111, 78, 55, 0.3);
+  cursor: pointer;
+}
+
+/* Product Image */
+.choco-img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* Zoom on image hover */
+.choco-card:hover .choco-img {
+  transform: scale(1.05);
+}
+
+/* Text Inside Card */
+.choco-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #4b2e1e;
+}
+
+.choco-desc {
+  font-size: 0.95rem;
+  color: #6b4b3a;
+  margin-bottom: 0.5rem;
+  min-height: 48px;
+}
+
+.choco-price {
+  font-size: 1.1rem;
+  color: #d2691e; /* chocolate price color */
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Add to Cart Button */
+.choco-btn-add {
+  background-color: #6f4e37;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(111, 78, 55, 0.4);
+}
+
+/* Hover effect for add button */
+.choco-btn-add:hover {
+  background-color: #4b2e1e;
+  box-shadow: 0 6px 12px rgba(75, 46, 30, 0.6);
+}
+
+/* Quantity Counter */
+.choco-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.choco-btn-counter {
+  background-color: #d2691e;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(210, 105, 30, 0.5);
+}
+
+/* Hover effect on counter buttons */
+.choco-btn-counter:hover {
+  background-color: #a0522d;
+  box-shadow: 0 6px 12px rgba(160, 82, 45, 0.7);
+  transform: scale(1.1);
+}
+
+.choco-quantity {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4b2e1e;
+}
+
+/* Pagination */
+.choco-pagination {
+  margin-top: 2rem;
+  gap: 0.5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.choco-pagination .btn {
+  border: 1px solid #6f4e37;
+  background-color: white;
+  color: #6f4e37;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-weight: 500;
+  margin: 0 0.25rem 0.25rem 0.25rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(111, 78, 55, 0.2);
+}
+
+/* Hover effect on pagination buttons */
+.choco-pagination .btn:hover:not(:disabled) {
+  background-color: #6f4e37;
+  color: white;
+  box-shadow: 0 4px 12px rgba(111, 78, 55, 0.5);
+}
+
+.choco-pagination .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.choco-pagination .btn.btn-primary {
+  background-color: #6f4e37;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 6px 16px rgba(111, 78, 55, 0.7);
+}

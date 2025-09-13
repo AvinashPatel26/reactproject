@@ -1,0 +1,42 @@
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #fffde7; /* Light yellow for a bright marquee */
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
+  transition: transform 0.3s ease;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+  transform: scale(1.02);
+}
+
+.marquee-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+.marquee-img:hover {
+  transform: scale(1.1);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .marquee-img {
+    width: 80px;
+    height: 80px;
+  }
+}

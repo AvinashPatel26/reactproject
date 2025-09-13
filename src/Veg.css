@@ -1,0 +1,182 @@
+/* Veg.css - Green Themed & Containerized */
+
+.veg-page {
+  background-color: #f0f9f4; /* light greenish */
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.veg-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.veg-title {
+  font-size: 2.5rem;
+  color: #2e7d32; /* dark green */
+  font-weight: 700;
+}
+
+/* 🔹 Container for Cards */
+.veg-main .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #e8f5e9; /* subtle light green */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 128, 0, 0.08);
+}
+
+/* 🔹 Grid Layout */
+.veg-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.veg-col {
+  flex: 1 1 250px;
+  max-width: 280px;
+}
+
+/* 🔹 Card Design */
+.veg-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.veg-card:hover {
+  transform: translateY(-5px);
+}
+
+.veg-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.veg-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.veg-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1b5e20;
+  margin-bottom: 0.4rem;
+}
+
+.veg-rating {
+  font-size: 0.9rem;
+  color: #ffb74d;
+  margin-bottom: 0.5rem;
+}
+
+.veg-desc {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0.6rem;
+}
+
+.veg-price {
+  font-size: 1.1rem;
+  color: #388e3c;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* 🔹 Buttons */
+.veg-actions {
+  margin-top: auto;
+}
+
+.veg-btn-add {
+  background-color: #43a047;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.veg-btn-add:hover {
+  background-color: #2e7d32;
+}
+
+/* 🔹 Quantity Controls */
+.veg-quantity-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.veg-btn-qty {
+  background-color: #c8e6c9;
+  color: #1b5e20;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.veg-btn-qty:hover {
+  background-color: #a5d6a7;
+}
+
+.veg-qty-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #1b5e20;
+}
+
+/* 🔹 Pagination */
+.veg-pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.veg-pagination-btn {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: 2px solid #43a047;
+  border-radius: 6px;
+  color: #388e3c;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.veg-pagination-btn:hover:not(.active) {
+  background-color: #dcedc8;
+}
+
+.veg-pagination-btn.active {
+  background-color: #43a047;
+  color: white;
+}
+
+/* 🔹 No Items Text */
+.veg-no-items {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  padding: 2rem 0;
+}

@@ -1,0 +1,63 @@
+.order-card {
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.order-header {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.order-header:hover {
+  background: #eef5ff;
+}
+
+.icon-text {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.order-items {
+  padding: 10px 14px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.month-header {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #495057;
+  border-left: 3px solid #0d6efd;
+  padding-left: 8px;
+  margin-bottom: 8px;
+}
