@@ -146,23 +146,7 @@ const orderSlice = createSlice({
   }
 });
 
-// const userSlice = createSlice({
-//   name: "user",
-//   initialState: { user:[], isAuthenticated: false , currentUser: null},
-//   reducers: {
-//     registerUser: (state, action) => {
-//       state.user.push(action.payload);
-//     },
-//     loginUser: (state, action) => {
-//       const { userName, password } = action.payload;
-//       const user = state.user.find(user => user.userName === userName && user.password === password);
-//       if (user) {
-//         state.currentUser = user;
-//         state.isAuthenticated = true;
-//       }
-//     }
-//   }
-// });
+
 
 // -------------------- Authentication Slice --------------------
 const loadAuthState = () => {
