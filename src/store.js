@@ -4,7 +4,7 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     veg: [
-  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
+  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
   { id: 1002, name: "Masala Dosa", price: 90, imageurl: "/images/masaladosa.webp", description: "Crispy dosa stuffed with spiced potatoes." },
   { id: 1003, name: "Veg Fried Rice", price: 120, imageurl: "/images/friedrice.jpg", description: "Stir-fried rice with mixed vegetables." },
   { id: 1004, name: "Dal Tadka", price: 100, imageurl: "/images/daltadka.jpeg", description: "Yellow lentils tempered with ghee and spices." },
@@ -62,7 +62,7 @@ const productSlice = createSlice({
       { id: 3011, name: "Strawberry Milk", price: 40, imageurl: "/images/strawberrymilk.jpeg", description: "Refreshing strawberry-flavored milk." },
       { id: 3012, name: "Vanilla Milk", price: 40, imageurl: "/images/vanillamilk.jpeg", description: "Smooth vanilla-flavored milk." },
       { id: 3013, name: "Curd", price: 80, imageurl: "/images/curd.jpeg", description: "Thick and creamy curd made from milk." },
-      { id: 3014, name: "Paneer", price: 250, imageurl: "public/images/paneer.jpeg", description: "Fresh cottage cheese rich in protein." },
+      { id: 3014, name: "Paneer", price: 250, imageurl: "/images/paneer.jpeg", description: "Fresh cottage cheese rich in protein." },
       { id: 3015, name: "Cheddar Cheese", price: 320, imageurl: "/images/cheddarcheese.jpeg", description: "Sharp and tangy cheese block." },
       { id: 3016, name: "Mozzarella Cheese", price: 300, imageurl: "/images/mozarellacheeze.jpeg", description: "Soft cheese perfect for pizzas." },
       { id: 3017, name: "Butter", price: 200, imageurl: "/images/butter.jpeg", description: "Creamy salted butter." },
