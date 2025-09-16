@@ -1,0 +1,16 @@
+.price-range-container {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.price-range-label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.price-range-slider {
+  width: 80%;
+  cursor: pointer;
+}

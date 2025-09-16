@@ -4,7 +4,7 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     veg: [
-  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
+  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
   { id: 1002, name: "Masala Dosa", price: 90, imageurl: "/images/masaladosa.webp", description: "Crispy dosa stuffed with spiced potatoes." },
   { id: 1003, name: "Veg Fried Rice", price: 120, imageurl: "/images/friedrice.jpg", description: "Stir-fried rice with mixed vegetables." },
   { id: 1004, name: "Dal Tadka", price: 100, imageurl: "/images/daltadka.jpeg", description: "Yellow lentils tempered with ghee and spices." },
@@ -145,22 +145,59 @@ const orderSlice = createSlice({
   }
 });
 
-const userSlice = createSlice({
-  name: "user",
-  initialState: { user:[], isAuthenticated: false , currentUser: null},
+// const userSlice = createSlice({
+//   name: "user",
+//   initialState: { user:[], isAuthenticated: false , currentUser: null},
+//   reducers: {
+//     registerUser: (state, action) => {
+//       state.user.push(action.payload);
+//     },
+//     loginUser: (state, action) => {
+//       const { userName, password } = action.payload;
+//       const user = state.user.find(user => user.userName === userName && user.password === password);
+//       if (user) {
+//         state.currentUser = user;
+//         state.isAuthenticated = true;
+//       }
+//     }
+//   }
+// });
+
+// -------------------- Authentication Slice --------------------
+const loadAuthState = () => {
+  try {
+    const saved = localStorage.getItem("auth");
+    return saved ? JSON.parse(saved) : { users: [], currentUser: null, isAuthenticated: false };
+  } catch {
+    return { users: [], currentUser: null, isAuthenticated: false };
+  }
+};
+
+const authenticationSlice = createSlice({
+  name: "authentication",
+  initialState: loadAuthState(),
   reducers: {
     registerUser: (state, action) => {
-      state.user.push(action.payload);
+      state.users.push(action.payload);
     },
     loginUser: (state, action) => {
-      const { userName, password } = action.payload;
-      const user = state.user.find(user => user.userName === userName && user.password === password);
-      if (user) {
-        state.currentUser = user;
+      const { username, password } = action.payload;
+      const foundUser = state.users.find(
+        (user) => user.username === username && user.password === password
+      );
+      if (foundUser) {
+        state.currentUser = foundUser;
         state.isAuthenticated = true;
+      } else {
+        state.currentUser = null;
+        state.isAuthenticated = false;
       }
-    }
-  }
+    },
+    logoutUser: (state) => {
+      state.currentUser = null;
+      state.isAuthenticated = false;
+    },
+  },
 });
 
 // export the reducer
@@ -175,11 +212,16 @@ const store = configureStore({
     products: productSlice.reducer,
     cart: cartSlice.reducer,
     orders: orderSlice.reducer,
+    authentication: authenticationSlice.reducer,
   }
 });
+
+
 store.subscribe(() => {
     localStorage.setItem("cart", JSON.stringify(store.getState().cart))
+    localStorage.setItem("authentication", JSON.stringify(store.getState().authentication))
   })
 
-export const { addToCart, removeFromCart, increaseItem, decreaseItem, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, increaseItem, decreaseItem, clearCart} = cartSlice.actions;
+export const { registerUser, loginUser, logoutUser } = authenticationSlice.actions;
 export default store;

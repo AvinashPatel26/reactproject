@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+
+
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseItem, decreaseItem } from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Veg.css";
+import PriceRange from "./PriceRange";
 
 function Veg() {
   const vegItems = useSelector((state) => state.products.veg);
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  // ✅ Add filteredItems state
+  const [filteredItems, setFilteredItems] = useState(vegItems);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    // Update filteredItems if vegItems change in Redux store
+    setFilteredItems(vegItems);
+  }, [vegItems]);
 
   const getCartItem = (id) => cartItems.find((item) => item.id === id);
 
@@ -27,11 +39,10 @@ function Veg() {
 
   // Pagination
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(vegItems.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = vegItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="veg-page">
@@ -39,6 +50,19 @@ function Veg() {
       <header className="veg-header">
         <h1 className="veg-title">Welcome to the Veg Page</h1>
       </header>
+
+      {/* ✅ Pass filteredItems handler */}
+      <PriceRange
+        products={vegItems}
+        onFilter={(items) => {
+          setFilteredItems(items);
+          setCurrentPage(1); // reset pagination on filter
+        }}
+        minPrice={0}
+        maxPrice={500}
+        step={10}
+        className="veg-filter"
+      />
 
       <main className="veg-main">
         <div className="container">

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser, loginUser, logoutUser } from "./store"; // import actions
 import "./SignUp.css";
 
 function SignUp() {
@@ -9,6 +12,13 @@ function SignUp() {
     password: "",
     confirmPassword: "",
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, currentUser } = useSelector(
+    (state) => state.authentication
+  );
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,41 +33,38 @@ function SignUp() {
         return;
       }
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
+      // Dispatch Redux register
+      dispatch(
+        registerUser({
+          username: form.email,
           name: form.name,
-          email: form.email,
           password: form.password,
         })
       );
 
-      alert("Account created successfully! You can now log in.");
-      setIsSignUp(false);
+      alert("Account created successfully! Redirecting to cart...");
       setForm({ name: "", email: "", password: "", confirmPassword: "" });
+
+      // Navigate to cart
+      navigate("/cart");
     } else {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      dispatch(loginUser({ username: form.email, password: form.password }));
 
-      if (!storedUser) {
-        alert("No account found. Please sign up first.");
-        setIsSignUp(true);
-        return;
-      }
-
-      if (
-        storedUser.email === form.email &&
-        storedUser.password === form.password
-      ) {
-        alert(`Welcome back, ${storedUser.name}! 🎉`);
-      } else {
-        alert("Invalid email or password!");
-      }
+      setForm({ name: "", email: "", password: "", confirmPassword: "" });
     }
   };
 
   return (
-    <div className="container mt-4 bg-light" style={{ maxWidth: "400px" }}>
-      <h2 className="mb-3 text-primary fw-bold">{isSignUp ? "🔐 Sign Up" : "🔑 Sign In"}</h2>
+    <div className="container mt-4 bg-light shadow p-4 rounded" style={{ maxWidth: "420px" }}>
+      <h2 className="mb-3 text-primary fw-bold text-center">
+        {isSignUp ? "🔐 Create Account" : "🔑 Login"}
+      </h2>
+
+      {isAuthenticated && (
+        <div className="alert alert-success text-center">
+          Welcome, <strong>{currentUser?.name}</strong> 🎉
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         {isSignUp && (
@@ -112,34 +119,46 @@ function SignUp() {
           </div>
         )}
 
-        <button type="submit" className="btn btn-primary w-100">
-          {isSignUp ? "Sign Up" : "Sign In"}
-        </button>
+        {!isAuthenticated ? (
+          <button type="submit" className="btn btn-primary w-100">
+            {isSignUp ? "Sign Up" : "Sign In"}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-danger w-100"
+            onClick={() => dispatch(logoutUser())}
+          >
+            🚪 Logout
+          </button>
+        )}
       </form>
 
-      <div className="mt-3 text-center">
-        {isSignUp ? (
-          <p className="text-muted">
-            Already have an account?{" "}
-            <button
-              className="btn btn-link p-0 text-primary"
-              onClick={() => setIsSignUp(false)}
-            >
-              Sign In
-            </button>
-          </p>
-        ) : (
-          <p className="text-muted">
-            Don’t have an account?{" "}
-            <button
-              className="btn btn-link p-0 text-primary"
-              onClick={() => setIsSignUp(true)}
-            >
-              Sign Up
-            </button>
-          </p>
-        )}
-      </div>
+      {!isAuthenticated && (
+        <div className="mt-3 text-center">
+          {isSignUp ? (
+            <p className="text-muted">
+              Already have an account?{" "}
+              <button
+                className="btn btn-link p-0 text-primary"
+                onClick={() => setIsSignUp(false)}
+              >
+                Sign In
+              </button>
+            </p>
+          ) : (
+            <p className="text-muted">
+              Don’t have an account?{" "}
+              <button
+                className="btn btn-link p-0 text-primary"
+                onClick={() => setIsSignUp(true)}
+              >
+                Sign Up
+              </button>
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

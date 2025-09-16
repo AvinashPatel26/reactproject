@@ -3,12 +3,21 @@ import { addToCart, increaseItem, decreaseItem } from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./NonVeg.css"; // New CSS file for NonVeg styles
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PriceRange from "./PriceRange"; // import your PriceRange component
 
 function NonVeg() {
   const nonVegMenu = useSelector((state) => state.products.nonVeg);
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const [filteredItems, setFilteredItems] = useState(nonVegMenu); // ✅ filtered items state
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset filtered items if nonVegMenu changes
+  useEffect(() => {
+    setFilteredItems(nonVegMenu);
+  }, [nonVegMenu]);
 
   const getCartItem = (id) => cartItems.find((item) => item.id === id);
 
@@ -23,12 +32,12 @@ function NonVeg() {
   const notifyDecrease = (itemName) =>
     toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
 
+  // Pagination
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(nonVegMenu.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = nonVegMenu.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -40,6 +49,19 @@ function NonVeg() {
       <p className="nonvegPage-subtitle text-center text-muted mb-4">
         Savor the flavors from our meat selection
       </p>
+
+      {/* ✅ Price Range Filter */}
+      <PriceRange
+        products={nonVegMenu}
+        onFilter={(items) => {
+          setFilteredItems(items);
+          setCurrentPage(1); // reset pagination on filter
+        }}
+        minPrice={0}
+        maxPrice={1000}
+        step={10}
+        className="mb-4"
+      />
 
       <div className="row">
         {currentItems.length > 0 ? (
