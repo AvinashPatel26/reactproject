@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { calculateTotal, calculateCombinedDiscount } from "./discountUtils";
 import emailjs from "@emailjs/browser";
-import "./cart.css";
+import "./Cart.css";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import Swal from "sweetalert2";
