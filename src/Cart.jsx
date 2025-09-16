@@ -15,6 +15,7 @@ import "./Cart.css";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import Swal from "sweetalert2";
+import confetti from "canvas-confetti";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart);
@@ -108,14 +109,35 @@ const Cart = () => {
         "M9xufayNxc_Gn-BvB"
       )
       .then(() => {
+        // Confetti animation for 5 seconds
+        const duration = 5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+        const interval = setInterval(function () {
+          const timeLeft = animationEnd - Date.now();
+          if (timeLeft <= 0) return clearInterval(interval);
+
+          const particleCount = 50 * (timeLeft / duration);
+          confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: Math.random(), y: Math.random() - 0.2 },
+          });
+        }, 250);
+
         Swal.fire({
           icon: "success",
           title: "Order Placed! 🎉",
           html: `<p>Your order <b>#${templateParams.order_id}</b> has been placed successfully.</p>
-                 <p>A confirmation email has been sent to <b>${customerEmail}</b>.</p>`,
-          confirmButtonText: "Awesome 🚀",
-          confirmButtonColor: "#28a745",
-        }).then(() => {
+                 <p>A confirmation email has been sent to <b>${customerEmail}</b>.</p>
+                 <p>Redirecting to your orders in 5 seconds...</p>`,
+          showConfirmButton: false,
+          timer: 5000,
+        });
+
+        // After 5 seconds, add order, clear cart, and navigate
+        setTimeout(() => {
           const purchaseDetails = {
             date: new Date().toLocaleString(),
             items: [...cartItems],
@@ -125,7 +147,7 @@ const Cart = () => {
           dispatch(addOrder(purchaseDetails));
           dispatch(clearCart());
           navigate("/orders");
-        });
+        }, 5000);
       })
       .catch(() => {
         Swal.fire({
@@ -137,7 +159,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-page bg-light py-5">
+    <div className="cart-page bg-gradient py-5">
       <ToastContainer />
       <div className="container cart-container shadow-lg bg-white rounded">
         <h2 className="mb-4 text-center fw-bold text-primary cart-title">
@@ -216,8 +238,7 @@ const Cart = () => {
                   <span>Subtotal:</span> <span>₹{totalPrice.toFixed(2)}</span>
                 </p>
                 <p className="d-flex justify-content-between">
-                  <span>Sales Tax (18%):</span>{" "}
-                  <span>₹{taxAmount.toFixed(2)}</span>
+                  <span>Sales Tax (18%):</span> <span>₹{taxAmount.toFixed(2)}</span>
                 </p>
                 <p className="d-flex justify-content-between text-danger">
                   <span>Manual Discount:</span>
@@ -234,8 +255,7 @@ const Cart = () => {
                 )}
                 <hr />
                 <p className="d-flex justify-content-between fw-bold text-dark">
-                  <span>Grand Total:</span>{" "}
-                  <span>₹{grandTotal.toFixed(2)}</span>
+                  <span>Grand Total:</span> <span>₹{grandTotal.toFixed(2)}</span>
                 </p>
 
                 {/* Manual Discounts */}
@@ -305,9 +325,7 @@ const Cart = () => {
                   <div className="d-flex justify-content-center gap-2 mb-3">
                     <button
                       className={`btn ${
-                        paymentMethod === "qr"
-                          ? "btn-primary"
-                          : "btn-outline-primary"
+                        paymentMethod === "qr" ? "btn-primary" : "btn-outline-primary"
                       }`}
                       onClick={() => setPaymentMethod("qr")}
                     >
@@ -315,9 +333,7 @@ const Cart = () => {
                     </button>
                     <button
                       className={`btn ${
-                        paymentMethod === "cod"
-                          ? "btn-warning"
-                          : "btn-outline-warning"
+                        paymentMethod === "cod" ? "btn-warning" : "btn-outline-warning"
                       }`}
                       onClick={() => setPaymentMethod("cod")}
                     >

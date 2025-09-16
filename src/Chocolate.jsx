@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseItem, decreaseItem } from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Chocolate.css";
+import PriceRange from "./PriceRange"; // Import PriceRange component
 
 function Chocolate() {
   const chocolateProducts = useSelector((state) => state.products.chocolate);
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const [filteredItems, setFilteredItems] = useState(chocolateProducts); // ✅ Add filtered state
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setFilteredItems(chocolateProducts); // Reset filter if chocolateProducts change
+  }, [chocolateProducts]);
 
   const getCartItem = (id) => cartItems.find((i) => i.id === id);
 
@@ -34,11 +42,10 @@ function Chocolate() {
     });
 
   const itemsPerPage = 4;
-  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = chocolateProducts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(chocolateProducts.length / itemsPerPage);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -51,10 +58,18 @@ function Chocolate() {
         Chocolates you love <span role="img" aria-label="chocolate">🍫🍬🍭</span>
       </h1>
 
-      {/* <div className="choco-price-filter">
-        <strong>Max Price: ₹500</strong>
-        <input type="range" min="0" max="500" defaultValue="500" className="choco-price-range" />
-      </div> */}
+      {/* ✅ PriceRange Filter */}
+      <PriceRange
+        products={chocolateProducts}
+        onFilter={(items) => {
+          setFilteredItems(items);
+          setCurrentPage(1); // Reset pagination on filter
+        }}
+        minPrice={0}
+        maxPrice={500}
+        step={10}
+        className="choco-price-filter mb-4"
+      />
 
       <div className="row justify-content-center">
         {currentItems.map((item) => {

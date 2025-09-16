@@ -3,12 +3,20 @@ import { addToCart, increaseItem, decreaseItem } from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Milk.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PriceRange from "./PriceRange"; // import the PriceRange component
 
 function Milk() {
   const milkMenu = useSelector((state) => state.products.milk);
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const [filteredItems, setFilteredItems] = useState(milkMenu); // ✅ filtered items state
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setFilteredItems(milkMenu); // reset filter if milkMenu changes
+  }, [milkMenu]);
 
   const getCartItem = (id) => cartItems.find((item) => item.id === id);
 
@@ -24,11 +32,10 @@ function Milk() {
     toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
 
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(milkMenu.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = milkMenu.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -40,6 +47,19 @@ function Milk() {
       <p className="milkPage-subtitle text-center text-muted mb-4">
         Creamy, fresh dairy items just for you
       </p>
+
+      {/* ✅ Price Range Filter */}
+      <PriceRange
+        products={milkMenu}
+        onFilter={(items) => {
+          setFilteredItems(items);
+          setCurrentPage(1); // reset pagination on filter
+        }}
+        minPrice={0}
+        maxPrice={500}
+        step={10}
+        className="mb-4"
+      />
 
       <div className="row">
         {currentItems.length > 0 ? (
