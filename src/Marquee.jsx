@@ -3,13 +3,13 @@ import "./Marquee.css";
 
 const Marquee = () => {
   const images = [
-    "public/images/almond milk.avif",
-    "public/images/chicken biryani.jpeg",
-    "public/images/chocolate pastry.jpeg",
-    "public/images/palak paneer.jpg",
-    "public/images/pav bhaji.jpg",
+    "public/images/almondmilk.avif",
+    "public/images/chickenbiryani.jpeg",
+    "public/images/chocolatepastry.jpeg",
+    "public/images/palakpaneer.jpg",
+    "public/images/pavbhaji.jpg",
     "public/images/Rasgulla.jpg",
-    "public/images/veg manchurian.jpeg",
+    "public/images/vegmanchurian.jpeg",
   ];
 
   return (
