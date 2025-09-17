@@ -17,7 +17,7 @@ function AboutUs() {
     },
     {
       title: "📞 Contact Us",
-      text: "Have questions or feedback? We’d love to hear from you!\n\n📧 support@ourfoodstore.com\n📱 +91 98765 43210",
+      text: "Have questions or feedback? We’d love to hear from you!\n\n📧 patelavinash2693@gmail.com\n📱 +91 6387995406",
     },
   ];
 

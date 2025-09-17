@@ -11,8 +11,8 @@ function ContactUs() {
 
       <div className="row mb-5">
         {[
-          { icon: "📞", title: "Phone", value: "+91 98765 43210" },
-          { icon: "📧", title: "Email", value: "support@ourfoodstore.com" },
+          { icon: "📞", title: "Phone", value: "+91 6387995406" },
+          { icon: "📧", title: "Email", value: "patelavinash2693@gmail.com" },
           { icon: "📍", title: "Address", value: "123 Food Street, Tasty City, India" },
         ].map((info, index) => (
           <div key={index} className="col-md-4 mb-3">

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseItem, decreaseItem } from "./store";
@@ -51,7 +49,7 @@ function Veg() {
         <h1 className="veg-title">Welcome to the Veg Page</h1>
       </header>
 
-      {/* ✅ Pass filteredItems handler */}
+      {/* Pass filteredItems handler */}
       <PriceRange
         products={vegItems}
         onFilter={(items) => {
