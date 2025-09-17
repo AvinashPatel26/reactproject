@@ -5,7 +5,6 @@ const productSlice = createSlice({
   initialState: {
     veg: [
   { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
-  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
   { id: 1002, name: "Masala Dosa", price: 90, imageurl: "/images/masaladosa.webp", description: "Crispy dosa stuffed with spiced potatoes." },
   { id: 1003, name: "Veg Fried Rice", price: 120, imageurl: "/images/friedrice.jpg", description: "Stir-fried rice with mixed vegetables." },
   { id: 1004, name: "Dal Tadka", price: 100, imageurl: "/images/daltadka.jpeg", description: "Yellow lentils tempered with ghee and spices." },
@@ -188,7 +187,6 @@ const authenticationSlice = createSlice({
 // export the reducer
 export let {addOrder} = orderSlice.actions
 
-// Subscribe to store updates
 
 
 // Configure Store
@@ -200,6 +198,8 @@ const store = configureStore({
     authentication: authenticationSlice.reducer,
   }
 });
+
+// Subscribe to store updates
 
 
 store.subscribe(() => {

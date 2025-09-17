@@ -47,7 +47,7 @@ function App() {
         <nav className="navbar navbar-expand-lg glass-navbar shadow-sm fixed-top">
           <div className="container-fluid">
             <span className="navbar-brand text-primary fw-bold">
-              🍴 Food Sensations
+               Food Sensations
             </span>
 
             {/* Hamburger button */}
