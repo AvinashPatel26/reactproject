@@ -1,15 +1,20 @@
+/* Chocolate.css – Responsive Chocolate Theme */
+
+/* Container */
 .choco-container {
   background: #f3e9dc; /* light creamy chocolate color */
-  padding: 30px 50px;
+  padding: 20px;
   border-radius: 15px;
   font-family: 'Poppins', sans-serif;
 }
 
+/* Heading */
 .choco-heading {
   color: #6f4e37; /* chocolate brown */
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+  text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
@@ -17,8 +22,8 @@
 .choco-price-filter {
   background: #e8d6c0;
   border-radius: 12px;
-  padding: 20px 40px;
-  margin-bottom: 40px;
+  padding: 15px 20px;
+  margin-bottom: 30px;
   text-align: center;
   font-weight: 600;
   color: #5b3a29;
@@ -39,31 +44,37 @@
   box-shadow: 0 4px 8px #b5886e;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .choco-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   box-shadow: 0 8px 20px #6f4e37;
 }
 
+/* Image */
 .choco-img {
   width: 100%;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  height: 220px;
+  height: 200px;
   object-fit: contain;
   background: #f8f1e7;
 }
 
+/* Card content */
 .choco-overlay {
-  padding: 15px 20px;
+  padding: 15px 18px;
   color: #5b3a29;
   text-align: center;
+  flex: 1;
 }
 
 .choco-name {
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 8px;
 }
 
@@ -71,7 +82,7 @@
   color: #a47149;
   font-weight: 600;
   margin-left: 6px;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
 }
 
 .choco-desc {
@@ -79,23 +90,27 @@
   color: #7c5e45;
   margin-bottom: 15px;
   line-height: 1.3;
+  min-height: 40px;
 }
 
+/* Add to Cart Button */
 .choco-btn-add {
   background-color: #6f4e37;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 20px;
   color: white;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .choco-btn-add:hover {
   background-color: #543a27;
 }
 
+/* Counter */
 .choco-counter {
   display: flex;
   justify-content: center;
@@ -110,7 +125,7 @@
   width: 34px;
   height: 34px;
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: #6f4e37;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -122,10 +137,11 @@
 
 .choco-quantity {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #6f4e37;
 }
 
+/* Pagination */
 .choco-pagination .btn-outline-secondary {
   border-color: #6f4e37;
   color: #6f4e37;
@@ -149,4 +165,61 @@
 .choco-pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ✅ Responsive Fixes */
+@media (max-width: 768px) {
+  .choco-container {
+    padding: 15px;
+  }
+
+  .choco-heading {
+    font-size: 2rem;
+  }
+
+  .choco-price-filter {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+
+  .choco-card {
+    margin-bottom: 20px;
+  }
+
+  .choco-img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  .choco-heading {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .choco-price-filter {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .choco-img {
+    height: 160px;
+  }
+
+  .choco-name {
+    font-size: 1rem;
+  }
+
+  .choco-price-amount {
+    font-size: 1rem;
+  }
+
+  .choco-desc {
+    font-size: 0.8rem;
+  }
+
+  .choco-btn-add {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
 }

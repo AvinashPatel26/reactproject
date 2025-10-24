@@ -4,11 +4,14 @@
 
 .veg-page {
   padding: 2rem;
-  background: #fafafa;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* light green gradient */
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
-/* Header */
+/* ================================
+   HEADER
+================================== */
 .veg-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -20,7 +23,9 @@
   color: #2e7d32;
 }
 
-/* Price filter wrapper */
+/* ================================
+   PRICE FILTER
+================================== */
 .veg-filter {
   margin: 1rem auto 2rem auto;
   max-width: 600px;
@@ -130,11 +135,12 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .veg-btn-add:hover {
   background: #1b5e20;
+  transform: scale(1.05);
 }
 
 .veg-quantity-controls {
@@ -151,11 +157,12 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .veg-btn-qty:hover {
   background: #bdbdbd;
+  transform: scale(1.05);
 }
 
 .veg-qty-value {
@@ -169,8 +176,12 @@
 .veg-pagination {
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  flex-wrap: wrap;         /* ✅ allow wrapping */
   gap: 0.5rem;
+  margin: 2rem 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
 }
 
 .veg-pagination-btn {
@@ -180,6 +191,9 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex: 0 0 auto;          /* ✅ prevent stretching */
+  min-width: 36px;         /* ✅ keep tappable */
+  text-align: center;
 }
 
 .veg-pagination-btn:hover {
@@ -198,6 +212,34 @@
   cursor: not-allowed;
 }
 
+/* 📱 Small devices */
+@media (max-width: 576px) {
+  .veg-pagination {
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .veg-pagination-btn {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.65rem;
+  }
+}
+
+/* 📱 Ultra-small phones */
+@media (max-width: 400px) {
+  .veg-pagination {
+    justify-content: flex-start;
+    overflow-x: auto;             /* ✅ scrollable fallback */
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .veg-pagination-btn {
+    display: inline-block;
+  }
+}
+
 /* ================================
    NO ITEMS MESSAGE
 ================================== */
@@ -206,9 +248,4 @@
   font-size: 1.1rem;
   color: #888;
   margin-top: 2rem;
-}
-.veg-page {
-  padding: 2rem;
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* light green gradient */
-  min-height: 100vh;
 }

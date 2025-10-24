@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUser, loginUser, logoutUser } from "./store"; // import actions
+import { registerUser, loginUser, logoutUser } from "./store";
 import "./SignUp.css";
 
 function SignUp() {
   const [isSignUp, setIsSignUp] = useState(true);
   const [form, setForm] = useState({
     name: "",
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -33,97 +33,44 @@ function SignUp() {
         return;
       }
 
-      // Dispatch Redux register
       dispatch(
         registerUser({
-          username: form.email,
+          username: form.username,
           name: form.name,
           password: form.password,
         })
       );
 
-      alert("Account created successfully! Redirecting to cart...");
-      setForm({ name: "", email: "", password: "", confirmPassword: "" });
+      dispatch(loginUser({ username: form.username, password: form.password }));
 
-      // Navigate to cart
+      alert("Account created successfully! Redirecting to cart...");
+      setForm({ name: "", username: "", password: "", confirmPassword: "" });
       navigate("/cart");
     } else {
-      dispatch(loginUser({ username: form.email, password: form.password }));
+      dispatch(loginUser({ username: form.username, password: form.password }));
 
-      setForm({ name: "", email: "", password: "", confirmPassword: "" });
+      if (form.username && form.password) {
+        alert("Login successful! Redirecting to cart...");
+        setForm({ name: "", username: "", password: "", confirmPassword: "" });
+        navigate("/cart");
+      }
     }
   };
 
   return (
-    <div className="container mt-4 bg-light shadow p-4 rounded" style={{ maxWidth: "420px" }}>
+    <div
+      className="container mt-4 bg-light shadow p-4 rounded"
+      style={{ maxWidth: "420px" }}
+    >
       <h2 className="mb-3 text-primary fw-bold text-center">
         {isSignUp ? "🔐 Create Account" : "🔑 Login"}
       </h2>
 
-      {isAuthenticated && (
-        <div className="alert alert-success text-center">
-          Welcome, <strong>{currentUser?.name}</strong> 🎉
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit}>
-        {isSignUp && (
-          <div className="mb-3">
-            <label className="form-label fw-semibold">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              className="form-control"
-              value={form.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
-
-        <div className="mb-3">
-          <label className="form-label fw-semibold">Email address</label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            value={form.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label fw-semibold">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            value={form.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {isSignUp && (
-          <div className="mb-3">
-            <label className="form-label fw-semibold">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              className="form-control"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
-
-        {!isAuthenticated ? (
-          <button type="submit" className="btn btn-primary w-100">
-            {isSignUp ? "Sign Up" : "Sign In"}
-          </button>
-        ) : (
+      {isAuthenticated ? (
+        <div className="text-center">
+          <p className="alert alert-success">
+            Welcome, <strong>{currentUser?.name}</strong> 🎉
+          </p>
           <button
             type="button"
             className="btn btn-danger w-100"
@@ -131,8 +78,66 @@ function SignUp() {
           >
             🚪 Logout
           </button>
-        )}
-      </form>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          {isSignUp && (
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Username</label>
+            <input
+              type="text"
+              name="username"
+              className="form-control"
+              value={form.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {isSignUp && (
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                className="form-control"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+
+          <button type="submit" className="btn btn-primary w-100">
+            {isSignUp ? "Sign Up" : "Sign In"}
+          </button>
+        </form>
+      )}
 
       {!isAuthenticated && (
         <div className="mt-3 text-center">

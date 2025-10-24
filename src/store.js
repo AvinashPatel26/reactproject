@@ -1,31 +1,31 @@
-import { configureStore, createSlice, current } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
+// -------------------- Product Slice --------------------
 const productSlice = createSlice({
   name: "products",
   initialState: {
     veg: [
-  { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
-  { id: 1002, name: "Masala Dosa", price: 90, imageurl: "/images/masaladosa.webp", description: "Crispy dosa stuffed with spiced potatoes." },
-  { id: 1003, name: "Veg Fried Rice", price: 120, imageurl: "/images/friedrice.jpg", description: "Stir-fried rice with mixed vegetables." },
-  { id: 1004, name: "Dal Tadka", price: 100, imageurl: "/images/daltadka.jpeg", description: "Yellow lentils tempered with ghee and spices." },
-  { id: 1005, name: "Idli Sambar", price: 80, imageurl: "/images/idlisambhar.jpeg", description: "Soft idlis served with flavorful sambar." },
-  { id: 1006, name: "Chole Bhature", price: 150, imageurl: "/images/cholebhature.jpg", description: "Fluffy bhature with spicy chickpea curry." },
-  { id: 1007, name: "Pav Bhaji", price: 120, imageurl: "/images/pavbhaji.jpg", description: "Buttery pav with spicy mashed vegetable curry." },
-  { id: 1008, name: "Rajma Chawal", price: 110, imageurl: "/images/rajmachawal.jpg", description: "Red kidney beans curry served with rice." },
-  { id: 1009, name: "Aloo Paratha", price: 90, imageurl: "/images/alooparatha.jpeg", description: "Stuffed flatbread with spiced potatoes." },
-  { id: 1010, name: "Pani Puri", price: 70, imageurl: "/images/Pani_puri.jpg", description: "Tangy and spicy street food favorite." },
-  { id: 1011, name: "Veg Pulao", price: 130, imageurl: "/images/vegimage.jpeg", description: "Fragrant rice with mixed vegetables." },
-  { id: 1012, name: "Butter Naan", price: 50, imageurl: "/images/butternaan.jpg", description: "Soft naan topped with melted butter." },
-  { id: 1013, name: "Kadhai Paneer", price: 190, imageurl: "/images/kadhaipaneer.jpg", description: "Paneer cooked with capsicum and spices." },
-  { id: 1014, name: "Veg Hakka Noodles", price: 140, imageurl: "/images/veghakkanoodles.webp", description: "Stir-fried noodles with fresh vegetables." },
-  { id: 1015, name: "Dhokla", price: 80, imageurl: "/images/dhokla.jpeg", description: "Soft and spongy Gujarati snack." },
-  { id: 1016, name: "Malai Kofta", price: 200, imageurl: "/images/malaikofta.webp", description: "Creamy curry with fried dumplings." },
-  { id: 1017, name: "Veg Manchurian", price: 150, imageurl: "/images/vegmanchurian.jpeg", description: "Crispy veg balls in spicy Manchurian sauce." },
-  { id: 1018, name: "Stuffed Capsicum", price: 160, imageurl: "/images/stuffedcapcicum.jpeg", description: "Capsicum stuffed with spicy potato filling." },
-  { id: 1019, name: "Palak Paneer", price: 180, imageurl: "/images/palakpaneer.jpg", description: "Paneer cubes in a creamy spinach gravy." },
-  { id: 1020, name: "Gulab Jamun", price: 80, imageurl: "/images/gulabjamun.jpg", description: "Soft, sweet dumplings soaked in syrup." }
-]
-,
+      { id: 1001, name: "Paneer Butter Masala", price: 180, imageurl: "/images/paneerbuttermasala.jpeg", description: "Rich, creamy curry with soft paneer cubes." },
+      { id: 1002, name: "Masala Dosa", price: 90, imageurl: "/images/masaladosa.webp", description: "Crispy dosa stuffed with spiced potatoes." },
+      { id: 1003, name: "Veg Fried Rice", price: 120, imageurl: "/images/friedrice.jpg", description: "Stir-fried rice with mixed vegetables." },
+      { id: 1004, name: "Dal Tadka", price: 100, imageurl: "/images/daltadka.jpeg", description: "Yellow lentils tempered with ghee and spices." },
+      { id: 1005, name: "Idli Sambar", price: 80, imageurl: "/images/idlisambhar.jpeg", description: "Soft idlis served with flavorful sambar." },
+      { id: 1006, name: "Chole Bhature", price: 150, imageurl: "/images/cholebhature.jpg", description: "Fluffy bhature with spicy chickpea curry." },
+      { id: 1007, name: "Pav Bhaji", price: 120, imageurl: "/images/pavbhaji.jpg", description: "Buttery pav with spicy mashed vegetable curry." },
+      { id: 1008, name: "Rajma Chawal", price: 110, imageurl: "/images/rajmachawal.jpg", description: "Red kidney beans curry served with rice." },
+      { id: 1009, name: "Aloo Paratha", price: 90, imageurl: "/images/alooparatha.jpeg", description: "Stuffed flatbread with spiced potatoes." },
+      { id: 1010, name: "Pani Puri", price: 70, imageurl: "/images/Pani_puri.jpg", description: "Tangy and spicy street food favorite." },
+      { id: 1011, name: "Veg Pulao", price: 130, imageurl: "/images/vegimage.jpeg", description: "Fragrant rice with mixed vegetables." },
+      { id: 1012, name: "Butter Naan", price: 50, imageurl: "/images/butternaan.jpg", description: "Soft naan topped with melted butter." },
+      { id: 1013, name: "Kadhai Paneer", price: 190, imageurl: "/images/kadhaipaneer.jpg", description: "Paneer cooked with capsicum and spices." },
+      { id: 1014, name: "Veg Hakka Noodles", price: 140, imageurl: "/images/veghakkanoodles.webp", description: "Stir-fried noodles with fresh vegetables." },
+      { id: 1015, name: "Dhokla", price: 80, imageurl: "/images/dhokla.jpeg", description: "Soft and spongy Gujarati snack." },
+      { id: 1016, name: "Malai Kofta", price: 200, imageurl: "/images/malaikofta.webp", description: "Creamy curry with fried dumplings." },
+      { id: 1017, name: "Veg Manchurian", price: 150, imageurl: "/images/vegmanchurian.jpeg", description: "Crispy veg balls in spicy Manchurian sauce." },
+      { id: 1018, name: "Stuffed Capsicum", price: 160, imageurl: "/images/stuffedcapcicum.jpeg", description: "Capsicum stuffed with spicy potato filling." },
+      { id: 1019, name: "Palak Paneer", price: 180, imageurl: "/images/palakpaneer.jpg", description: "Paneer cubes in a creamy spinach gravy." },
+      { id: 1020, name: "Gulab Jamun", price: 80, imageurl: "/images/gulabjamun.jpg", description: "Soft, sweet dumplings soaked in syrup." }
+    ],
     nonVeg: [
       { id: 2001, name: "Chicken Biryani", price: 250, imageurl: "/images/chickenbiryani.jpeg", description: "Aromatic rice with chicken." },
       { id: 2002, name: "Mutton Rogan Josh", price: 320, imageurl: "/images/muttonroganjosh.jpeg", description: "Rich Kashmiri mutton curry." },
@@ -71,7 +71,7 @@ const productSlice = createSlice({
       { id: 3020, name: "Kheer", price: 150, imageurl: "/images/kheer.jpeg", description: "Indian dessert made with milk and rice." }
     ],
     chocolate: [
-      { id: 4001, name: "Milk Chocolate", price: 120, imageurl: "/images/milkchocolate.jpeg", description: "Smooth milk chocolate." },
+      { id: 4001, name: "Milk Chocolate", price: 1, imageurl: "/images/milkchocolate.jpeg", description: "Smooth milk chocolate." },
       { id: 4002, name: "Dark Chocolate 70%", price: 150, imageurl: "/images/darkchocolate.jpeg", description: "Rich dark chocolate with 70% cocoa." },
       { id: 4003, name: "White Chocolate", price: 130, imageurl: "/images/whitechocolate.jpeg", description: "Sweet creamy white chocolate." },
       { id: 4004, name: "Hazelnut Chocolate", price: 160, imageurl: "/images/hazelnutchocolate.jpeg", description: "Chocolate with roasted hazelnuts." },
@@ -96,15 +96,14 @@ const productSlice = createSlice({
   reducers: {}
 });
 
- 
-const initialState = JSON.parse(localStorage.getItem("cart")) || [];
+// -------------------- Cart Slice --------------------
+const initialCartState = JSON.parse(localStorage.getItem("cart")) || [];
 
-
-  let cartSlice = createSlice({
+let cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: initialCartState,
   reducers: {
-   addToCart(state, action) {
+    addToCart(state, action) {
       const item = state.find(product => product.id === action.payload.id);
       if (item) {
         item.quantity += 1;
@@ -130,13 +129,15 @@ const initialState = JSON.parse(localStorage.getItem("cart")) || [];
         }
       }
     },
-    clearCart(){
+    clearCart() {
       return [];
     }
   }
 });
+
+// -------------------- Order Slice --------------------
 const orderSlice = createSlice({
-  name : "order",
+  name: "order",
   initialState: [],
   reducers: {
     addOrder: (state, action) => {
@@ -145,12 +146,10 @@ const orderSlice = createSlice({
   }
 });
 
-
-
 // -------------------- Authentication Slice --------------------
 const loadAuthState = () => {
   try {
-    const saved = localStorage.getItem("auth");
+    const saved = localStorage.getItem("authentication"); // fixed key
     return saved ? JSON.parse(saved) : { users: [], currentUser: null, isAuthenticated: false };
   } catch {
     return { users: [], currentUser: null, isAuthenticated: false };
@@ -180,33 +179,29 @@ const authenticationSlice = createSlice({
     logoutUser: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;
-    },
-  },
+    }
+  }
 });
 
-// export the reducer
-export let {addOrder} = orderSlice.actions
-
-
-
-// Configure Store
+// -------------------- Store --------------------
 const store = configureStore({
   reducer: {
     products: productSlice.reducer,
     cart: cartSlice.reducer,
     orders: orderSlice.reducer,
-    authentication: authenticationSlice.reducer,
+    authentication: authenticationSlice.reducer
   }
 });
 
-// Subscribe to store updates
-
-
+// Persist cart + authentication
 store.subscribe(() => {
-    localStorage.setItem("cart", JSON.stringify(store.getState().cart))
-    localStorage.setItem("authentication", JSON.stringify(store.getState().authentication))
-  })
+  localStorage.setItem("cart", JSON.stringify(store.getState().cart));
+  localStorage.setItem("authentication", JSON.stringify(store.getState().authentication));
+});
 
-export const { addToCart, removeFromCart, increaseItem, decreaseItem, clearCart} = cartSlice.actions;
+// -------------------- Exports --------------------
+export const { addToCart, removeFromCart, increaseItem, decreaseItem, clearCart } = cartSlice.actions;
+export const { addOrder } = orderSlice.actions;
 export const { registerUser, loginUser, logoutUser } = authenticationSlice.actions;
+
 export default store;

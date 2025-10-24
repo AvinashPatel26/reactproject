@@ -6,7 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Orders.css";
 
 function Orders() {
-  const orders = useSelector((state) => state.orders);
+  // ✅ Always ensure orders is an array
+  const orders = useSelector((state) => state.orders) || [];
   const dispatch = useDispatch();
   const [expandedOrder, setExpandedOrder] = useState(null);
 
@@ -21,8 +22,12 @@ function Orders() {
     alert("Items added back to cart ✅");
   };
 
-  const groupOrdersByMonth = (orders) => {
-    return orders.reduce((groups, order, index) => {
+  // ✅ Safe grouping function
+  const groupOrdersByMonth = (ordersList) => {
+    if (!Array.isArray(ordersList)) return {};
+    return ordersList.reduce((groups, order, index) => {
+      if (!order?.date) return groups; // skip invalid orders
+
       const date = new Date(order.date);
       const monthYear = date.toLocaleString("en-US", {
         month: "long",
@@ -61,10 +66,15 @@ function Orders() {
                   <div className="d-flex align-items-center gap-3">
                     <span className="icon-text">
                       <Calendar size={16} className="me-1" />
-                      {new Date(purchase.date).toLocaleDateString("en-GB")}
+                      {purchase.date
+                        ? new Date(purchase.date).toLocaleDateString("en-GB")
+                        : "Unknown Date"}
                     </span>
                     <span className="icon-text text-primary fw-semibold">
-                      💰 ₹{purchase.totalPrice.toFixed(2)}
+                      💰 ₹
+                      {purchase.totalPrice
+                        ? purchase.totalPrice.toFixed(2)
+                        : "0.00"}
                     </span>
                   </div>
                   {expandedOrder === purchase.id ? (
@@ -77,7 +87,7 @@ function Orders() {
                 {/* Expandable Items */}
                 {expandedOrder === purchase.id && (
                   <div className="order-items">
-                    {purchase.items.map((item, itemIndex) => (
+                    {purchase.items?.map((item, itemIndex) => (
                       <div key={itemIndex} className="order-item">
                         <img
                           src={item.imageurl || "https://via.placeholder.com/100"}
@@ -96,7 +106,7 @@ function Orders() {
                       </div>
                     ))}
 
-                    {/* Reorder Icon Button */}
+                    {/* Reorder Button */}
                     <div className="text-end mt-2">
                       <button
                         className="btn btn-sm btn-outline-success d-flex align-items-center gap-1"

@@ -199,7 +199,7 @@ function Home() {
             {[
               {
                 text: "“Amazing food & quick delivery! ⭐⭐⭐⭐⭐”",
-                name: "Rahul Sharma",
+                name: "Mukti Patel",
               },
               {
                 text: "“Desserts are heavenly. Loved it! ⭐⭐⭐⭐”",
@@ -207,7 +207,7 @@ function Home() {
               },
               {
                 text: "“Affordable & tasty meals. ⭐⭐⭐⭐⭐”",
-                name: "Arjun Patel",
+                name: "Kartavya Patel",
               },
             ].map((review, index) => (
               <div

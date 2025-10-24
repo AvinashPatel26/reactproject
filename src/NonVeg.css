@@ -1,137 +1,139 @@
+/* NonVeg Page General Styles */
 .nonvegPage-bg {
-  background: #f9ebe7; /* light warm beige */
-  padding: 30px 50px;
-  border-radius: 15px;
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom right, #ffe5e0, #f9d7d0);
+  min-height: 100vh;
 }
 
 .nonvegPage-heading {
-  color: #a63e23; /* rich burnt orange/red */
-  font-size: 2.8rem;
-  font-weight: 700;
-  margin-bottom: 30px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-weight: bold;
+  color: #a63e23;
 }
 
 .nonvegPage-subtitle {
-  font-weight: 600;
-  color: #7a3c2c;
-  margin-bottom: 40px;
+  font-size: 0.9rem;
 }
 
-/* Card Styling */
+/* Card styles */
 .nonvegPage-card {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px #cc8b76;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
 }
 
 .nonvegPage-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 20px #a63e23;
+  transform: translateY(-4px);
 }
 
 .nonvegPage-img {
-  width: 100%;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  height: 220px;
-  object-fit: contain;
-  background: #f6e7e2;
+  border-radius: 12px 12px 0 0;
+  height: 150px;
+  object-fit: cover;
 }
 
 .nonvegPage-name {
-  font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 8px;
-  color: #6e2a14;
+  font-weight: bold;
+  color: #333;
+}
+
+.nonvegPage-desc {
+  color: #666;
 }
 
 .nonvegPage-price-amount {
   color: #a63e23;
-  font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1rem;
 }
 
-.nonvegPage-desc {
-  font-size: 0.9rem;
-  color: #9e4a2a;
-  margin-bottom: 15px;
-  line-height: 1.3;
-}
-
-/* Buttons */
+/* Add to Cart button */
 .nonvegPage-btn-add {
   background-color: #a63e23;
+  color: #fff;
   border: none;
-  padding: 10px 25px;
-  color: white;
-  font-weight: 600;
   border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
+  transition: background 0.2s ease-in-out;
 }
 
 .nonvegPage-btn-add:hover {
-  background-color: #7f2b18;
+  background-color: #872f1b;
 }
 
+/* Quantity Counter */
 .nonvegPage-counter {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .nonvegPage-btn-counter {
-  background-color: #d9a27c;
+  background-color: #a63e23;
+  color: #fff;
   border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: #7a3c2c;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.2s ease-in-out;
 }
 
 .nonvegPage-btn-counter:hover {
-  background-color: #b37456;
+  background-color: #872f1b;
 }
 
 .nonvegPage-quantity {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #7a3c2c;
-}
-
-/* Pagination */
-.nonvegPage-pagination .page-link {
-  border-color: #a63e23;
+  font-weight: bold;
   color: #a63e23;
-  font-weight: 700;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ✅ Pagination */
+.nonvegPage-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.nonvegPage-pagination .page-item {
+  margin: 2px;
+}
+
+.nonvegPage-page-btn {
+  background-color: #fff;
+  border: 1px solid #a63e23;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #a63e23;
 }
 
-.nonvegPage-pagination .page-link:hover:not(:disabled) {
+.nonvegPage-page-btn:hover {
   background-color: #a63e23;
-  color: white;
+  color: #fff;
 }
 
-.nonvegPage-pagination .active .page-link {
+.nonvegPage-pagination .active .nonvegPage-page-btn {
   background-color: #a63e23;
-  color: white;
-  font-weight: 700;
-  border-radius: 8px;
+  color: #fff;
 }
 
-.nonvegPage-pagination .page-link:disabled {
-  opacity: 0.5;
+.nonvegPage-pagination .page-item:first-child .nonvegPage-page-btn,
+.nonvegPage-pagination .page-item:last-child .nonvegPage-page-btn {
+  font-weight: bold;
+}
+
+/* Disabled state */
+.nonvegPage-page-btn:disabled {
+  background-color: #f0f0f0;
+  color: #aaa;
+  border-color: #ddd;
   cursor: not-allowed;
 }
