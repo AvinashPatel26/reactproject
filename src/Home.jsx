@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import Marquee from "./Marquee";
 import axios from "./api/axios";
-import { BACKEND_URL } from "../config/backend"; // ✅ added
+import { BACKEND_URL } from "./config/backend";
 
 function Home() {
   const [filter, setFilter] = useState("all");
