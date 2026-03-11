@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import Marquee from "./Marquee";
 import axios from "./api/axios";
+import { BACKEND_URL } from "../config/backend"; // ✅ added
 
 function Home() {
   const [filter, setFilter] = useState("all");
@@ -19,30 +20,32 @@ function Home() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     reveals.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  // ✅ FIXED: Fetch featured products from backend and limit to 8 items
+  // Fetch featured products
   useEffect(() => {
     axios
       .get("/products")
       .then((res) => {
-        // Slice the array to only grab the first 8 items for the Home Page
         const featuredProducts = res.data.slice(0, 8);
 
         const mappedItems = featuredProducts.map((p) => ({
-          img: p.imageurl ? `http://localhost:8080${p.imageurl}` : "/images/default.png",
+          img: p.imageurl
+            ? `${BACKEND_URL}${p.imageurl}` // ✅ FIXED
+            : "/images/default.png",
           title: p.name,
           rating: p.rating || 4.5,
           price: p.price,
           discount: p.discount || "20% off",
-          to: `/${p.category}`, // veg / nonveg / milk / chocolate
+          to: `/${p.category}`,
           type: p.category,
         }));
+
         setItems(mappedItems);
       })
       .catch((err) => console.error("Home products error:", err));
@@ -153,11 +156,7 @@ function Home() {
               title: "Affordable",
               desc: "Best meals at the best price.",
             },
-            {
-              icon: "🍜",
-              title: "Variety",
-              desc: "A wide range of cuisines.",
-            },
+            { icon: "🍜", title: "Variety", desc: "A wide range of cuisines." },
           ].map((w, i) => (
             <div
               className="why-card reveal"
@@ -169,64 +168,6 @@ function Home() {
               <p>{w.desc}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="reviews reveal">
-        <h2>Customer Reviews</h2>
-        <div
-          id="reviewsCarousel"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div className="carousel-inner">
-            {[
-              {
-                text: "“Amazing food & quick delivery! ⭐⭐⭐⭐⭐”",
-                name: "Mukti Patel",
-              },
-              {
-                text: "“Desserts are heavenly. Loved it! ⭐⭐⭐⭐”",
-                name: "Priya Mehta",
-              },
-              {
-                text: "“Affordable & tasty meals. ⭐⭐⭐⭐⭐”",
-                name: "Kartavya Patel",
-              },
-            ].map((review, index) => (
-              <div
-                key={index}
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-              >
-                <div className="review-card mx-auto text-center" style={{ maxWidth: "600px", padding: "20px" }}>
-                  <div className="review-card-body">
-                    <p className="fs-5 fst-italic">{review.text}</p>
-                    <h5 className="fw-bold mt-3 text-warning">{review.name}</h5>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#reviewsCarousel"
-            data-bs-slide="prev"
-          >
-            <span className="carousel-control-prev-icon" />
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#reviewsCarousel"
-            data-bs-slide="next"
-          >
-            <span className="carousel-control-next-icon" />
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
       </section>
 
@@ -249,25 +190,9 @@ function Home() {
 
       {/* Footer */}
       <footer className="home-footer">
-        <div className="footer-content">
-          <div className="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><Link to="/veg">Veg</Link></li>
-              <li><Link to="/nonveg">Non-Veg</Link></li>
-              <li><Link to="/milk">Milk</Link></li>
-              <li><Link to="/chocolate">Chocolate</Link></li>
-            </ul>
-          </div>
-          <div className="footer-social">
-            <h4>Follow Us</h4>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer">Twitter</a>
-          </div>
-        </div>
         <p className="footer-bottom">
-          &copy; {new Date().getFullYear()} Foody Sensations. All rights reserved.
+          &copy; {new Date().getFullYear()} Foody Sensations. All rights
+          reserved.
         </p>
       </footer>
     </div>
