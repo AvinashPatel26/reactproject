@@ -4,7 +4,8 @@ import axios from "axios";
 /* ======================================================
    API CONFIG
 ====================================================== */
-const API_URL = "http://localhost:8080/api/products";
+const API_URL =
+  (import.meta.env.VITE_API_URL || "http://localhost:8080/api") + "/products";
 
 /* ======================================================
    ASYNC PRODUCT FETCH (MATCHES BACKEND)
