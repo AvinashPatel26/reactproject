@@ -389,7 +389,7 @@ const Cart = () => {
                   {paymentMethod === "qr" && (
                     <div className="qr-wrapper mt-3 p-3 rounded">
                       <QRCode
-                        value={`upi://pay?pa=avinash7346patel@oksbi&pn=FoodSensation&am=${grandTotal.toFixed(
+                        value={`upi://pay?pa=avinash7346patel-5@okaxis&pn=FoodSensation&am=${grandTotal.toFixed(
                           2,
                         )}&cu=INR`}
                         size={150}
