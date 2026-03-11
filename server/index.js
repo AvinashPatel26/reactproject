@@ -18,21 +18,36 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+
+/* CORS FIX FOR VERCEL + LOCALHOST */
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_ORIGIN
+];
 
 app.use(
   cors({
-    origin: CLIENT_ORIGIN,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Static files for uploaded images
+/* Static uploaded images */
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+/* API Routes */
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
@@ -42,12 +57,17 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/food-sensations";
+/* MongoDB */
+
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  "mongodb://127.0.0.1:27017/food-sensations";
 
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log("MongoDB connected");
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
@@ -56,4 +76,3 @@ mongoose
     console.error("MongoDB connection error:", err);
     process.exit(1);
   });
-
