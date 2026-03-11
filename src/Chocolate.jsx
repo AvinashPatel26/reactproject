@@ -96,6 +96,9 @@ function Chocolate() {
                     alt={item.name}
                     className="veg-img"
                   /> */}
+                  {/* <img
+                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
+                  /> */}
                   <img
                     src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
                   />

@@ -97,8 +97,13 @@ function NonVeg() {
                     alt={item.name}
                     className="veg-img"
                   /> */}
-                  <img
+                  {/* <img
                     src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
+                  /> */}
+                  <img
+                    src={`${BACKEND_URL}${item.imageurl}`}
+                    alt={item.name}
+                    className="nonveg-img"
                   />
 
                   <div className="card-body d-flex flex-column">
