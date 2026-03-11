@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Marquee from "./Marquee";
+import axios from "./api/axios";
 
 function Home() {
   const [filter, setFilter] = useState("all");
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const reveals = document.querySelectorAll(".reveal");
@@ -24,44 +26,27 @@ function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const items = [
-    {
-      img: "/images/lassi.webp",
-      title: "Lassi",
-      rating: 4.6,
-      price: 299,
-      discount: "20% off",
-      to: "/milk",
-      type: "milk",
-    },
-    {
-      img: "/images/pavbhaji.jpg",
-      title: "Pav Bhaji",
-      rating: 4.5,
-      price: 349,
-      discount: "25% off",
-      to: "/veg",
-      type: "veg",
-    },
-    {
-      img: "/images/chickenbiryani.jpeg",
-      title: "Chicken Biryani",
-      rating: 4.3,
-      price: 279,
-      discount: "15% off",
-      to: "/nonveg",
-      type: "nonveg",
-    },
-    {
-      img: "/images/chocolatemilkshake.jpeg",
-      title: "Chocolate Milkshake",
-      rating: 4.4,
-      price: 259,
-      discount: "25% off",
-      to: "/chocolate",
-      type: "chocolate",
-    },
-  ];
+  // ✅ FIXED: Fetch featured products from backend and limit to 8 items
+  useEffect(() => {
+    axios
+      .get("/products")
+      .then((res) => {
+        // Slice the array to only grab the first 8 items for the Home Page
+        const featuredProducts = res.data.slice(0, 8);
+
+        const mappedItems = featuredProducts.map((p) => ({
+          img: p.imageurl ? `http://localhost:8080${p.imageurl}` : "/images/default.png",
+          title: p.name,
+          rating: p.rating || 4.5,
+          price: p.price,
+          discount: p.discount || "20% off",
+          to: `/${p.category}`, // veg / nonveg / milk / chocolate
+          type: p.category,
+        }));
+        setItems(mappedItems);
+      })
+      .catch((err) => console.error("Home products error:", err));
+  }, []);
 
   const filteredItems =
     filter === "all" ? items : items.filter((item) => item.type === filter);
@@ -105,7 +90,7 @@ function Home() {
               key={i}
               to={cat.to}
               className="category-card reveal"
-              style={{ animationDelay: `${i * 0.2}s` }}
+              style={{ transitionDelay: `${i * 120}ms` }}
             >
               <img src={cat.img} alt={cat.label} />
               <span>{cat.label}</span>
@@ -123,7 +108,7 @@ function Home() {
               className="card-link reveal"
               key={idx}
               to={item.to}
-              style={{ animationDelay: `${idx * 0.2}s` }}
+              style={{ transitionDelay: `${idx * 120}ms` }}
             >
               <div className="item-card">
                 <img
@@ -177,7 +162,7 @@ function Home() {
             <div
               className="why-card reveal"
               key={i}
-              style={{ animationDelay: `${i * 0.2}s` }}
+              style={{ transitionDelay: `${i * 120}ms` }}
             >
               <div className="why-icon">{w.icon}</div>
               <h3>{w.title}</h3>
@@ -214,10 +199,10 @@ function Home() {
                 key={index}
                 className={`carousel-item ${index === 0 ? "active" : ""}`}
               >
-                <div className="card mx-auto" style={{ maxWidth: "600px" }}>
-                  <div className="card-body">
-                    <p className="card-text">{review.text}</p>
-                    <h5 className="card-title">{review.name}</h5>
+                <div className="review-card mx-auto text-center" style={{ maxWidth: "600px", padding: "20px" }}>
+                  <div className="review-card-body">
+                    <p className="fs-5 fst-italic">{review.text}</p>
+                    <h5 className="fw-bold mt-3 text-warning">{review.name}</h5>
                   </div>
                 </div>
               </div>

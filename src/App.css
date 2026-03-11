@@ -1,240 +1,348 @@
-/* App.css */
+/* Global theme (modern, consistent) */
 
-/* 🌈 Full-page gradient background */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #a2d2ff, #cdb4db, #ffafcc);
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100vh;
+:root {
+  --bg: #0b1220;
+  --bg-2: #0f1a33;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.68);
+  --primary: #6ea8fe;
+  --primary-2: #4c8dff;
+  --danger: #ff5b6e;
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.22);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --ring: 0 0 0 0.22rem rgba(110, 168, 254, 0.25);
 }
 
-/* ✅ Main app wrapper */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 10% 10%, rgba(110, 168, 254, 0.20), transparent 60%),
+    radial-gradient(800px 520px at 90% 20%, rgba(255, 91, 110, 0.14), transparent 55%),
+    radial-gradient(700px 520px at 50% 95%, rgba(76, 141, 255, 0.10), transparent 50%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+/* Wrapper + page container */
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ✅ Page container */
 .page-container {
   flex: 1;
-  background: transparent;
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: none;
-  border-radius: 0;
 }
 
-/* ✅ Glassmorphism Navbar */
+/* Navbar (glass, modern) */
 .glass-navbar {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  background: rgba(10, 18, 32, 0.55);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-/* 🔹 Navbar brand */
 .glass-navbar .navbar-brand {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #0d6efd !important;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: var(--text) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
 }
 
-/* 🔹 Nav links */
+.glass-navbar .navbar-brand::before {
+  content: "🍴";
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+}
+
 .glass-navbar .nav-link {
-  font-weight: 500;
-  color: #333 !important;
-  padding: 8px 14px;
-  border-radius: 10px;
-  transition: all 0.2s ease;
+  color: var(--muted) !important;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
-/* 🔹 Hover / Active */
-.glass-navbar .nav-link:hover,
-.glass-navbar .nav-link.active {
-  background: rgba(13, 110, 253, 0.1);
-  color: #0d6efd !important;
+.glass-navbar .nav-link:hover {
+  color: var(--text) !important;
+  background: var(--surface);
+  transform: translateY(-1px);
 }
 
-/* 🔹 Navbar toggle */
+.glass-navbar .btn-outline-danger {
+  border-radius: 999px;
+}
+
 .navbar-toggler {
-  border: none;
-  outline: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
+
 .navbar-toggler:focus {
-  box-shadow: none;
-}
-.navbar-light .navbar-toggler-icon {
-  filter: invert(0.4);
+  box-shadow: var(--ring);
 }
 
-/* 🔹 Default badge */
+.navbar-toggler-icon {
+  filter: invert(1) grayscale(1);
+  opacity: 0.9;
+}
+
+/* Cart badge in navbar */
 .glass-navbar .badge {
+  background: var(--danger) !important;
+  border-radius: 999px;
   font-size: 0.7rem;
-  padding: 4px 6px;
-  border-radius: 50%;
-  background-color: #ff6f61;
-  color: #fff;
+  padding: 0.25rem 0.45rem;
 }
 
-/* 🔹 Navbar shadow when scrolled */
-.scrolled {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+/* Make bootstrap cards look premium */
+.card {
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--border) !important;
 }
 
-/* 🔹 Nav button link styling */
-.nav-btn {
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
+.shadow-sm {
+  box-shadow: var(--shadow-soft) !important;
 }
-.nav-btn:hover {
-  color: #ff6f61;
+
+.shadow-lg {
+  box-shadow: var(--shadow) !important;
+}
+
+/* Better form focus */
+.form-control:focus,
+.form-select:focus,
+.btn:focus {
+  box-shadow: var(--ring) !important;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1.5rem 1rem;
+  }
+}
+/* ===============================
+   FIX CARD CONTENT VISIBILITY
+   =============================== */
+
+.veg-card,
+.nonveg-card,
+.milk-card,
+.chocolate-card,
+.product-card {
+  background: #ffffff !important;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* IMAGE AREA */
+
+.veg-card img,
+.nonveg-card img,
+.milk-card img,
+.chocolate-card img,
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* CARD BODY */
+
+.card-body,
+.product-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* PRODUCT NAME */
+
+.card-body h3,
+.product-body h3,
+.veg-card h3,
+.nonveg-card h3,
+.milk-card h3,
+.chocolate-card h3 {
+  color: #111 !important;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* DESCRIPTION */
+
+.card-body p,
+.product-body p,
+.veg-card p,
+.nonveg-card p,
+.milk-card p,
+.chocolate-card p {
+  color: #555 !important;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* PRICE */
+
+.price,
+.product-price {
+  color: #ff7b6b !important;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+/* BUTTON */
+
+.add-cart-btn,
+button {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(90deg,#ff8a7a,#ff6b6b);
+  color: white !important;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* GRID LAYOUT */
+
+.products-container,
+.veg-container,
+.nonveg-container,
+.milk-container,
+.chocolate-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 25px;
+}
+
+/* ============================= */
+/* PRODUCT CARD STYLE FIX ONLY   */
+/* ============================= */
+
+/* Only target product grids */
+.veg-container .veg-card,
+.nonveg-container .nonveg-card,
+.milk-container .milk-card,
+.chocolate-container .chocolate-card {
+  background: #ffffff;
+  color: #111;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* PRODUCT IMAGE */
+.veg-container .veg-card img,
+.nonveg-container .nonveg-card img,
+.milk-container .milk-card img,
+.chocolate-container .chocolate-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* CARD CONTENT */
+.veg-container .veg-card h3,
+.nonveg-container .nonveg-card h3,
+.milk-container .milk-card h3,
+.chocolate-container .chocolate-card h3 {
+  color: #111;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 15px 5px 15px;
+}
+
+/* DESCRIPTION */
+.veg-container .veg-card p,
+.nonveg-container .nonveg-card p,
+.milk-container .milk-card p,
+.chocolate-container .chocolate-card p {
+  color: #555;
+  font-size: 14px;
+  margin: 0 15px 10px 15px;
+}
+
+/* PRICE */
+.veg-container .price,
+.nonveg-container .price,
+.milk-container .price,
+.chocolate-container .price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff7b6b;
+  margin: 10px 15px;
+}
+
+/* ADD TO CART BUTTON */
+.veg-container button,
+.nonveg-container button,
+.milk-container button,
+.chocolate-container button {
+  margin: 10px 15px 20px 15px;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(90deg,#ff8a7a,#ff6b6b);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.veg-container button:hover,
+.nonveg-container button:hover,
+.milk-container button:hover,
+.chocolate-container button:hover {
   transform: scale(1.05);
 }
 
-/* 🔹 Reusable badge */
-.badge {
-  vertical-align: middle;
-  font-size: 0.75rem;
-  background-color: #ff6f61;
-  color: #fff;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  transition: transform 0.2s ease;
-}
-.badge:hover {
-  transform: scale(1.1);
-}
-
-/* =======================================
-   🔹 Modern Navbar Brand + Button Styling
-========================================== */
-
-/* 🌟 Brand */
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  color: #0d6efd !important;
-  font-family: 'Poppins', sans-serif;
-  transition: transform 0.2s ease;
-}
-.navbar-brand::before {
-  content: "🍴";
-  font-size: 1.6rem;
-  margin-right: 0.5rem;
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
-}
-
-/* 🌟 Modern nav buttons */
-.nav-btn {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50px;
-  padding: 8px 18px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-decoration: none;
-  color: #333 !important;
-  transition: all 0.3s ease;
-  position: relative;
-}
-.nav-btn:hover {
-  background: rgba(13, 110, 253, 0.15);
-  transform: translateY(-1px);
-  color: #0d6efd !important;
-  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
-}
-.nav-btn:active {
-  transform: scale(0.97);
-}
-
-/* 🔔 Cart Badge */
-.badge {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  font-size: 0.65rem;
-  padding: 3px 6px;
-  border-radius: 999px;
-  background-color: #ff4757 !important;
-  color: #fff;
-  box-shadow: 0 0 0 2px white;
-}
-
-/* ==============================
-   📱 Mobile Optimization
-============================== */
-
-/* For tablets & below */
-@media (max-width: 768px) {
-  .navbar-nav {
-    text-align: center;
-  }
-
-  .nav-btn {
-    display: inline-block;
-    margin: 0.4rem 0.3rem;
-    width: auto;
-    font-size: 0.9rem;
-    padding: 7px 16px;
-  }
-
-  .badge {
-    font-size: 0.6rem;
-    padding: 3px 5px;
-  }
-
-  .page-container {
-    padding: 1.5rem 1rem;
-    padding-top: 90px; /* ensure content never overlaps navbar */
-  }
-
-  .navbar-brand {
-    font-size: 1.25rem;
-  }
-}
-
-/* For small phones */
-@media (max-width: 480px) {
-  .nav-btn {
-    display: block;
-    width: 100%;
-    margin: 0.3rem 0;
-    text-align: center;
-  }
-
-  .badge {
-    font-size: 0.55rem;
-    top: -5px;
-    right: -8px;
-  }
-
-  .navbar-brand {
-    font-size: 1.1rem;
-  }
-
-  .page-container {
-    padding: 1rem 0.75rem;
-    padding-top: 95px;
-  }
+/* GRID LAYOUT */
+.veg-container,
+.nonveg-container,
+.milk-container,
+.chocolate-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 25px;
+  padding: 20px;
 }

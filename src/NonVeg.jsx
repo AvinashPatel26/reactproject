@@ -1,20 +1,32 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, increaseItem, decreaseItem } from "./store";
+import {
+  addToCart,
+  increaseItem,
+  decreaseItem,
+  fetchProductsByCategory,
+} from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./NonVeg.css"; // New CSS file for NonVeg styles
+import "./NonVeg.css";
 import { useState, useEffect } from "react";
-import PriceRange from "./PriceRange"; // import your PriceRange component
+import PriceRange from "./PriceRange";
 
 function NonVeg() {
-  const nonVegMenu = useSelector((state) => state.products.nonVeg);
-  const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [filteredItems, setFilteredItems] = useState(nonVegMenu); // ✅ filtered items state
+  const nonVegMenu = useSelector((state) => state.products.nonVeg);
+  const cartItems = useSelector((state) => state.cart);
+
+  const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Reset filtered items if nonVegMenu changes
+  /* ✅ FETCH FROM BACKEND */
+  useEffect(() => {
+    dispatch(fetchProductsByCategory("nonVeg"));
+  }, [dispatch]);
+  console.log("Redux nonVeg:", nonVegMenu);
+
+  /* ✅ Sync filter when data loads */
   useEffect(() => {
     setFilteredItems(nonVegMenu);
   }, [nonVegMenu]);
@@ -27,12 +39,14 @@ function NonVeg() {
       style: { backgroundColor: "#a63e23", color: "#fff", fontWeight: "bold" },
       theme: "colored",
     });
+
   const notifyIncrease = (itemName) =>
     toast.info(`Increased ${itemName} quantity!`, { autoClose: 2000 });
+
   const notifyDecrease = (itemName) =>
     toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
 
-  // Pagination
+  /* Pagination */
   const itemsPerPage = 4;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -45,17 +59,20 @@ function NonVeg() {
 
   return (
     <div className="container nonvegPage-bg p-4 my-4 rounded">
-      <h1 className="nonvegPage-heading text-center mb-3">🍖 Delicious Non-Veg Items</h1>
+      <ToastContainer />
+
+      <h1 className="nonvegPage-heading text-center mb-3">
+        🍖 Delicious Non-Veg Items
+      </h1>
       <p className="nonvegPage-subtitle text-center text-muted mb-4">
         Savor the flavors from our meat selection
       </p>
 
-      {/* ✅ Price Range Filter */}
       <PriceRange
         products={nonVegMenu}
         onFilter={(items) => {
           setFilteredItems(items);
-          setCurrentPage(1); // reset pagination on filter
+          setCurrentPage(1);
         }}
         minPrice={0}
         maxPrice={1000}
@@ -69,31 +86,39 @@ function NonVeg() {
             const cartItem = getCartItem(item.id);
 
             return (
-              <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={item.id}>
+              <div
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                key={item.id}
+              >
                 <div className={`card nonvegPage-card h-100 card-${idx + 1}`}>
                   <img
-                    src={item.imageurl}
+                    src={`http://localhost:8080${item.imageurl}`}
                     alt={item.name}
-                    className="card-img-top nonvegPage-img"
+                    className="veg-img"
                   />
+
                   <div className="card-body d-flex flex-column">
                     <h6 className="nonvegPage-name mb-1">{item.name}</h6>
-                    <p className="nonvegPage-desc small mb-2">{item.description}</p>
-                    <p className="nonvegPage-price-amount fw-bold mb-3">₹{item.price}</p>
+                    <p className="nonvegPage-desc small mb-2">
+                      {item.description}
+                    </p>
+                    <p className="nonvegPage-price-amount fw-bold mb-3">
+                      ₹{item.price}
+                    </p>
 
-                    <div className="mt-auto d-flex gap-2 align-items-center justify-content-center">
+                    <div className="mt-auto d-flex justify-content-center">
                       {!cartItem ? (
                         <button
                           className="nonvegPage-btn-add"
                           onClick={() => {
-                            dispatch(addToCart({ ...item, quantity: 1 }));
+                            dispatch(addToCart(item));
                             notifyAdd(item.name);
                           }}
                         >
                           🛒 Add to Cart
                         </button>
                       ) : (
-                        <div className="nonvegPage-counter d-flex align-items-center gap-3">
+                        <div className="nonvegPage-counter d-flex gap-3">
                           <button
                             className="nonvegPage-btn-counter"
                             onClick={() => {
@@ -103,7 +128,11 @@ function NonVeg() {
                           >
                             −
                           </button>
-                          <span className="nonvegPage-quantity">{cartItem.quantity}</span>
+
+                          <span className="nonvegPage-quantity">
+                            {cartItem.quantity}
+                          </span>
+
                           <button
                             className="nonvegPage-btn-counter"
                             onClick={() => {
@@ -126,7 +155,6 @@ function NonVeg() {
         )}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <nav className="d-flex justify-content-center mt-3">
           <ul className="pagination nonvegPage-pagination">
@@ -143,7 +171,9 @@ function NonVeg() {
             {Array.from({ length: totalPages }, (_, index) => (
               <li
                 key={index + 1}
-                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                className={`page-item ${
+                  currentPage === index + 1 ? "active" : ""
+                }`}
               >
                 <button
                   className="page-link nonvegPage-page-btn"
@@ -166,8 +196,6 @@ function NonVeg() {
           </ul>
         </nav>
       )}
-
-      <ToastContainer />
     </div>
   );
 }

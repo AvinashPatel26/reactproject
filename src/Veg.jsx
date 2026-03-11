@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, increaseItem, decreaseItem } from "./store";
+import {
+  addToCart,
+  increaseItem,
+  decreaseItem,
+  fetchProductsByCategory,
+} from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Veg.css";
 import PriceRange from "./PriceRange";
 
 function Veg() {
-  const vegItems = useSelector((state) => state.products.veg);
-  const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  // ✅ Add filteredItems state
-  const [filteredItems, setFilteredItems] = useState(vegItems);
+  const vegItems = useSelector((state) => state.products.veg);
+  const cartItems = useSelector((state) => state.cart);
+
+  const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  /* ✅ FETCH FROM BACKEND (CORRECT WAY) */
   useEffect(() => {
-    // Update filteredItems if vegItems change in Redux store
+    dispatch(fetchProductsByCategory("veg"));
+  }, [dispatch]);
+
+  /* ✅ Sync filter after data loads */
+  useEffect(() => {
     setFilteredItems(vegItems);
   }, [vegItems]);
 
@@ -26,7 +36,11 @@ function Veg() {
     toast.success(`${itemName} added to cart!`, {
       autoClose: 2000,
       theme: "colored",
-      style: { backgroundColor: "#ff6f61", color: "#fff", fontWeight: "bold" },
+      style: {
+        backgroundColor: "#ff6f61",
+        color: "#fff",
+        fontWeight: "bold",
+      },
     });
 
   const notifyIncrease = (itemName) =>
@@ -35,7 +49,7 @@ function Veg() {
   const notifyDecrease = (itemName) =>
     toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
 
-  // Pagination
+  /* Pagination */
   const itemsPerPage = 4;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -45,16 +59,16 @@ function Veg() {
   return (
     <div className="veg-page">
       <ToastContainer />
+
       <header className="veg-header">
         <h1 className="veg-title">Welcome to the Veg Page</h1>
       </header>
 
-      {/* Pass filteredItems handler */}
       <PriceRange
         products={vegItems}
         onFilter={(items) => {
           setFilteredItems(items);
-          setCurrentPage(1); // reset pagination on filter
+          setCurrentPage(1);
         }}
         minPrice={0}
         maxPrice={500}
@@ -68,14 +82,16 @@ function Veg() {
             {currentItems.length > 0 ? (
               currentItems.map((item) => {
                 const cartItem = getCartItem(item.id);
+
                 return (
                   <div className="veg-col" key={item.id}>
                     <div className="veg-card">
                       <img
-                        src={item.imageurl}
+                        src={`http://localhost:8080${item.imageurl}`}
                         alt={item.name}
                         className="veg-img"
                       />
+
                       <div className="veg-body">
                         <h6 className="veg-name">{item.name}</h6>
 
@@ -91,7 +107,7 @@ function Veg() {
                             <button
                               className="veg-btn-add"
                               onClick={() => {
-                                dispatch(addToCart({ ...item, quantity: 1 }));
+                                dispatch(addToCart(item));
                                 notifyAdd(item.name);
                               }}
                             >
@@ -108,9 +124,11 @@ function Veg() {
                               >
                                 −
                               </button>
+
                               <span className="veg-qty-value">
                                 {cartItem.quantity}
                               </span>
+
                               <button
                                 className="veg-btn-qty"
                                 onClick={() => {

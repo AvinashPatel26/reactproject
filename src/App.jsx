@@ -17,25 +17,36 @@ import Orders from "./Orders";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import PageNotFound from "./PageNotFound";
-import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "./store";
+import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
+import AdminAddProduct from "./AdminAddProduct";
+
 
 function AppLayout() {
   const cartItems = useSelector((state) => state.cart);
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
-  const auth = useSelector((state) => state.authentication);
-  const user = auth.currentUser;
-  const isAuthenticated = auth.isAuthenticated;
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  /* ======================================================
+     JWT AUTH CHECK (NO REDUX)
+  ====================================================== */
+  const token = localStorage.getItem("accessToken");
+  const userName = localStorage.getItem("userName");
+  const userRole = localStorage.getItem("userRole");
+  const isAuthenticated = !!token;
+  const isAdmin = userRole === "admin";
+
   const handleLogout = () => {
-    dispatch(logoutUser());
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
     navigate("/home");
   };
 
@@ -49,6 +60,7 @@ function AppLayout() {
     { to: "/orders", label: "Order" },
     { to: "/aboutus", label: "About Us" },
     { to: "/contactus", label: "Contact Us" },
+    ...(isAdmin ? [{ to: "/admin/add-product", label: "Admin" }] : []),
   ];
 
   const closeNavbar = () => {
@@ -71,9 +83,6 @@ function AppLayout() {
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -89,7 +98,9 @@ function AppLayout() {
                 >
                   {link.label}
                   {link.badge > 0 && (
-                    <span className="badge bg-danger ms-1">{link.badge}</span>
+                    <span className="badge bg-danger ms-1">
+                      {link.badge}
+                    </span>
                   )}
                 </Link>
               ))}
@@ -105,7 +116,7 @@ function AppLayout() {
               ) : (
                 <>
                   <span className="nav-link fw-bold text-success mx-2">
-                    Welcome, {user?.name}
+                    Welcome, {userName || "User"}
                   </span>
                   <button
                     onClick={handleLogout}
@@ -139,6 +150,11 @@ function AppLayout() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/*" element={<PageNotFound />} />
+          <Route
+            path="/admin/add-product"
+            element={isAdmin ? <AdminAddProduct /> : <Navigate to="/home" replace />}
+          />
+
         </Routes>
       </div>
     </div>

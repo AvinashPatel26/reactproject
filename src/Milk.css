@@ -2,78 +2,84 @@
 
 /* Background */
 .milkPage-bg {
-  background-color: #f9fcff; /* light bluish white */
-  border: 1px solid #e0f0ff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
 }
 
 /* Heading */
 .milkPage-heading {
-  color: #4a90e2; /* fresh milk blue */
+  color: rgba(255, 255, 255, 0.92);
   font-weight: bold;
-  font-size: 2.5rem;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.2px;
+  font-family: inherit;
 }
 
 .milkPage-subtitle {
-  color: #7a9eb1;
+  color: rgba(255, 255, 255, 0.68);
 }
 
 /* Card Styling */
 .milkPage-card {
-  background-color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.1);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(10px);
 }
 
 .milkPage-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.2);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
 }
 
 .milkPage-img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-bottom: 1px solid #e0f0ff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 /* Card Content */
 .milkPage-name {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .milkPage-desc {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.68);
   margin-bottom: 0.5rem;
 }
 
 .milkPage-price-amount {
-  color: #2d8ee3;
+  color: #9fd3ff;
   font-size: 1.1rem;
 }
 
 /* Add to Cart Button */
 .milkPage-btn-add {
-  background-color: #4a90e2;
-  color: white;
+  background: linear-gradient(135deg, #9fd3ff, #6ea8fe);
+  color: #0b1220;
   border: none;
   padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 0.95rem;
   width: 100%;
-  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .milkPage-btn-add:hover {
-  background-color: #357ab8;
+  filter: brightness(1.05);
+  transform: translateY(-1px);
 }
 
 /* Quantity Counter */

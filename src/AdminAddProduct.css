@@ -1,0 +1,21 @@
+.admin-add-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff, #f5f9ff);
+}
+
+.admin-add-form .form-control,
+.admin-add-form .form-select {
+  border-radius: 10px;
+}
+
+.admin-add-form .form-control:focus,
+.admin-add-form .form-select:focus {
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+.admin-add-form button[type="submit"] {
+  border-radius: 999px;
+  font-weight: 600;
+}
+

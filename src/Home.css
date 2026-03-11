@@ -1,17 +1,4 @@
-/* Reset browser defaults */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Base body styling */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #fff;
-  color: #333;
-  overflow-x: hidden;
-}
+/* Home page (modern theme, uses App.css variables) */
 
 /* Main container */
 .home-page {
@@ -25,9 +12,38 @@ section {
   padding: 3rem 0;
 }
 
-h2 {
+.home-page h2 {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Scroll reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(2px);
+  transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }
 
 /* ------------------- HERO SECTION ------------------- */
@@ -37,6 +53,9 @@ h2 {
   height: 90vh;
   overflow: hidden;
   background-color: #000;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
 
 .hero-video {
@@ -52,7 +71,10 @@ h2 {
   height: 100%;
   width: 100%;
   color: white;
-  background: rgba(0, 0, 0, 0.4);
+  background:
+    radial-gradient(800px 400px at 20% 20%, rgba(110, 168, 254, 0.18), transparent 60%),
+    radial-gradient(700px 360px at 80% 30%, rgba(255, 91, 110, 0.14), transparent 55%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.65));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,17 +85,22 @@ h2 {
 
 .hero-btn {
   margin-top: 1.5rem;
+  border-radius: 999px;
+  padding: 0.7rem 1.1rem;
+  font-weight: 700;
+  box-shadow: 0 14px 35px rgba(76, 141, 255, 0.35);
 }
 
 /* ------------------- SPECIAL OFFER ------------------- */
 .special-offer {
-  background-color: #fffbe7; /* light yellow */
-  padding: 2rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 1.25rem 1rem;
 }
 
 /* ------------------- CATEGORIES SECTION ------------------- */
 .categories-section {
-  background-color: #f0f9ff; /* light blue */
   padding: 2rem 0;
 }
 
@@ -85,16 +112,20 @@ h2 {
 }
 
 .category-card {
-  background: #fff;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   text-align: center;
+  backdrop-filter: blur(10px);
 }
 
 .category-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
 }
 
 .category-card img {
@@ -108,11 +139,11 @@ h2 {
   padding: 1rem;
   font-size: 1.2rem;
   font-weight: bold;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 /* ------------------- FEATURED ITEMS ------------------- */
 .featured-items {
-  background-color: #fff0f5; /* light pink */
   padding: 2rem 0;
 }
 
@@ -129,15 +160,19 @@ h2 {
 }
 
 .item-card {
-  background: #fff;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .item-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
 }
 
 .item-img {
@@ -148,6 +183,7 @@ h2 {
 
 .item-info {
   padding: 1rem;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .item-meta {
@@ -158,21 +194,20 @@ h2 {
 }
 
 .rating {
-  color: #ff9800;
+  color: #ffd27d;
 }
 
 .discounted {
-  color: #888;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .discount {
-  color: #e91e63;
+  color: #ff7aa1;
   font-weight: bold;
 }
 
 /* ------------------- WHY CHOOSE US ------------------- */
 .why-us {
-  background-color: #f5f5f5;
   padding: 3rem 2rem;
   text-align: center;
 }
@@ -186,15 +221,20 @@ h2 {
 }
 
 .why-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
 }
 
 .why-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
 }
 
 .why-icon {
@@ -204,19 +244,19 @@ h2 {
 
 /* ------------------- REVIEWS ------------------- */
 .reviews {
-  background-color: #e6ffe6; /* light green */
   padding: 2.5rem 1rem;
 }
 
 .carousel .card {
-  background: #fff;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
 }
 
 /* ------------------- NEWSLETTER ------------------- */
 .newsletter {
-  background-color: #e0f7fa; /* light teal blue */
   text-align: center;
   padding: 3rem 1rem;
 }
@@ -231,30 +271,37 @@ h2 {
 
 .newsletter-input {
   padding: 0.8rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   width: 250px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .newsletter-btn {
   padding: 0.8rem 1.2rem;
   border: none;
-  background-color: #0077cc;
+  background: linear-gradient(135deg, #6ea8fe, #4c8dff);
   color: white;
-  border-radius: 5px;
+  border-radius: 999px;
   cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 14px 35px rgba(76, 141, 255, 0.28);
 }
 
 .newsletter-btn:hover {
-  background-color: #005fa3;
+  filter: brightness(1.05);
 }
 
 /* ------------------- FOOTER ------------------- */
 .home-footer {
-  background-color: #111;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #fff;
   padding: 2rem;
   margin-top: 3rem;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
 }
 
 .footer-content {
@@ -275,6 +322,13 @@ h2 {
   text-decoration: none;
   display: block;
   margin: 0.4rem 0;
+  opacity: 0.9;
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .footer-bottom {

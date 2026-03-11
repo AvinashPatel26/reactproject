@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import Swal from "sweetalert2";
 import confetti from "canvas-confetti";
+import axios from "./api/axios";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart);
@@ -31,6 +32,7 @@ const Cart = () => {
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = calculateTotal(cartItems);
   const taxAmount = totalPrice * 0.18;
+
   const {
     slabDiscountAmount,
     couponDiscountAmount,
@@ -96,32 +98,72 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please login or signup before placing an order.",
+        confirmButtonText: "Go to Login",
+      }).then(() => navigate("/login"));
+      return;
+    }
+
     if (!customerEmail) {
       toast.error("Please enter your email address");
       return;
     }
 
-    emailjs
-      .send(
-        "service_l2ivhgn",
-        "template_8y4uufm",
-        templateParams,
-        "M9xufayNxc_Gn-BvB"
-      )
+    const orderPayload = {
+      email: customerEmail,
+      items: cartItems,
+      subtotal: totalPrice,
+      tax: taxAmount,
+      discount: slabDiscountAmount + couponDiscountAmount,
+      paymentMethod,
+      totalAmount: grandTotal,
+    };
+
+    if (paymentMethod === "cod") {
+      axios.post("/orders", orderPayload).then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Order Placed!",
+          text: "Cash on Delivery selected. Pay when the order arrives.",
+        });
+
+        dispatch(addOrder(orderPayload));
+        dispatch(clearCart());
+        navigate("/orders");
+      }).catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Checkout Failed",
+          text: "Something went wrong.",
+        });
+      });
+      return;
+    }
+
+    axios
+      .post("/orders", orderPayload)
       .then(() => {
-        // Confetti animation for 5 seconds
+        return emailjs.send(
+          "service_l2ivhgn",
+          "template_8y4uufm",
+          templateParams,
+          "M9xufayNxc_Gn-BvB",
+        );
+      })
+      .then(() => {
         const duration = 5 * 1000;
         const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
-        const interval = setInterval(function () {
-          const timeLeft = animationEnd - Date.now();
-          if (timeLeft <= 0) return clearInterval(interval);
-
-          const particleCount = 50 * (timeLeft / duration);
+        const interval = setInterval(() => {
+          if (Date.now() > animationEnd) return clearInterval(interval);
           confetti({
-            ...defaults,
-            particleCount,
+            particleCount: 50,
+            spread: 360,
             origin: { x: Math.random(), y: Math.random() - 0.2 },
           });
         }, 250);
@@ -129,22 +171,15 @@ const Cart = () => {
         Swal.fire({
           icon: "success",
           title: "Order Placed! 🎉",
-          html: `<p>Your order <b>#${templateParams.order_id}</b> has been placed successfully.</p>
+          html: `<p>Your order has been placed successfully.</p>
                  <p>A confirmation email has been sent to <b>${customerEmail}</b>.</p>
-                 <p>Redirecting to your orders in 5 seconds...</p>`,
+                 <p>Redirecting to your orders...</p>`,
           showConfirmButton: false,
           timer: 5000,
         });
 
-        // After 5 seconds, add order, clear cart, and navigate
         setTimeout(() => {
-          const purchaseDetails = {
-            date: new Date().toLocaleString(),
-            items: [...cartItems],
-            totalPrice: grandTotal,
-          };
-
-          dispatch(addOrder(purchaseDetails));
+          dispatch(addOrder(orderPayload));
           dispatch(clearCart());
           navigate("/orders");
         }, 5000);
@@ -152,48 +187,48 @@ const Cart = () => {
       .catch(() => {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Failed to send order confirmation. Please try again.",
+          title: "Checkout Failed",
+          text: "Something went wrong. Please try again.",
         });
       });
   };
 
   return (
-    <div className="cart-page bg-gradient py-5">
+    <div className="cart-page py-5">
       <ToastContainer />
-      <div className="container cart-container shadow-lg bg-white rounded">
-        <h2 className="mb-4 text-center fw-bold text-primary cart-title">
-          🛒 Your Cart ({totalItems} items)
+      <div className="container cart-main-container p-4 rounded">
+        <h2 className="mb-4 text-center fw-bold cart-title">
+          🛒 YOUR CART ({totalItems} ITEMS)
         </h2>
 
         {cartItems.length === 0 ? (
-          <div className="alert alert-info text-center">Your cart is empty</div>
+          <div className="alert cart-empty text-center">Your cart is empty</div>
         ) : (
           <div className="row g-4">
-            {/* Cart Items Section */}
+            {/* Cart Items */}
             <div className="col-lg-8">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="card mb-3 border-0 shadow-sm cart-item-card"
+                  className="card mb-3 border-0 cart-item-card"
                 >
-                  <div className="row g-0 align-items-center">
-                    <div className="col-md-2">
+                  <div className="row g-0 align-items-center h-100">
+                    <div className="col-md-3 h-100">
                       <img
-                        src={item.imageurl}
+                        src={`http://localhost:8080${item.imageurl}`}
                         alt={item.name}
                         className="img-fluid rounded-start cart-item-image"
                       />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-7">
                       <div className="card-body">
-                        <h6 className="card-title fw-bold text-primary">
+                        <h6 className="card-title fw-bold">
                           {item.name}
                         </h6>
-                        <p className="card-text text-muted small">
+                        <p className="card-text small cart-desc">
                           {item.description}
                         </p>
-                        <p className="fw-semibold text-success small">
+                        <p className="fw-semibold small cart-price">
                           ₹{item.price.toFixed(2)}
                         </p>
                         <div className="btn-group" role="group">
@@ -203,7 +238,7 @@ const Cart = () => {
                           >
                             −
                           </button>
-                          <span className="px-2 align-self-center small">
+                          <span className="px-3 align-self-center small fw-bold">
                             {item.quantity}
                           </span>
                           <button
@@ -217,7 +252,7 @@ const Cart = () => {
                     </div>
                     <div className="col-md-2 text-end pe-3">
                       <button
-                        className="btn btn-sm btn-danger"
+                        className="btn btn-sm remove-btn"
                         onClick={() => removeItem(item)}
                       >
                         ✖
@@ -228,47 +263,56 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* Summary Section */}
+            {/* Summary */}
             <div className="col-lg-4">
-              <div className="p-4 rounded shadow-lg bg-light summary-card">
-                <h4 className="fw-bold mb-3 text-center text-primary">
+              <div className="p-4 rounded summary-card">
+                <h4 className="fw-bold mb-3 text-center">
                   Order Summary
                 </h4>
+
                 <p className="d-flex justify-content-between">
-                  <span>Subtotal:</span> <span>₹{totalPrice.toFixed(2)}</span>
+                  <span>Subtotal:</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </p>
+
                 <p className="d-flex justify-content-between">
-                  <span>Sales Tax (18%):</span> <span>₹{taxAmount.toFixed(2)}</span>
+                  <span>Sales Tax (18%):</span>
+                  <span>₹{taxAmount.toFixed(2)}</span>
                 </p>
-                <p className="d-flex justify-content-between text-danger">
+
+                <p className="d-flex justify-content-between discount-text">
                   <span>Manual Discount:</span>
                   <span>- ₹{slabDiscountAmount.toFixed(2)}</span>
                 </p>
-                <p className="d-flex justify-content-between text-success">
+
+                <p className="d-flex justify-content-between coupon-text">
                   <span>Coupon Discount:</span>
                   <span>- ₹{couponDiscountAmount.toFixed(2)}</span>
                 </p>
+
                 {paymentMethod === "cod" && (
-                  <p className="d-flex justify-content-between text-warning">
-                    <span>Cash on Delivery:</span> <span>+ ₹50.00</span>
+                  <p className="d-flex justify-content-between cod-text">
+                    <span>Cash on Delivery:</span>
+                    <span>+ ₹50.00</span>
                   </p>
                 )}
-                <hr />
-                <p className="d-flex justify-content-between fw-bold text-dark">
-                  <span>Grand Total:</span> <span>₹{grandTotal.toFixed(2)}</span>
+
+                <hr className="custom-hr" />
+
+                <p className="d-flex justify-content-between fw-bold grand-total">
+                  <span>Grand Total:</span>
+                  <span>₹{grandTotal.toFixed(2)}</span>
                 </p>
 
-                {/* Manual Discounts */}
-                <div className="mb-3">
-                  <label className="fw-semibold">Manual Discounts</label>
-                  <div>
+                {/* Discounts */}
+                <div className="mb-3 mt-4">
+                  <label className="fw-semibold mb-2">Manual Discounts</label>
+                  <div className="d-flex gap-2">
                     {[10, 20, 30].map((value) => (
                       <button
                         key={value}
-                        className={`btn me-2 mb-2 ${
-                          slabDiscount === value
-                            ? "btn-primary"
-                            : "btn-outline-primary"
+                        className={`btn btn-slab ${
+                          slabDiscount === value ? "active" : ""
                         }`}
                         onClick={() => handleApplySlabDiscount(value)}
                       >
@@ -278,9 +322,9 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {/* Coupon Code */}
-                <div className={`coupon-box ${blast ? "blast" : ""}`}>
-                  <div className="input-group mb-3">
+                {/* Coupon */}
+                <div className={`coupon-box ${blast ? "blast" : ""} mb-3`}>
+                  <div className="input-group">
                     <input
                       type="text"
                       placeholder="Enter coupon code"
@@ -290,7 +334,6 @@ const Cart = () => {
                     />
                     <button
                       className="btn btn-success"
-                      type="button"
                       onClick={handleApplyCoupon}
                       disabled={!couponCode.trim()}
                     >
@@ -298,7 +341,6 @@ const Cart = () => {
                     </button>
                     <button
                       className="btn btn-warning"
-                      type="button"
                       onClick={handleResetCoupon}
                       disabled={!couponCode.trim()}
                     >
@@ -309,55 +351,53 @@ const Cart = () => {
 
                 {/* Email */}
                 <div className="mb-3">
-                  <label className="fw-semibold">Email for Confirmation</label>
+                  <label className="fw-semibold mb-2">Email for Confirmation</label>
                   <input
                     type="email"
-                    placeholder="youremail@gmail.com"
+                    className="form-control"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="form-control"
                   />
                 </div>
 
-                {/* Payment Options */}
-                <div className="payment-method mb-3 text-center">
-                  <h6 className="fw-semibold">Select Payment Method</h6>
+                {/* Payment */}
+                <div className="payment-method text-center mb-4 mt-4">
+                  <h6 className="fw-semibold mb-3">Select Payment Method</h6>
                   <div className="d-flex justify-content-center gap-2 mb-3">
                     <button
-                      className={`btn ${
-                        paymentMethod === "qr" ? "btn-primary" : "btn-outline-primary"
+                      className={`btn btn-payment ${
+                        paymentMethod === "qr" ? "active" : ""
                       }`}
                       onClick={() => setPaymentMethod("qr")}
                     >
                       QR Code
                     </button>
                     <button
-                      className={`btn ${
-                        paymentMethod === "cod" ? "btn-warning" : "btn-outline-warning"
+                      className={`btn btn-payment ${
+                        paymentMethod === "cod" ? "active" : ""
                       }`}
                       onClick={() => setPaymentMethod("cod")}
                     >
-                      Cash on Delivery (+₹50)
+                      COD (+₹50)
                     </button>
                   </div>
 
                   {paymentMethod === "qr" && (
-                    <>
-                      <h6 className="fw-semibold">Scan the QR code to pay</h6>
+                    <div className="qr-wrapper mt-3 p-3 rounded">
                       <QRCode
                         value={`upi://pay?pa=avinash7346patel@oksbi&pn=FoodSensation&am=${grandTotal.toFixed(
-                          2
+                          2,
                         )}&cu=INR`}
                         size={150}
+                        className="rounded"
                       />
                       <p className="small mt-2 text-muted">
                         UPI ID: avinash7346patel@oksbi
                       </p>
-                    </>
+                    </div>
                   )}
                 </div>
 
-                {/* Checkout */}
                 <button
                   className="btn btn-lg btn-success w-100 checkout-btn"
                   onClick={handleCheckout}
@@ -370,10 +410,9 @@ const Cart = () => {
           </div>
         )}
 
-        {/* Continue Shopping */}
         <div className="text-center mt-5">
           <button
-            className="btn btn-outline-primary rounded-pill px-4 py-2 continue-shopping-btn"
+            className="btn continue-btn px-4 py-2"
             onClick={() => navigate("/home")}
           >
             🛍️ Continue Shopping

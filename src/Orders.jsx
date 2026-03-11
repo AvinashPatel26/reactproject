@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "./store";
+import { addToCart, setOrders } from "./store";
 import { Calendar, ChevronDown, ChevronUp, ShoppingCart } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Orders.css";
+
+// ✅ ADDED
+import axios from "./api/axios";
 
 function Orders() {
   // ✅ Always ensure orders is an array
   const orders = useSelector((state) => state.orders) || [];
   const dispatch = useDispatch();
   const [expandedOrder, setExpandedOrder] = useState(null);
+
+  // ✅ ADDED: fetch orders from backend
+  useEffect(() => {
+    axios
+      .get("/orders")
+      .then((res) => {
+        dispatch(setOrders(res.data));
+      })
+      .catch((err) => {
+        console.error("Failed to fetch orders:", err);
+      });
+  }, [dispatch]);
 
   const handleToggle = (id) => {
     setExpandedOrder(expandedOrder === id ? null : id);
@@ -26,7 +41,7 @@ function Orders() {
   const groupOrdersByMonth = (ordersList) => {
     if (!Array.isArray(ordersList)) return {};
     return ordersList.reduce((groups, order, index) => {
-      if (!order?.date) return groups; // skip invalid orders
+      if (!order?.date) return groups;
 
       const date = new Date(order.date);
       const monthYear = date.toLocaleString("en-US", {
@@ -90,7 +105,10 @@ function Orders() {
                     {purchase.items?.map((item, itemIndex) => (
                       <div key={itemIndex} className="order-item">
                         <img
-                          src={item.imageurl || "https://via.placeholder.com/100"}
+                          src={
+                            item.imageurl ||
+                            "https://via.placeholder.com/100"
+                          }
                           alt={item.name}
                           className="order-img"
                         />
@@ -122,7 +140,9 @@ function Orders() {
           </div>
         ))
       ) : (
-        <p className="alert alert-info text-center">No orders placed yet.</p>
+        <p className="alert alert-info text-center">
+          No orders placed yet.
+        </p>
       )}
     </div>
   );

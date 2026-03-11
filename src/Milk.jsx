@@ -1,21 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, increaseItem, decreaseItem } from "./store";
+import {
+  addToCart,
+  increaseItem,
+  decreaseItem,
+  fetchProductsByCategory,
+} from "./store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Milk.css";
 import { useState, useEffect } from "react";
-import PriceRange from "./PriceRange"; // import the PriceRange component
+import PriceRange from "./PriceRange";
 
 function Milk() {
-  const milkMenu = useSelector((state) => state.products.milk);
-  const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [filteredItems, setFilteredItems] = useState(milkMenu); // ✅ filtered items state
+  const milkMenu = useSelector((state) => state.products.milk);
+  const cartItems = useSelector((state) => state.cart);
+
+  const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  /* ✅ CORRECT WAY: Fetch from backend using thunk */
   useEffect(() => {
-    setFilteredItems(milkMenu); // reset filter if milkMenu changes
+    dispatch(fetchProductsByCategory("milk"));
+  }, [dispatch]);
+
+  /* ✅ Sync filter when data arrives */
+  useEffect(() => {
+    setFilteredItems(milkMenu);
   }, [milkMenu]);
 
   const getCartItem = (id) => cartItems.find((item) => item.id === id);
@@ -26,11 +38,14 @@ function Milk() {
       style: { backgroundColor: "#627d98", color: "#fff", fontWeight: "bold" },
       theme: "colored",
     });
+
   const notifyIncrease = (itemName) =>
     toast.info(`Increased ${itemName} quantity!`, { autoClose: 2000 });
+
   const notifyDecrease = (itemName) =>
     toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
 
+  /* Pagination */
   const itemsPerPage = 4;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -43,17 +58,18 @@ function Milk() {
 
   return (
     <div className="container milkPage-bg p-4 my-4 rounded">
-      <h1 className="milkPage-heading text-center mb-3">🥛 Fresh Milk Products</h1>
+      <h1 className="milkPage-heading text-center mb-3">
+        🥛 Fresh Milk Products
+      </h1>
       <p className="milkPage-subtitle text-center text-muted mb-4">
         Creamy, fresh dairy items just for you
       </p>
 
-      {/* ✅ Price Range Filter */}
       <PriceRange
         products={milkMenu}
         onFilter={(items) => {
           setFilteredItems(items);
-          setCurrentPage(1); // reset pagination on filter
+          setCurrentPage(1);
         }}
         minPrice={0}
         maxPrice={500}
@@ -67,31 +83,39 @@ function Milk() {
             const cartItem = getCartItem(item.id);
 
             return (
-              <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={item.id}>
+              <div
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                key={item.id}
+              >
                 <div className={`card milkPage-card h-100 card-${idx + 1}`}>
                   <img
-                    src={item.imageurl}
+                    src={`http://localhost:8080${item.imageurl}`}
                     alt={item.name}
-                    className="card-img-top milkPage-img"
+                    className="veg-img"
                   />
+
                   <div className="card-body d-flex flex-column">
                     <h6 className="milkPage-name mb-1">{item.name}</h6>
-                    <p className="milkPage-desc small mb-2">{item.description}</p>
-                    <p className="milkPage-price-amount fw-bold mb-3">₹{item.price}</p>
+                    <p className="milkPage-desc small mb-2">
+                      {item.description}
+                    </p>
+                    <p className="milkPage-price-amount fw-bold mb-3">
+                      ₹{item.price}
+                    </p>
 
-                    <div className="mt-auto d-flex gap-2 align-items-center justify-content-center">
+                    <div className="mt-auto d-flex gap-2 justify-content-center">
                       {!cartItem ? (
                         <button
                           className="milkPage-btn-add"
                           onClick={() => {
-                            dispatch(addToCart({ ...item, quantity: 1 }));
+                            dispatch(addToCart(item));
                             notifyAdd(item.name);
                           }}
                         >
                           🛒 Add to Cart
                         </button>
                       ) : (
-                        <div className="milkPage-counter d-flex align-items-center gap-3">
+                        <div className="milkPage-counter d-flex gap-3">
                           <button
                             className="milkPage-btn-counter"
                             onClick={() => {
@@ -101,7 +125,11 @@ function Milk() {
                           >
                             −
                           </button>
-                          <span className="milkPage-quantity">{cartItem.quantity}</span>
+
+                          <span className="milkPage-quantity">
+                            {cartItem.quantity}
+                          </span>
+
                           <button
                             className="milkPage-btn-counter"
                             onClick={() => {
@@ -124,7 +152,6 @@ function Milk() {
         )}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <nav className="d-flex justify-content-center mt-3">
           <ul className="pagination milkPage-pagination">
@@ -141,7 +168,9 @@ function Milk() {
             {Array.from({ length: totalPages }, (_, index) => (
               <li
                 key={index + 1}
-                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                className={`page-item ${
+                  currentPage === index + 1 ? "active" : ""
+                }`}
               >
                 <button
                   className="page-link milkPage-page-btn"
