@@ -90,10 +90,13 @@ function Chocolate() {
             return (
               <div className="col-md-3 mb-4" key={item.id}>
                 <div className="choco-card shadow-sm">
-                  <img
+                  {/* <img
                     src={`http://localhost:8080${item.imageurl}`}
                     alt={item.name}
                     className="veg-img"
+                  /> */}
+                  <img
+                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
                   />
 
                   <div className="choco-overlay">

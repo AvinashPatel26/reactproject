@@ -126,23 +126,26 @@ const Cart = () => {
     };
 
     if (paymentMethod === "cod") {
-      axios.post("/orders", orderPayload).then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Order Placed!",
-          text: "Cash on Delivery selected. Pay when the order arrives.",
-        });
+      axios
+        .post("/orders", orderPayload)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Order Placed!",
+            text: "Cash on Delivery selected. Pay when the order arrives.",
+          });
 
-        dispatch(addOrder(orderPayload));
-        dispatch(clearCart());
-        navigate("/orders");
-      }).catch(() => {
-        Swal.fire({
-          icon: "error",
-          title: "Checkout Failed",
-          text: "Something went wrong.",
+          dispatch(addOrder(orderPayload));
+          dispatch(clearCart());
+          navigate("/orders");
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Checkout Failed",
+            text: "Something went wrong.",
+          });
         });
-      });
       return;
     }
 
@@ -214,17 +217,18 @@ const Cart = () => {
                 >
                   <div className="row g-0 align-items-center h-100">
                     <div className="col-md-3 h-100">
-                      <img
+                      {/* <img
                         src={`http://localhost:8080${item.imageurl}`}
                         alt={item.name}
                         className="img-fluid rounded-start cart-item-image"
+                      /> */}
+                      <img
+                        src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
                       />
                     </div>
                     <div className="col-md-7">
                       <div className="card-body">
-                        <h6 className="card-title fw-bold">
-                          {item.name}
-                        </h6>
+                        <h6 className="card-title fw-bold">{item.name}</h6>
                         <p className="card-text small cart-desc">
                           {item.description}
                         </p>
@@ -266,9 +270,7 @@ const Cart = () => {
             {/* Summary */}
             <div className="col-lg-4">
               <div className="p-4 rounded summary-card">
-                <h4 className="fw-bold mb-3 text-center">
-                  Order Summary
-                </h4>
+                <h4 className="fw-bold mb-3 text-center">Order Summary</h4>
 
                 <p className="d-flex justify-content-between">
                   <span>Subtotal:</span>
@@ -351,7 +353,9 @@ const Cart = () => {
 
                 {/* Email */}
                 <div className="mb-3">
-                  <label className="fw-semibold mb-2">Email for Confirmation</label>
+                  <label className="fw-semibold mb-2">
+                    Email for Confirmation
+                  </label>
                   <input
                     type="email"
                     className="form-control"

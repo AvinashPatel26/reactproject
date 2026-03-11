@@ -88,10 +88,13 @@ function Milk() {
                 key={item.id}
               >
                 <div className={`card milkPage-card h-100 card-${idx + 1}`}>
-                  <img
+                  {/* <img
                     src={`http://localhost:8080${item.imageurl}`}
                     alt={item.name}
                     className="veg-img"
+                  /> */}
+                  <img
+                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
                   />
 
                   <div className="card-body d-flex flex-column">
