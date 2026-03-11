@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./NonVeg.css";
 import { useState, useEffect } from "react";
 import PriceRange from "./PriceRange";
+import { BACKEND_URL } from "./config/backend";
 
 function NonVeg() {
   const dispatch = useDispatch();

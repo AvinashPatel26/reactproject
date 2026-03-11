@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Veg.css";
 import PriceRange from "./PriceRange";
+import { BACKEND_URL } from "./config/backend";
 
 function Veg() {
   const dispatch = useDispatch();
@@ -91,8 +92,13 @@ function Veg() {
                         alt={item.name}
                         className="veg-img"
                       /> */}
-                      <img
+                      {/* <img
                         src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
+                      /> */}
+                      <img
+                        src={`${BACKEND_URL}${item.imageurl}`}
+                        alt={item.name}
+                        className="veg-img"
                       />
 
                       <div className="veg-body">

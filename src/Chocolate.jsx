@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Chocolate.css";
 import PriceRange from "./PriceRange";
+import { BACKEND_URL } from "./config/backend";
 
 function Chocolate() {
   const dispatch = useDispatch();

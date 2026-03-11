@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Milk.css";
 import { useState, useEffect } from "react";
 import PriceRange from "./PriceRange";
+import { BACKEND_URL } from "./config/backend";
 
 function Milk() {
   const dispatch = useDispatch();
