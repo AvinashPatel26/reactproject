@@ -21,18 +21,20 @@ function NonVeg() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ✅ FETCH FROM BACKEND */
+  /* FETCH FROM BACKEND */
   useEffect(() => {
     dispatch(fetchProductsByCategory("nonVeg"));
   }, [dispatch]);
+
   console.log("Redux nonVeg:", nonVegMenu);
 
-  /* ✅ Sync filter when data loads */
+  /* Sync filter when data loads */
   useEffect(() => {
     setFilteredItems(nonVegMenu);
   }, [nonVegMenu]);
 
-  const getCartItem = (id) => cartItems.find((item) => item.id === id);
+  /* FIXED */
+  const getCartItem = (id) => cartItems.find((item) => item._id === id);
 
   const notifyAdd = (itemName) =>
     toast.success(`${itemName} added to cart!`, {
@@ -65,6 +67,7 @@ function NonVeg() {
       <h1 className="nonvegPage-heading text-center mb-3">
         🍖 Delicious Non-Veg Items
       </h1>
+
       <p className="nonvegPage-subtitle text-center text-muted mb-4">
         Savor the flavors from our meat selection
       </p>
@@ -84,22 +87,14 @@ function NonVeg() {
       <div className="row">
         {currentItems.length > 0 ? (
           currentItems.map((item, idx) => {
-            const cartItem = getCartItem(item.id);
+            const cartItem = getCartItem(item._id);
 
             return (
               <div
                 className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-                key={item.id}
+                key={item._id}
               >
                 <div className={`card nonvegPage-card h-100 card-${idx + 1}`}>
-                  {/* <img
-                    src={`http://localhost:8080${item.imageurl}`}
-                    alt={item.name}
-                    className="veg-img"
-                  /> */}
-                  {/* <img
-                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
-                  /> */}
                   <img
                     src={`${BACKEND_URL}${item.imageurl}`}
                     alt={item.name}
@@ -108,9 +103,11 @@ function NonVeg() {
 
                   <div className="card-body d-flex flex-column">
                     <h6 className="nonvegPage-name mb-1">{item.name}</h6>
+
                     <p className="nonvegPage-desc small mb-2">
                       {item.description}
                     </p>
+
                     <p className="nonvegPage-price-amount fw-bold mb-3">
                       ₹{item.price}
                     </p>

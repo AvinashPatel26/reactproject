@@ -21,17 +21,18 @@ function Milk() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ✅ CORRECT WAY: Fetch from backend using thunk */
+  /* fetch from backend */
   useEffect(() => {
     dispatch(fetchProductsByCategory("milk"));
   }, [dispatch]);
 
-  /* ✅ Sync filter when data arrives */
+  /* Sync filter when data arrives */
   useEffect(() => {
     setFilteredItems(milkMenu);
   }, [milkMenu]);
 
-  const getCartItem = (id) => cartItems.find((item) => item.id === id);
+  /* FIXED */
+  const getCartItem = (id) => cartItems.find((item) => item._id === id);
 
   const notifyAdd = (itemName) =>
     toast.success(`${itemName} added to cart!`, {
@@ -62,6 +63,7 @@ function Milk() {
       <h1 className="milkPage-heading text-center mb-3">
         🥛 Fresh Milk Products
       </h1>
+
       <p className="milkPage-subtitle text-center text-muted mb-4">
         Creamy, fresh dairy items just for you
       </p>
@@ -81,22 +83,14 @@ function Milk() {
       <div className="row">
         {currentItems.length > 0 ? (
           currentItems.map((item, idx) => {
-            const cartItem = getCartItem(item.id);
+            const cartItem = getCartItem(item._id);
 
             return (
               <div
                 className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-                key={item.id}
+                key={item._id}
               >
                 <div className={`card milkPage-card h-100 card-${idx + 1}`}>
-                  {/* <img
-                    src={`http://localhost:8080${item.imageurl}`}
-                    alt={item.name}
-                    className="veg-img"
-                  /> */}
-                  {/* <img
-                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
-                  /> */}
                   <img
                     src={`${BACKEND_URL}${item.imageurl}`}
                     alt={item.name}
@@ -105,9 +99,11 @@ function Milk() {
 
                   <div className="card-body d-flex flex-column">
                     <h6 className="milkPage-name mb-1">{item.name}</h6>
+
                     <p className="milkPage-desc small mb-2">
                       {item.description}
                     </p>
+
                     <p className="milkPage-price-amount fw-bold mb-3">
                       ₹{item.price}
                     </p>

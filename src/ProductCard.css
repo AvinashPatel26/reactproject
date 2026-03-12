@@ -1,0 +1,261 @@
+/* ================= PRODUCT CARD GRID ================= */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ================= PRODUCT CARD ================= */
+
+.veg-card,
+.nonvegPage-card,
+.milkPage-card,
+.choco-card {
+
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
+  transition: all 0.25s ease;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+.veg-card:hover,
+.nonvegPage-card:hover,
+.milkPage-card:hover,
+.choco-card:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow: 0 18px 45px rgba(0,0,0,0.15);
+
+}
+
+/* ================= PRODUCT IMAGE ================= */
+
+.veg-img,
+.nonveg-img,
+.milk-img,
+.choco-img {
+
+  width: 100%;
+  height: 180px;
+
+  object-fit: cover;
+
+  border-bottom: 1px solid #eee;
+
+}
+
+/* ================= CARD BODY ================= */
+
+.veg-body,
+.card-body,
+.choco-overlay {
+
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  flex-grow: 1;
+
+}
+
+/* ================= PRODUCT NAME ================= */
+
+.veg-name,
+.nonvegPage-name,
+.milkPage-name,
+.choco-name {
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  margin-bottom: 5px;
+
+}
+
+/* ================= DESCRIPTION ================= */
+
+.veg-desc,
+.nonvegPage-desc,
+.milkPage-desc,
+.choco-desc {
+
+  font-size: 13px;
+
+  color: #666;
+
+  min-height: 40px;
+
+}
+
+/* ================= PRICE ================= */
+
+.veg-price,
+.nonvegPage-price-amount,
+.milkPage-price-amount,
+.choco-price-amount {
+
+  font-weight: bold;
+
+  font-size: 16px;
+
+  margin: 6px 0;
+
+}
+
+/* ================= ADD TO CART BUTTON ================= */
+
+.veg-btn-add,
+.nonvegPage-btn-add,
+.milkPage-btn-add,
+.choco-btn-add {
+
+  background: #0d6efd;
+
+  color: white;
+
+  border: none;
+
+  padding: 10px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  transition: 0.2s;
+
+}
+
+.veg-btn-add:hover,
+.nonvegPage-btn-add:hover,
+.milkPage-btn-add:hover,
+.choco-btn-add:hover {
+
+  background: #0b5ed7;
+
+}
+
+/* ================= QUANTITY COUNTER ================= */
+
+.veg-quantity-controls,
+.nonvegPage-counter,
+.milkPage-counter,
+.choco-counter {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+}
+
+/* ================= COUNTER BUTTON ================= */
+
+.veg-btn-qty,
+.nonvegPage-btn-counter,
+.milkPage-btn-counter,
+.choco-btn-counter {
+
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 6px;
+
+  border: 1px solid #ccc;
+
+  background: white;
+
+  font-weight: bold;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+}
+
+.veg-btn-qty:hover,
+.nonvegPage-btn-counter:hover,
+.milkPage-btn-counter:hover,
+.choco-btn-counter:hover {
+
+  background: #0d6efd;
+
+  color: white;
+
+  border-color: #0d6efd;
+
+}
+
+/* ================= QUANTITY NUMBER ================= */
+
+.veg-qty-value,
+.nonvegPage-quantity,
+.milkPage-quantity,
+.choco-quantity {
+
+  font-weight: bold;
+
+  min-width: 20px;
+
+  text-align: center;
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+
+  .veg-img,
+  .nonveg-img,
+  .milk-img,
+  .choco-img {
+
+    height: 160px;
+
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .veg-img,
+  .nonveg-img,
+  .milk-img,
+  .choco-img {
+
+    height: 150px;
+
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .veg-img,
+  .nonveg-img,
+  .milk-img,
+  .choco-img {
+
+    height: 140px;
+
+  }
+
+}

@@ -1,173 +1,142 @@
-/* NonVeg Page General Styles */
+/* PAGE CONTAINER */
+
 .nonvegPage-bg {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  min-height: 100vh;
+  max-width: 1200px;
+  margin: auto;
 }
 
+
+/* HEADER */
+
 .nonvegPage-heading {
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
 }
 
 .nonvegPage-subtitle {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.68) !important;
+  font-size: 14px;
 }
 
-/* Card styles */
+
+/* CARD */
+
 .nonvegPage-card {
-  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease, background 0.2s ease;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: white;
 }
 
 .nonvegPage-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.09);
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.nonvegPage-img {
-  border-radius: 12px 12px 0 0;
-  height: 150px;
+
+/* IMAGE */
+
+.nonveg-img {
+  width: 100%;
+  height: 200px;
   object-fit: cover;
 }
 
+
+/* TEXT */
+
 .nonvegPage-name {
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
 }
 
 .nonvegPage-desc {
-  color: rgba(255, 255, 255, 0.68);
+  font-size: 13px;
+  color: #777;
 }
 
 .nonvegPage-price-amount {
-  color: #ffb4a6;
-  font-size: 1rem;
+  color: #ff4d4f;
+  font-size: 16px;
 }
 
-/* Add to Cart button */
+
+/* ADD BUTTON */
+
 .nonvegPage-btn-add {
-  background: linear-gradient(135deg, #ffb4a6, #ff7a66);
-  color: #0b1220;
+  background: #a63e23;
+  color: white;
   border: none;
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out, filter 0.2s ease;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
 .nonvegPage-btn-add:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
+  background: #822d18;
 }
 
-/* Quantity Counter */
+
+/* COUNTER */
+
 .nonvegPage-counter {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
 }
 
 .nonvegPage-btn-counter {
-  background: rgba(255, 255, 255, 0.10);
-  color: rgba(255, 255, 255, 0.92);
-  border: none;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  border: none;
+  background: #f1f3f5;
+  font-weight: bold;
 }
 
 .nonvegPage-btn-counter:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: #dee2e6;
 }
 
 .nonvegPage-quantity {
   font-weight: bold;
-  color: #a63e23;
+  min-width: 20px;
+  text-align: center;
 }
 
-/* ✅ Pagination */
-.nonvegPage-pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  padding: 0;
-  list-style: none;
-  margin: 0;
-}
 
-.nonvegPage-pagination .page-item {
-  margin: 2px;
-}
+/* PAGINATION */
 
-.nonvegPage-page-btn {
-  background-color: #fff;
-  border: 1px solid #a63e23;
+.nonvegPage-pagination .page-link {
   border-radius: 6px;
-  padding: 6px 14px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  color: #a63e23;
 }
 
-.nonvegPage-page-btn:hover {
-  background-color: #a63e23;
-  color: #fff;
+.nonvegPage-pagination .active .page-link {
+  background: #a63e23;
+  border-color: #a63e23;
 }
 
-.nonvegPage-pagination .active .nonvegPage-page-btn {
-  background-color: #a63e23;
-  color: #fff;
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+  .nonveg-img {
+    height: 180px;
+  }
+
 }
 
-.nonvegPage-pagination .page-item:first-child .nonvegPage-page-btn,
-.nonvegPage-pagination .page-item:last-child .nonvegPage-page-btn {
-  font-weight: bold;
+@media (max-width: 768px) {
+
+  .nonveg-img {
+    height: 160px;
+  }
+
 }
 
-/* Disabled state */
-.nonvegPage-page-btn:disabled {
-  background-color: #f0f0f0;
-  color: #aaa;
-  border-color: #ddd;
-  cursor: not-allowed;
-}
-.counter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
+@media (max-width: 576px) {
 
-.counter button {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  border: none;
-  background: #ff6b00;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
+  .nonveg-img {
+    height: 150px;
+  }
 
-.counter button:hover {
-  background: #e05e00;
-}
-
-.counter span {
-  font-weight: bold;
 }

@@ -21,17 +21,18 @@ function Chocolate() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ✅ CORRECT WAY: fetch from backend using thunk */
+  /* fetch from backend */
   useEffect(() => {
     dispatch(fetchProductsByCategory("chocolate"));
   }, [dispatch]);
 
-  /* ✅ Sync filter when data arrives */
+  /* Sync filter when data arrives */
   useEffect(() => {
     setFilteredItems(chocolateProducts);
   }, [chocolateProducts]);
 
-  const getCartItem = (id) => cartItems.find((i) => i.id === id);
+  /* FIXED */
+  const getCartItem = (id) => cartItems.find((i) => i._id === id);
 
   const notifyAdd = (name) =>
     toast.success(`${name} added to cart!`, {
@@ -69,7 +70,9 @@ function Chocolate() {
     <div className="container-fluid choco-container">
       <ToastContainer />
 
-      <h1 className="choco-heading text-center">Chocolates you love 🍫🍬🍭</h1>
+      <h1 className="choco-heading text-center">
+        Chocolates you love 🍫🍬🍭
+      </h1>
 
       <PriceRange
         products={chocolateProducts}
@@ -86,27 +89,24 @@ function Chocolate() {
       <div className="row justify-content-center">
         {currentItems.length > 0 ? (
           currentItems.map((item) => {
-            const cartItem = getCartItem(item.id);
+            const cartItem = getCartItem(item._id);
 
             return (
-              <div className="col-md-3 mb-4" key={item.id}>
+              <div className="col-md-3 mb-4" key={item._id}>
                 <div className="choco-card shadow-sm">
-                  {/* <img
-                    src={`http://localhost:8080${item.imageurl}`}
-                    alt={item.name}
-                    className="veg-img"
-                  /> */}
-                  {/* <img
-                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
-                  /> */}
+
                   <img
-                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
+                    src={`${BACKEND_URL}${item.imageurl}`}
+                    alt={item.name}
+                    className="img-fluid choco-img"
                   />
 
                   <div className="choco-overlay">
                     <h6 className="choco-name">
                       {item.name} /-{" "}
-                      <span className="choco-price-amount">₹{item.price}</span>
+                      <span className="choco-price-amount">
+                        ₹{item.price}
+                      </span>
                     </h6>
 
                     <p className="choco-desc">{item.description}</p>

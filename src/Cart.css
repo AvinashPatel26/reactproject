@@ -1,227 +1,38 @@
-/* ================================
-   CART PAGE STYLING (Glassmorphism)
-================================== */
-.cart-page {
-  background: #0b1220 !important; /* Overrides Bootstrap gradient to match veg theme */
-  min-height: 100vh;
-  padding: 2rem !important;
-  color: rgba(255, 255, 255, 0.92) !important;
+.cart-page{
+padding-top:30px;
 }
 
-.cart-container {
-  background: transparent !important;
-  box-shadow: none !important;
+.cart-container{
+max-width:1200px;
+margin:auto;
+background:white;
+border-radius:18px;
+padding:25px;
 }
 
-.cart-title {
-  color: rgba(255, 255, 255, 0.92) !important;
-  font-size: 2rem;
-  font-weight: 700;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+.cart-item-card{
+border-radius:14px;
+transition:.2s;
 }
 
-.cart-empty {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: rgba(255, 255, 255, 0.92) !important;
+.cart-item-card:hover{
+transform:translateY(-4px);
 }
 
-/* ================================
-   CARD STYLING
-================================== */
-.cart-item-card, .summary-card {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22) !important;
-  backdrop-filter: blur(10px);
-  color: rgba(255, 255, 255, 0.92) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+.cart-item-image{
+width:100%;
+height:100px;
+object-fit:cover;
 }
 
-.cart-item-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.09) !important;
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28) !important;
+.summary-card{
+position:sticky;
+top:90px;
+border-radius:14px;
+background:#f8f9fa;
 }
 
-.cart-item-image {
-  object-fit: cover;
-  height: 100%;
-  min-height: 140px;
-  width: 100%;
-  border-radius: 12px 0 0 12px !important;
-}
-
-.cart-item-card h6.card-title,
-.summary-card h4 {
-  color: rgba(255, 255, 255, 0.92) !important;
-}
-
-.cart-item-card .text-muted {
-  color: rgba(255, 255, 255, 0.68) !important;
-}
-
-.cart-price {
-  color: #8cf6a3 !important;
-  font-size: 1.1rem;
-}
-
-.custom-hr {
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-/* ================================
-   TEXT HIGHLIGHTS
-================================== */
-.discount-text span:last-child { color: #ff6b6b; }
-.coupon-text span:last-child { color: #8cf6a3; }
-.cod-text span:last-child { color: #facc15; }
-.grand-total span { font-size: 1.2rem; color: #fff; }
-
-/* ================================
-   BUTTONS & INPUTS
-================================== */
-.btn-outline-secondary {
-  background: rgba(255, 255, 255, 0.10) !important;
-  color: rgba(255, 255, 255, 0.92) !important;
-  border: none !important;
-  border-radius: 8px !important;
-  transition: background 0.2s ease, transform 0.2s ease !important;
-}
-
-.btn-outline-secondary:hover {
-  background: rgba(255, 255, 255, 0.16) !important;
-  transform: scale(1.05);
-}
-
-.remove-btn {
-  background: rgba(255, 107, 107, 0.15) !important;
-  color: #ff6b6b !important;
-  border: 1px solid rgba(255, 107, 107, 0.3) !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease !important;
-}
-
-.remove-btn:hover {
-  background: #ff6b6b !important;
-  color: #fff !important;
-}
-
-.checkout-btn, .btn-success {
-  background: linear-gradient(135deg, #8cf6a3, #34d399) !important;
-  color: #0b1220 !important;
-  border: none !important;
-  border-radius: 999px !important;
-  font-weight: 600 !important;
-  transition: transform 0.2s ease, filter 0.2s ease !important;
-}
-
-.checkout-btn:hover, .btn-success:hover {
-  filter: brightness(1.05);
-  transform: scale(1.02);
-}
-
-.continue-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.92);
-  border-radius: 999px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.continue-btn:hover {
-  background: rgba(255, 255, 255, 0.10);
-  color: #fff;
-}
-
-/* ================================
-   SLAB & PAYMENT TOGGLES
-================================== */
-.btn-slab, .btn-payment {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.86);
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  flex: 1;
-}
-
-.btn-slab:hover, .btn-payment:hover {
-  background: rgba(255, 255, 255, 0.10);
-  color: #fff;
-}
-
-.btn-slab.active, .btn-payment.active {
-  background: rgba(140, 246, 163, 0.18);
-  border-color: rgba(140, 246, 163, 0.35);
-  color: #8cf6a3;
-  font-weight: 600;
-}
-
-/* ================================
-   INPUT FIELDS
-================================== */
-.form-control {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: rgba(255, 255, 255, 0.92) !important;
-  border-radius: 8px;
-}
-
-.form-control::placeholder {
-  color: rgba(255, 255, 255, 0.45) !important;
-}
-
-.form-control:focus {
-  background: rgba(255, 255, 255, 0.09) !important;
-  border-color: #8cf6a3 !important;
-  box-shadow: 0 0 0 0.2rem rgba(140, 246, 163, 0.25) !important;
-}
-
-.qr-wrapper {
-  background: #fff;
-  display: inline-block;
-}
-
-/* ================================
-   COUPON BLAST ANIMATION
-================================== */
-.coupon-box.blast {
-  animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}
-
-.cart-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-}
-
-.cart-item-card {
-  border-radius: 14px;
-  transition: 0.2s ease;
-}
-
-.cart-item-card:hover {
-  transform: translateY(-3px);
-}
-
-.cart-item-image {
-  height: 100px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.summary-card {
-  position: sticky;
-  top: 90px;
+.cart-title{
+color:#ff6b00;
+font-weight:700;
 }

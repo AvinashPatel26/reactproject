@@ -1,360 +1,174 @@
-/* Global theme (modern, consistent) */
+/* ===== GLOBAL RESET ===== */
 
-:root {
-  --bg: #0b1220;
-  --bg-2: #0f1a33;
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-2: rgba(255, 255, 255, 0.09);
-  --border: rgba(255, 255, 255, 0.12);
-  --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.68);
-  --primary: #6ea8fe;
-  --primary-2: #4c8dff;
-  --danger: #ff5b6e;
-  --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.22);
-  --radius: 16px;
-  --radius-sm: 12px;
-  --ring: 0 0 0 0.22rem rgba(110, 168, 254, 0.25);
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
+* {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  color: var(--text);
-  background:
-    radial-gradient(900px 500px at 10% 10%, rgba(110, 168, 254, 0.20), transparent 60%),
-    radial-gradient(800px 520px at 90% 20%, rgba(255, 91, 110, 0.14), transparent 55%),
-    radial-gradient(700px 520px at 50% 95%, rgba(76, 141, 255, 0.10), transparent 50%),
-    linear-gradient(180deg, var(--bg), var(--bg-2));
-  background-attachment: fixed;
-  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: inherit;
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f8f9fb;
+  color: #333;
+  line-height: 1.6;
 }
 
-/* Wrapper + page container */
+/* ===== APP WRAPPER ===== */
+
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* ===== PAGE CONTAINER ===== */
+
 .page-container {
   flex: 1;
-  padding: 2rem 1rem;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* ===== CONTAINER ===== */
+
+.container {
   max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
+  margin: auto;
 }
 
-/* Navbar (glass, modern) */
-.glass-navbar {
-  background: rgba(10, 18, 32, 0.55);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
+/* ===== HEADINGS ===== */
 
-.glass-navbar .navbar-brand {
-  font-weight: 800;
-  letter-spacing: 0.4px;
-  color: var(--text) !important;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.glass-navbar .navbar-brand::before {
-  content: "🍴";
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
-}
-
-.glass-navbar .nav-link {
-  color: var(--muted) !important;
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
-  border-radius: 999px;
-  padding: 0.45rem 0.9rem;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
-.glass-navbar .nav-link:hover {
-  color: var(--text) !important;
-  background: var(--surface);
+/* ===== BUTTONS ===== */
+
+button {
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+}
+
+button:hover {
   transform: translateY(-1px);
 }
 
-.glass-navbar .btn-outline-danger {
-  border-radius: 999px;
+/* ===== NAVBAR ===== */
+
+.glass-navbar {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid #eee;
+  z-index: 1000;
 }
 
-.navbar-toggler {
-  border: 1px solid var(--border);
-  border-radius: 12px;
+.nav-btn {
+  font-weight: 500;
+  color: #444 !important;
+  transition: color 0.2s ease;
 }
 
-.navbar-toggler:focus {
-  box-shadow: var(--ring);
+.nav-btn:hover {
+  color: #0d6efd !important;
 }
 
-.navbar-toggler-icon {
-  filter: invert(1) grayscale(1);
-  opacity: 0.9;
+/* ===== PRODUCT GRID ===== */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-/* Cart badge in navbar */
-.glass-navbar .badge {
-  background: var(--danger) !important;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  padding: 0.25rem 0.45rem;
-}
+/* ===== RESPONSIVE GRID ===== */
 
-/* Make bootstrap cards look premium */
-.card {
-  border-radius: var(--radius) !important;
-  border: 1px solid var(--border) !important;
-}
-
-.shadow-sm {
-  box-shadow: var(--shadow-soft) !important;
-}
-
-.shadow-lg {
-  box-shadow: var(--shadow) !important;
-}
-
-/* Better form focus */
-.form-control:focus,
-.form-select:focus,
-.btn:focus {
-  box-shadow: var(--ring) !important;
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .page-container {
-    padding: 1.5rem 1rem;
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-/* ===============================
-   FIX CARD CONTENT VISIBILITY
-   =============================== */
 
-.veg-card,
-.nonveg-card,
-.milk-card,
-.chocolate-card,
-.product-card {
-  background: #ffffff !important;
-  border-radius: 18px;
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* ===== CARD BASE STYLE ===== */
+
+.card {
+  border-radius: 12px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 420px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
 }
 
-/* IMAGE AREA */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
 
-.veg-card img,
-.nonveg-card img,
-.milk-card img,
-.chocolate-card img,
-.product-card img {
+/* ===== IMAGE STANDARDIZATION ===== */
+
+.card img {
   width: 100%;
-  height: 200px;
   object-fit: cover;
-  display: block;
 }
 
-/* CARD BODY */
+/* ===== BADGE ===== */
 
-.card-body,
-.product-body {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.badge {
+  font-size: 11px;
+  padding: 4px 7px;
 }
 
-/* PRODUCT NAME */
+/* ===== FOOTER ===== */
 
-.card-body h3,
-.product-body h3,
-.veg-card h3,
-.nonveg-card h3,
-.milk-card h3,
-.chocolate-card h3 {
-  color: #111 !important;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-/* DESCRIPTION */
-
-.card-body p,
-.product-body p,
-.veg-card p,
-.nonveg-card p,
-.milk-card p,
-.chocolate-card p {
-  color: #555 !important;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-/* PRICE */
-
-.price,
-.product-price {
-  color: #ff7b6b !important;
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: auto;
-}
-
-/* BUTTON */
-
-.add-cart-btn,
-button {
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 30px;
-  border: none;
-  background: linear-gradient(90deg,#ff8a7a,#ff6b6b);
-  color: white !important;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* GRID LAYOUT */
-
-.products-container,
-.veg-container,
-.nonveg-container,
-.milk-container,
-.chocolate-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-  gap: 25px;
-}
-
-/* ============================= */
-/* PRODUCT CARD STYLE FIX ONLY   */
-/* ============================= */
-
-/* Only target product grids */
-.veg-container .veg-card,
-.nonveg-container .nonveg-card,
-.milk-container .milk-card,
-.chocolate-container .chocolate-card {
-  background: #ffffff;
-  color: #111;
-  border-radius: 18px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 420px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-}
-
-/* PRODUCT IMAGE */
-.veg-container .veg-card img,
-.nonveg-container .nonveg-card img,
-.milk-container .milk-card img,
-.chocolate-container .chocolate-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  display: block;
-}
-
-/* CARD CONTENT */
-.veg-container .veg-card h3,
-.nonveg-container .nonveg-card h3,
-.milk-container .milk-card h3,
-.chocolate-container .chocolate-card h3 {
-  color: #111;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 15px 5px 15px;
-}
-
-/* DESCRIPTION */
-.veg-container .veg-card p,
-.nonveg-container .nonveg-card p,
-.milk-container .milk-card p,
-.chocolate-container .chocolate-card p {
-  color: #555;
-  font-size: 14px;
-  margin: 0 15px 10px 15px;
-}
-
-/* PRICE */
-.veg-container .price,
-.nonveg-container .price,
-.milk-container .price,
-.chocolate-container .price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ff7b6b;
-  margin: 10px 15px;
-}
-
-/* ADD TO CART BUTTON */
-.veg-container button,
-.nonveg-container button,
-.milk-container button,
-.chocolate-container button {
-  margin: 10px 15px 20px 15px;
-  padding: 12px;
-  border-radius: 30px;
-  border: none;
-  background: linear-gradient(90deg,#ff8a7a,#ff6b6b);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.veg-container button:hover,
-.nonveg-container button:hover,
-.milk-container button:hover,
-.chocolate-container button:hover {
-  transform: scale(1.05);
-}
-
-/* GRID LAYOUT */
-.veg-container,
-.nonveg-container,
-.milk-container,
-.chocolate-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-  gap: 25px;
+.home-footer {
+  text-align: center;
   padding: 20px;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.col-md-3 {
-  display: flex;
+  background: white;
+  border-top: 1px solid #eee;
+  margin-top: 40px;
 }
 
-.col-md-3 > div {
-  flex: 1;
+.footer-bottom {
+  font-size: 14px;
+  color: #777;
+}
+
+/* ===== SCROLL REVEAL ANIMATION ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== UTILITIES ===== */
+
+.text-center {
+  text-align: center;
+}
+
+.mt-5 {
+  margin-top: 3rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
 }

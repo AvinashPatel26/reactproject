@@ -21,17 +21,18 @@ function Veg() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* ✅ FETCH FROM BACKEND (CORRECT WAY) */
+  /* FETCH FROM BACKEND */
   useEffect(() => {
     dispatch(fetchProductsByCategory("veg"));
   }, [dispatch]);
 
-  /* ✅ Sync filter after data loads */
+  /* Sync filter after data loads */
   useEffect(() => {
     setFilteredItems(vegItems);
   }, [vegItems]);
 
-  const getCartItem = (id) => cartItems.find((item) => item.id === id);
+  /* FIXED */
+  const getCartItem = (id) => cartItems.find((item) => item._id === id);
 
   const notifyAdd = (itemName) =>
     toast.success(`${itemName} added to cart!`, {
@@ -82,19 +83,12 @@ function Veg() {
           <div className="veg-row">
             {currentItems.length > 0 ? (
               currentItems.map((item) => {
-                const cartItem = getCartItem(item.id);
+                const cartItem = getCartItem(item._id);
 
                 return (
-                  <div className="veg-col" key={item.id}>
+                  <div className="veg-col" key={item._id}>
                     <div className="veg-card">
-                      {/* <img
-                        src={`http://localhost:8080${item.imageurl}`}
-                        alt={item.name}
-                        className="veg-img"
-                      /> */}
-                      {/* <img
-                        src={`${import.meta.env.VITE_API_URL.replace("/api", "")}${item.imageurl}`}
-                      /> */}
+
                       <img
                         src={`${BACKEND_URL}${item.imageurl}`}
                         alt={item.name}

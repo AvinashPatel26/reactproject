@@ -1,0 +1,40 @@
+.navbar-custom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:white;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.nav-logo{
+  font-weight:bold;
+  font-size:20px;
+}
+
+.nav-links{
+  display:flex;
+  gap:20px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:black;
+}
+
+.cart-link{
+  position:relative;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.cart-badge{
+  position:absolute;
+  top:-8px;
+  right:-10px;
+  background:red;
+  color:white;
+  font-size:12px;
+  padding:3px 6px;
+  border-radius:50%;
+}
