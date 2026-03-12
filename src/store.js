@@ -70,31 +70,41 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
   reducers: {
+
     addToCart(state, action) {
-      const item = state.find((p) => p.id === action.payload.id);
-      if (item) item.quantity += 1;
-      else state.push({ ...action.payload, quantity: 1 });
-    },
-    removeFromCart(state, action) {
-      return state.filter((item) => item.id !== action.payload.id);
-    },
-    increaseItem(state, action) {
-      const item = state.find((p) => p.id === action.payload.id);
-      if (item) item.quantity += 1;
-    },
-    decreaseItem(state, action) {
-      const item = state.find((p) => p.id === action.payload.id);
+      const item = state.find((p) => p._id === action.payload._id);
+
       if (item) {
-        if (item.quantity > 1) item.quantity -= 1;
-        else return state.filter((i) => i.id !== item.id);
+        item.quantity += 1;
+      } else {
+        state.push({ ...action.payload, quantity: 1 });
       }
     },
+
+    removeFromCart(state, action) {
+      return state.filter((item) => item._id !== action.payload._id);
+    },
+
+    increaseItem(state, action) {
+      const item = state.find((p) => p._id === action.payload._id);
+      if (item) item.quantity += 1;
+    },
+
+    decreaseItem(state, action) {
+      const item = state.find((p) => p._id === action.payload._id);
+
+      if (item) {
+        if (item.quantity > 1) item.quantity -= 1;
+        else return state.filter((i) => i._id !== item._id);
+      }
+    },
+
     clearCart() {
       return [];
     },
+
   },
 });
-
 /* ======================================================
    ORDER SLICE
 ====================================================== */

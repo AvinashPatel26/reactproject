@@ -199,3 +199,29 @@
   75% { transform: translateX(-5px); }
   100% { transform: translateX(0); }
 }
+
+.cart-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.cart-item-card {
+  border-radius: 14px;
+  transition: 0.2s ease;
+}
+
+.cart-item-card:hover {
+  transform: translateY(-3px);
+}
+
+.cart-item-image {
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.summary-card {
+  position: sticky;
+  top: 90px;
+}

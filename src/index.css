@@ -152,3 +152,16 @@ button {
   background-color: #e9eef7 !important;
   color: #1a1a1a !important;
 }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-3 {
+  display: flex;
+}
+
+.col-md-3 > div {
+  flex: 1;
+}

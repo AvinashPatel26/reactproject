@@ -229,3 +229,28 @@
     font-size: 0.9rem;
   }
 }
+.choco-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.25s ease;
+}
+
+.choco-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.choco-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.choco-overlay {
+  padding: 15px;
+  flex: 1;
+}

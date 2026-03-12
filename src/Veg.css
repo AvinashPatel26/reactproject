@@ -256,3 +256,35 @@
   color: #888;
   margin-top: 2rem;
 }
+.veg-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  transition: 0.25s ease;
+  height: 100%;
+}
+
+.veg-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.veg-img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.veg-content {
+  padding: 16px;
+}
+
+.veg-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.veg-price {
+  color: #ff6b00;
+  font-weight: bold;
+}

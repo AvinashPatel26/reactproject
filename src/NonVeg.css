@@ -145,3 +145,29 @@
   border-color: #ddd;
   cursor: not-allowed;
 }
+.counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.counter button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: none;
+  background: #ff6b00;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.counter button:hover {
+  background: #e05e00;
+}
+
+.counter span {
+  font-weight: bold;
+}
