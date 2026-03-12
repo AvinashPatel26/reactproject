@@ -84,26 +84,6 @@ const Cart = () => {
     toast.error(`${item.name} removed from cart.`);
   };
 
-  const handleApplySlabDiscount = (value) => {
-    setSlabDiscount(value);
-    toast.success(`Discount of ${value}% applied!`);
-  };
-
-  const handleApplyCoupon = () => {
-    if (couponResult.isValid) {
-      setBlast(true);
-      toast.success(`Coupon applied: ${couponResult.discountPercent}% off 🎉`);
-      setTimeout(() => setBlast(false), 1200);
-    } else {
-      toast.error("Invalid coupon code ❌");
-    }
-  };
-
-  const handleResetCoupon = () => {
-    setCouponCode("");
-    toast.info("Coupon reset.");
-  };
-
   const handleCheckout = async () => {
     const token = localStorage.getItem("accessToken");
 
@@ -117,18 +97,12 @@ const Cart = () => {
       return;
     }
 
-    if (cartItems.length === 0) {
-      toast.error("Your cart is empty.");
-      return;
-    }
-
-    if (!customerEmail || !customerEmail.includes("@")) {
+    if (!customerEmail) {
       toast.error("Please enter a valid email address");
       return;
     }
 
     if (loading) return;
-
     setLoading(true);
 
     const orderPayload = {
@@ -153,39 +127,29 @@ const Cart = () => {
         );
       }
 
-      const duration = 5000;
-      const animationEnd = Date.now() + duration;
-
-      const interval = setInterval(() => {
-        if (Date.now() > animationEnd) return clearInterval(interval);
-
-        confetti({
-          particleCount: 50,
-          spread: 360,
-          origin: { x: Math.random(), y: Math.random() - 0.2 },
-        });
-      }, 250);
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
 
       Swal.fire({
         icon: "success",
         title: "Order Placed! 🎉",
-        html: `<p>Your order has been placed successfully.</p>
-               <p>A confirmation email has been sent to <b>${customerEmail}</b>.</p>
-               <p>Redirecting to your orders...</p>`,
+        text: "Your order has been placed successfully.",
+        timer: 3000,
         showConfirmButton: false,
-        timer: 5000,
       });
 
-      setTimeout(() => {
-        dispatch(addOrder(orderPayload));
-        dispatch(clearCart());
-        navigate("/orders");
-      }, 5000);
+      dispatch(addOrder(orderPayload));
+      dispatch(clearCart());
+
+      navigate("/orders");
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Checkout Failed",
-        text: "Something went wrong. Please try again.",
+        text: "Something went wrong.",
       });
     } finally {
       setLoading(false);
@@ -207,28 +171,32 @@ const Cart = () => {
           </div>
         ) : (
           <div className="row g-4">
+            {/* CART ITEMS */}
+
             <div className="col-lg-8">
               {cartItems.map((item) => (
-                <div key={item._id} className="card mb-3 border-0 cart-item-card">
+                <div
+                  key={item._id}
+                  className="card mb-3 border-0 cart-item-card"
+                >
                   <div className="row g-0 align-items-center h-100">
-                    <div className="col-md-3 h-100">
+                    <div className="col-md-3">
                       <img
                         src={`${BACKEND_URL}${item.imageurl}`}
                         alt={item.name}
                         className="img-fluid rounded-start cart-item-image"
-                        loading="lazy"
                       />
                     </div>
 
                     <div className="col-md-7">
                       <div className="card-body">
-                        <h6 className="card-title fw-bold">{item.name}</h6>
+                        <h6 className="fw-bold">{item.name}</h6>
 
-                        <p className="card-text small cart-desc">
+                        <p className="small cart-desc">
                           {item.description}
                         </p>
 
-                        <p className="fw-semibold small cart-price">
+                        <p className="cart-price">
                           ₹{item.price.toFixed(2)}
                         </p>
 
@@ -240,7 +208,7 @@ const Cart = () => {
                             −
                           </button>
 
-                          <span className="px-3 align-self-center small fw-bold">
+                          <span className="px-3 align-self-center fw-bold">
                             {item.quantity}
                           </span>
 
@@ -254,7 +222,7 @@ const Cart = () => {
                       </div>
                     </div>
 
-                    <div className="col-md-2 text-end pe-3">
+                    <div className="col-md-2 text-end">
                       <button
                         className="btn btn-sm remove-btn"
                         onClick={() => removeItem(item)}
@@ -267,7 +235,78 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* YOUR SUMMARY SECTION REMAINS SAME */}
+            {/* ORDER SUMMARY */}
+
+            <div className="col-lg-4">
+              <div className="p-4 rounded summary-card shadow-sm">
+                <h4 className="text-center mb-3">Order Summary</h4>
+
+                <p className="d-flex justify-content-between">
+                  <span>Subtotal</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
+                </p>
+
+                <p className="d-flex justify-content-between">
+                  <span>Tax (18%)</span>
+                  <span>₹{taxAmount.toFixed(2)}</span>
+                </p>
+
+                {paymentMethod === "cod" && (
+                  <p className="d-flex justify-content-between">
+                    <span>COD Charge</span>
+                    <span>₹50</span>
+                  </p>
+                )}
+
+                <hr />
+
+                <p className="d-flex justify-content-between fw-bold">
+                  <span>Total</span>
+                  <span>₹{grandTotal.toFixed(2)}</span>
+                </p>
+
+                <input
+                  type="email"
+                  placeholder="Enter email"
+                  className="form-control my-3"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                />
+
+                <div className="text-center mb-3">
+                  <button
+                    className="btn btn-outline-primary me-2"
+                    onClick={() => setPaymentMethod("qr")}
+                  >
+                    QR
+                  </button>
+
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={() => setPaymentMethod("cod")}
+                  >
+                    COD
+                  </button>
+                </div>
+
+                {paymentMethod === "qr" && (
+                  <div className="text-center">
+                    <QRCode
+                      value={`upi://pay?pa=avinash7346patel-5@okaxis&am=${grandTotal}`}
+                      size={140}
+                    />
+                  </div>
+                )}
+
+                <button
+                  className="btn btn-success w-100 mt-3"
+                  onClick={handleCheckout}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Place Order"}
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
