@@ -15,21 +15,47 @@
   background: rgba(255, 255, 255, 0.95);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   height: 100%;
   position: relative;
+  z-index: 1;
+}
+
+.veg-card::before,
+.nonvegPage-card::before,
+.milkPage-card::before,
+.choco-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.6), rgba(251, 146, 60, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
 }
 
 .veg-card:hover,
 .nonvegPage-card:hover,
 .milkPage-card:hover,
 .choco-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(249, 115, 22, 0.1);
+}
+
+.veg-card:hover::before,
+.nonvegPage-card:hover::before,
+.milkPage-card:hover::before,
+.choco-card:hover::before {
+  opacity: 1;
 }
 
 /* ================= PRODUCT IMAGE ================= */
@@ -117,24 +143,48 @@
   border-radius: 9999px;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3), 0 2px 4px -2px rgba(249, 115, 22, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
   width: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.veg-btn-add::after,
+.nonvegPage-btn-add::after,
+.milkPage-btn-add::after,
+.choco-btn-add::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
 }
 
 .veg-btn-add:hover,
 .nonvegPage-btn-add:hover,
 .milkPage-btn-add:hover,
 .choco-btn-add:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.4), 0 4px 6px -4px rgba(249, 115, 22, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
+}
+
+.veg-btn-add:hover::after,
+.nonvegPage-btn-add:hover::after,
+.milkPage-btn-add:hover::after,
+.choco-btn-add:hover::after {
+  opacity: 0.15;
 }
 
 .veg-btn-add:active,
 .nonvegPage-btn-add:active,
 .milkPage-btn-add:active,
 .choco-btn-add:active {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.98);
 }
 
 /* ================= QUANTITY COUNTER ================= */

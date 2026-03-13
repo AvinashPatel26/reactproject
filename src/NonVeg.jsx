@@ -74,17 +74,13 @@ function NonVeg() {
       <ToastContainer/>
 
       {/* HEADER */}
-
-      <section className="nonvegPage-header">
-
+      <section className="nonvegPage-header reveal">
         <h1 className="nonvegPage-heading">
           🍖 Delicious Non-Veg Items
         </h1>
-
         <p className="nonvegPage-subtitle">
           Savor the flavors from our meat selection
         </p>
-
       </section>
 
       {/* PRICE FILTER */}
@@ -115,9 +111,8 @@ function NonVeg() {
             const cartItem = getCartItem(item._id);
 
             return(
-
               <div
-                className="nonvegPage-card"
+                className={`nonvegPage-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`}
                 key={item._id}
               >
 

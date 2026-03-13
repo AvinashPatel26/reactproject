@@ -30,20 +30,40 @@ margin-bottom:10px;
 
 
 /* ORDER CARD */
-
-.order-card{
-border-radius:14px;
-margin-bottom:14px;
-background:white;
-border:1px solid #eee;
-box-shadow:0 10px 28px rgba(0,0,0,0.08);
-transition:.25s ease;
-overflow:hidden;
+.order-card {
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: white;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
-.order-card:hover{
-transform:translateY(-3px);
-box-shadow:0 14px 34px rgba(0,0,0,0.12);
+.order-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.4), rgba(22, 163, 74, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.order-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1), 0 10px 15px -5px rgba(34, 197, 94, 0.1);
+}
+
+.order-card:hover::before {
+  opacity: 1;
 }
 
 
@@ -142,25 +162,49 @@ font-weight:600;
 .reorder-btn-box{
 display:flex;
 justify-content:flex-end;
-margin-top:10px;
+margin-top:16px;
 }
 
 .reorder-btn{
 background:linear-gradient(135deg,#22c55e,#16a34a);
 color:white;
 border:none;
-padding:6px 12px;
-border-radius:8px;
-font-size:13px;
+padding:10px 18px;
+border-radius:9999px;
+font-size:14px;
+font-weight:600;
 display:flex;
 align-items:center;
-gap:6px;
-transition:.25s;
+gap:8px;
+transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+position: relative;
+overflow: hidden;
+z-index: 1;
+}
+
+.reorder-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
 }
 
 .reorder-btn:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 16px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.4);
+}
+
+.reorder-btn:hover::after {
+  opacity: 0.15;
+}
+
+.reorder-btn:active {
+  transform: translateY(1px);
 }
 
 

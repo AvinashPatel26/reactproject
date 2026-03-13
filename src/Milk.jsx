@@ -75,17 +75,13 @@ function Milk() {
       <ToastContainer/>
 
       {/* HEADER */}
-
-      <section className="milkPage-header">
-
+      <section className="milkPage-header reveal">
         <h1 className="milkPage-heading">
           🥛 Fresh Dairy Products
         </h1>
-
         <p className="milkPage-subtitle">
           Creamy and fresh dairy items for you
         </p>
-
       </section>
 
       {/* FILTER */}
@@ -116,9 +112,8 @@ function Milk() {
             const cartItem = getCartItem(item._id);
 
             return(
-
               <div
-                className="milkPage-card"
+                className={`milkPage-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`}
                 key={item._id}
               >
 

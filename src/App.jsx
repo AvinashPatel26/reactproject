@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 
 import Home from "./Home";
+import Navbar from "./Navbar";
 import NonVeg from "./NonVeg";
 import Veg from "./Veg";
 import Milk from "./Milk";
@@ -44,6 +45,43 @@ function ScrollToTop() {
   return null;
 }
 
+/* ================= GLOBAL ANIMATION OBSERVER ================= */
+
+function GlobalObserver() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    // Small timeout ensures the DOM has finished painting the new route's nodes
+    const timeoutId = setTimeout(() => {
+      const reveals = document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.05, rootMargin: "0px 0px -50px 0px" }
+      );
+
+      reveals.forEach((el) => observer.observe(el));
+
+      return () => {
+        reveals.forEach((el) => observer.unobserve(el));
+      };
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+
+  }, [pathname]);
+
+  return null;
+}
+
 function AppLayout() {
 
   const cartItems = useSelector((state) => state.cart);
@@ -55,142 +93,16 @@ function AppLayout() {
 
   const navigate = useNavigate();
 
-  /* ================= JWT AUTH ================= */
-
   const token = localStorage.getItem("accessToken");
-  const userName = localStorage.getItem("userName");
   const userRole = localStorage.getItem("userRole");
-
   const isAuthenticated = !!token;
   const isAdmin = userRole === "admin";
 
-  const handleLogout = () => {
-
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userRole");
-
-    navigate("/home");
-
-  };
-
-  const navLinks = [
-
-    { to: "/home", label: "Home" },
-    { to: "/veg", label: "Veg" },
-    { to: "/nonveg", label: "NonVeg" },
-    { to: "/milk", label: "Milk" },
-    { to: "/chocolate", label: "Chocolate" },
-    { to: "/cart", label: "🛒 Cart", badge: cartCount },
-    { to: "/orders", label: "Orders" },
-    { to: "/aboutus", label: "About Us" },
-    { to: "/contactus", label: "Contact Us" },
-
-    ...(isAdmin ? [{ to: "/admin/add-product", label: "Admin" }] : [])
-
-  ];
-
-  const closeNavbar = () => {
-
-    const navbar = document.getElementById("navbarNav");
-
-    if (navbar && navbar.classList.contains("show")) {
-      new window.bootstrap.Collapse(navbar).hide();
-    }
-
-  };
-
   return (
-
     <div className="app-wrapper min-vh-100">
-
       <ScrollToTop />
-
-      {/* ================= NAVBAR ================= */}
-
-      <nav className="navbar navbar-expand-lg glass-navbar shadow-sm fixed-top">
-
-        <div className="container-fluid">
-
-          <span className="navbar-brand text-primary fw-bold fs-4">
-            🍔 Food Sensations
-          </span>
-
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarNav">
-
-            <div className="navbar-nav ms-auto">
-
-              {navLinks.map((link, index) => (
-
-                <Link
-                  key={index}
-                  to={link.to}
-                  className="nav-link nav-btn mx-2"
-                  onClick={closeNavbar}
-                >
-
-                  {link.label}
-
-                  {link.badge > 0 && (
-
-                    <span className="badge bg-danger ms-1">
-
-                      {link.badge}
-
-                    </span>
-
-                  )}
-
-                </Link>
-
-              ))}
-
-              {!isAuthenticated ? (
-
-                <Link
-                  to="/signup"
-                  className="nav-link nav-btn mx-2"
-                  onClick={closeNavbar}
-                >
-                  🔑 SignUp
-                </Link>
-
-              ) : (
-
-                <>
-                  <span className="nav-link fw-bold text-success mx-2">
-
-                    Welcome, {userName || "User"}
-
-                  </span>
-
-                  <button
-                    onClick={handleLogout}
-                    className="btn btn-sm btn-outline-danger mx-2"
-                  >
-                    Logout
-                  </button>
-                </>
-
-              )}
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </nav>
+      <GlobalObserver />
+      <Navbar />
 
       {/* ================= FLOATING CART ================= */}
 

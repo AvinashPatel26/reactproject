@@ -4,8 +4,8 @@ import "./ContactUs.css";
 function ContactUs() {
   return (
     <div className="container mt-4 bg-light">
-      <h1 className="text-center text-primary mb-4 fw-bold">Contact Us</h1>
-      <p className="text-center mb-5 text-muted">
+      <h1 className="text-center text-primary mb-4 fw-bold reveal">Contact Us</h1>
+      <p className="text-center mb-5 text-muted reveal delay-100">
         Have questions, feedback, or just want to say hi? We'd love to hear from you!
       </p>
 
@@ -15,7 +15,7 @@ function ContactUs() {
           { icon: "📧", title: "Email", value: "patelavinash2693@gmail.com" },
           { icon: "📍", title: "Address", value: "123 Food Street, Tasty City, India" },
         ].map((info, index) => (
-          <div key={index} className="col-md-4 mb-3">
+          <div key={index} className={`col-md-4 mb-3 reveal-scale delay-${(index % 3) * 100 + 200}`}>
             <div className="card contact-card shadow-sm h-100">
               <div className="card-body text-center">
                 <h5 className="fw-bold">{info.icon} {info.title}</h5>
@@ -26,7 +26,7 @@ function ContactUs() {
         ))}
       </div>
 
-      <div className="card shadow p-4 contact-form-card bg-white">
+      <div className="card shadow p-4 contact-form-card bg-white reveal-right delay-200">
         <h4 className="mb-3 text-success fw-bold">Send us a message</h4>
         <form>
           <div className="mb-3">

@@ -1,9 +1,7 @@
 /* Background Gradient */
-.choco-bg {
-  background: linear-gradient(to right, #fceabb, #f8b500); /* warm chocolate colors */
+.contact-container {
   min-height: 100vh;
   padding: 2rem 1rem;
-  font-family: "Segoe UI", sans-serif;
 }
 
 /* Title & Subtitle */
@@ -20,22 +18,45 @@
 }
 
 /* Card Design */
-.choco-card {
+.contact-card,
+.contact-form-card {
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border-radius: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
   padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
-/* Hover effect on card */
-.choco-card:hover {
+.contact-card::before,
+.contact-form-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.4), rgba(13, 110, 253, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.contact-card:hover,
+.contact-form-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(111, 78, 55, 0.1), 0 8px 10px -6px rgba(111, 78, 55, 0.05);
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(13, 110, 253, 0.15);
+}
+
+.contact-card:hover::before,
+.contact-form-card:hover::before {
+  opacity: 1;
 }
 
 /* Product Image */

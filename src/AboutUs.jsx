@@ -42,11 +42,11 @@ function AboutUs() {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4 text-center text-primary">About Us</h1>
+      <h1 className="mb-4 text-center text-primary reveal">About Us</h1>
 
       <div className="row">
         {sections.map((sec, index) => (
-          <div className="col-12 col-md-6 mb-4" key={index}>
+          <div className={`col-12 col-md-6 mb-4 reveal-scale delay-${(index % 4) * 100}`} key={index}>
             <div className="card about-card shadow-sm h-100">
               <div className="card-body">
                 <h5 className="card-title">{sec.title}</h5>
@@ -60,7 +60,7 @@ function AboutUs() {
       </div>
 
       {/* FAQ Section */}
-      <div className="mt-5">
+      <div className="mt-5 reveal-left delay-200">
         <h2 className="text-center text-primary mb-4">❓ Frequently Asked Questions</h2>
         <div className="accordion" id="faqAccordion">
           {faqs.map((faq, index) => (

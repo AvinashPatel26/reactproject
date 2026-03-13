@@ -1,48 +1,50 @@
 /* PAGE */
-
-.choco-container {
+.choco-page {
   max-width: 1200px;
   margin: auto;
-  padding: 10px;
+  padding: 40px 25px;
+  background:#f8fafc;
 }
 
-.choco-heading {
-  font-weight: 700;
-  margin-bottom: 30px;
-  letter-spacing: .4px;
-}
-
-
-/* CARD */
-
-.choco-card {
+/* HEADER */
+.choco-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
+  border-radius: 32px;
+  color: white;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
   position: relative;
-  border-radius: 16px;
   overflow: hidden;
-  background: white;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  height: 100%;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-.choco-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.15);
+.choco-header::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 60%);
+  animation: rotate 20s linear infinite;
+}
+
+.choco-header h1 {
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.choco-header p {
+  font-size: 1.125rem;
+  color: #cad5e2;
+  margin-top: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 
-/* IMAGE */
 
-.choco-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  transition: transform .35s ease;
-}
-
-.choco-card:hover .choco-img{
-  transform: scale(1.07);
-}
 
 
 /* OVERLAY CONTENT */
@@ -126,15 +128,41 @@
 
 
 /* PAGINATION */
-
-.choco-pagination button {
-  border-radius: 8px;
-  padding: 6px 12px;
-  transition:.25s;
+.choco-pagination {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
-.choco-pagination button:hover{
-  transform:translateY(-1px);
+.choco-pagination button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: white;
+  font-weight: 600;
+  color: #0f172a;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.choco-pagination button:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px -2px rgba(0,0,0,0.1);
+}
+
+.choco-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.choco-pagination button.active {
+  background: #0f172a;
+  color: white;
+  box-shadow: 0 8px 15px -3px rgba(15, 23, 42, 0.4);
 }
 
 

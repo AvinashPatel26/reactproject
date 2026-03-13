@@ -101,7 +101,7 @@ function Orders() {
 
       <div className="container">
 
-        <h2 className="orders-title">
+        <h2 className="orders-title reveal">
           🧾 Orders History
         </h2>
 
@@ -115,16 +115,14 @@ function Orders() {
               className="orders-month-group"
             >
 
-              <h5 className="month-header">
+              <h5 className="month-header reveal">
                 {monthYear}
               </h5>
 
-              {groupedOrders[monthYear].map(
-                (purchase)=>(
-                
+              {groupedOrders[monthYear].map((purchase, index) => (
                 <div
                   key={purchase.id}
-                  className="order-card"
+                  className={`order-card reveal-scale delay-${(index % 5) * 100}`}
                 >
 
                   {/* ORDER HEADER */}

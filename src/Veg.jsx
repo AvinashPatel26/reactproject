@@ -65,19 +65,13 @@ function Veg() {
       <ToastContainer/>
 
       {/* HERO HEADER */}
-
-      <section className="veg-header">
-
+      <section className="veg-header reveal">
         <div className="veg-header-content">
-
           <h1>Fresh Vegetarian Meals 🥗</h1>
-
           <p>
             Healthy, delicious and freshly prepared veg meals.
           </p>
-
         </div>
-
       </section>
 
       {/* FILTER */}
@@ -110,8 +104,7 @@ function Veg() {
               const cartItem = getCartItem(item._id);
 
               return(
-
-                <div className="veg-card" key={item._id}>
+                <div className={`veg-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`} key={item._id}>
 
                   <div className="veg-img-wrapper">
 

@@ -76,13 +76,9 @@ function Chocolate() {
       <ToastContainer/>
 
       {/* HEADER */}
-
-      <section className="choco-header">
-
+      <section className="choco-header reveal">
         <h1>Delicious Chocolates 🍫</h1>
-
         <p>Sweet treats crafted with love</p>
-
       </section>
 
       {/* FILTER */}
@@ -113,9 +109,8 @@ function Chocolate() {
             const cartItem = getCartItem(item._id);
 
             return(
-
               <div
-                className="choco-card"
+                className={`choco-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`}
                 key={item._id}
               >
 

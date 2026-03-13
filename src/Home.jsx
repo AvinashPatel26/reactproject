@@ -114,25 +114,31 @@ function Home() {
       {/* HERO SECTION */}
 
       <section className="hero-section">
-
-        <video autoPlay muted loop playsInline className="hero-video">
-
+        <video autoPlay loop muted playsInline className="hero-video">
           <source src="/images/h.mp4" type="video/mp4" />
-
         </video>
-
-        <div className="hero-overlay">
-
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
           <h1>Welcome to Foody Sensations 🍴</h1>
-
           <p>Fresh. Delicious. Delivered with Love.</p>
+          
+          <div className="hero-gallery">
+            {[
+              "/images/vegg.jpg",
+              "/images/nonveg.jpg",
+              "/images/dairyproducts.jpeg",
+              "/images/chocolatep.jpeg",
+            ].map((img, idx) => (
+              <div key={idx} className="hero-gallery-item">
+                <img src={img} alt={`Gallery ${idx}`} loading="lazy" />
+              </div>
+            ))}
+          </div>
 
           <Link to="/veg" className="btn btn-primary hero-btn">
             Explore Veg Options
           </Link>
-
         </div>
-
       </section>
 
       {/* MARQUEE */}
@@ -304,7 +310,37 @@ function Home() {
       {/* FOOTER */}
 
       <footer className="home-footer">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <h2 className="footer-logo">Foody Sensations</h2>
+            <p className="footer-tagline">Fresh. Delicious. Delivered with Love.</p>
+            <div className="footer-contact">
+              <p>📍 365, Ameerpet, Hyderabad, Telangana - 500016</p>
+              <p>✉️ contact@foodsensations.com</p>
+            </div>
+          </div>
 
+          <div className="footer-links">
+            <h3>Menu</h3>
+            <Link to="/home">Home</Link>
+            <Link to="/veg">Veg</Link>
+            <Link to="/nonveg">NonVeg</Link>
+            <Link to="/milk">Milk</Link>
+            <Link to="/chocolate">Chocolate</Link>
+          </div>
+
+          <div className="footer-social">
+            <h3>Follow Us</h3>
+            <div className="social-icons">
+              <a href="#" className="social-icon">📘</a>
+              <a href="#" className="social-icon">📸</a>
+              <a href="#" className="social-icon">🐦</a>
+              <a href="#" className="social-icon">🐙</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom-line"></div>
         <p className="footer-bottom">
           &copy; {new Date().getFullYear()} Foody Sensations. All rights reserved.
         </p>

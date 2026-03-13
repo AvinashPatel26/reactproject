@@ -181,9 +181,7 @@ return (
     <div className="container cart-main-container">
 
       {/* CART HEADER */}
-
-      <div className="cart-header-box">
-
+      <div className="cart-header-box reveal">
         <h2 className="cart-title">
           🛒 Your Cart
         </h2>
@@ -216,14 +214,11 @@ return (
           {/* CART ITEMS */}
 
           <div className="col-lg-8">
-
-            {cartItems.map((item) => (
-
+            {cartItems.map((item, index) => (
               <div
                 key={item._id}
-                className="cart-item-card"
+                className={`cart-item-card reveal-left delay-${(index % 5) * 100}`}
               >
-
                 <img
                   src={`${BACKEND_URL}${item.imageurl}`}
                   alt={item.name}
@@ -278,11 +273,8 @@ return (
           </div>
 
           {/* ORDER SUMMARY */}
-
           <div className="col-lg-4">
-
-            <div className="summary-card">
-
+            <div className="summary-card reveal-right delay-200">
               <h4 className="summary-title">
                 Order Summary
               </h4>
