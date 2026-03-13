@@ -199,7 +199,6 @@ function Home() {
               to={item.to}
               style={{ transitionDelay: `${idx * 120}ms` }}
             >
-
               <div className="item-card">
 
                 <img
