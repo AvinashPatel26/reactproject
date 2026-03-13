@@ -5,203 +5,249 @@ import {
   decreaseItem,
   fetchProductsByCategory,
 } from "./store";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Milk.css";
 import { useState, useEffect } from "react";
 import PriceRange from "./PriceRange";
 import { BACKEND_URL } from "./config/backend";
 
 function Milk() {
+
   const dispatch = useDispatch();
 
   const milkMenu = useSelector((state) => state.products.milk);
   const cartItems = useSelector((state) => state.cart);
 
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredItems,setFilteredItems] = useState([]);
+  const [currentPage,setCurrentPage] = useState(1);
 
-  /* fetch from backend */
-  useEffect(() => {
+  /* FETCH PRODUCTS */
+
+  useEffect(()=>{
     dispatch(fetchProductsByCategory("milk"));
-  }, [dispatch]);
+  },[dispatch]);
 
-  /* Sync filter when data arrives */
-  useEffect(() => {
+  useEffect(()=>{
     setFilteredItems(milkMenu);
-  }, [milkMenu]);
+  },[milkMenu]);
 
-  /* FIXED */
-  const getCartItem = (id) => cartItems.find((item) => item._id === id);
+  const getCartItem=(id)=>
+    cartItems.find((item)=>item._id===id);
 
-  const notifyAdd = (itemName) =>
-    toast.success(`${itemName} added to cart!`, {
-      autoClose: 2000,
-      style: { backgroundColor: "#627d98", color: "#fff", fontWeight: "bold" },
-      theme: "colored",
-    });
+  const notifyAdd=(name)=>
+    toast.success(`${name} added to cart!`);
 
-  const notifyIncrease = (itemName) =>
-    toast.info(`Increased ${itemName} quantity!`, { autoClose: 2000 });
+  const notifyIncrease=(name)=>
+    toast.info(`Increased ${name} quantity`);
 
-  const notifyDecrease = (itemName) =>
-    toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
+  const notifyDecrease=(name)=>
+    toast.info(`Decreased ${name} quantity`);
 
-  /* Pagination */
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  /* PAGINATION */
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  const itemsPerPage = 6;
+
+  const totalPages =
+    Math.ceil(filteredItems.length/itemsPerPage);
+
+  const indexOfLastItem = currentPage*itemsPerPage;
+
+  const indexOfFirstItem =
+    indexOfLastItem-itemsPerPage;
+
+  const currentItems =
+    filteredItems.slice(indexOfFirstItem,indexOfLastItem);
+
+  const handlePageChange=(page)=>{
+    if(page>=1 && page<=totalPages)
+      setCurrentPage(page);
   };
 
-  return (
-    <div className="container milkPage-bg p-4 my-4 rounded">
-      <h1 className="milkPage-heading text-center mb-3">
-        🥛 Fresh Milk Products
-      </h1>
+  return(
 
-      <p className="milkPage-subtitle text-center text-muted mb-4">
-        Creamy, fresh dairy items just for you
-      </p>
+    <div className="milkPage-bg">
 
-      <PriceRange
-        products={milkMenu}
-        onFilter={(items) => {
-          setFilteredItems(items);
-          setCurrentPage(1);
-        }}
-        minPrice={0}
-        maxPrice={500}
-        step={10}
-        className="mb-4"
-      />
+      <ToastContainer/>
 
-      <div className="row">
-        {currentItems.length > 0 ? (
-          currentItems.map((item, idx) => {
-            const cartItem = getCartItem(item._id);
+      {/* HEADER */}
 
-            return (
-              <div
-                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-                key={item._id}
-              >
-                <div className={`card milkPage-card h-100 card-${idx + 1}`}>
-                  <img
-                    src={`${BACKEND_URL}${item.imageurl}`}
-                    alt={item.name}
-                    className="milk-img"
-                  />
+      <section className="milkPage-header">
 
-                  <div className="card-body d-flex flex-column">
-                    <h6 className="milkPage-name mb-1">{item.name}</h6>
+        <h1 className="milkPage-heading">
+          🥛 Fresh Dairy Products
+        </h1>
 
-                    <p className="milkPage-desc small mb-2">
-                      {item.description}
-                    </p>
+        <p className="milkPage-subtitle">
+          Creamy and fresh dairy items for you
+        </p>
 
-                    <p className="milkPage-price-amount fw-bold mb-3">
-                      ₹{item.price}
-                    </p>
+      </section>
 
-                    <div className="mt-auto d-flex gap-2 justify-content-center">
-                      {!cartItem ? (
-                        <button
-                          className="milkPage-btn-add"
-                          onClick={() => {
-                            dispatch(addToCart(item));
-                            notifyAdd(item.name);
-                          }}
-                        >
-                          🛒 Add to Cart
-                        </button>
-                      ) : (
-                        <div className="milkPage-counter d-flex gap-3">
-                          <button
-                            className="milkPage-btn-counter"
-                            onClick={() => {
-                              dispatch(decreaseItem(item));
-                              notifyDecrease(item.name);
-                            }}
-                          >
-                            −
-                          </button>
+      {/* FILTER */}
 
-                          <span className="milkPage-quantity">
-                            {cartItem.quantity}
-                          </span>
+      <div className="milkPage-filter">
 
-                          <button
-                            className="milkPage-btn-counter"
-                            onClick={() => {
-                              dispatch(increaseItem(item));
-                              notifyIncrease(item.name);
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <p className="text-muted text-center">No milk items available.</p>
-        )}
+        <PriceRange
+          products={milkMenu}
+          onFilter={(items)=>{
+            setFilteredItems(items);
+            setCurrentPage(1);
+          }}
+          minPrice={0}
+          maxPrice={500}
+          step={10}
+        />
+
       </div>
 
-      {totalPages > 1 && (
-        <nav className="d-flex justify-content-center mt-3">
-          <ul className="pagination milkPage-pagination">
-            <li className="page-item">
-              <button
-                className="page-link milkPage-page-btn"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-            </li>
+      {/* PRODUCT GRID */}
 
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li
-                key={index + 1}
-                className={`page-item ${
-                  currentPage === index + 1 ? "active" : ""
-                }`}
-              >
-                <button
-                  className="page-link milkPage-page-btn"
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
+      <div className="milkPage-grid">
 
-            <li className="page-item">
-              <button
-                className="page-link milkPage-page-btn"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
+        {currentItems.length>0 ? (
+
+          currentItems.map((item)=>{
+
+            const cartItem = getCartItem(item._id);
+
+            return(
+
+              <div
+                className="milkPage-card"
+                key={item._id}
               >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
+
+                <img
+                  src={`${BACKEND_URL}${item.imageurl}`}
+                  alt={item.name}
+                  className="milk-img"
+                />
+
+                <div className="milkPage-body">
+
+                  <h3 className="milkPage-name">
+                    {item.name}
+                  </h3>
+
+                  {item.rating && (
+                    <span className="milkPage-rating">
+                      ⭐ {item.rating}
+                    </span>
+                  )}
+
+                  <p className="milkPage-desc">
+                    {item.description}
+                  </p>
+
+                  <div className="milkPage-footer">
+
+                    <span className="milkPage-price-amount">
+                      ₹{item.price}
+                    </span>
+
+                    {!cartItem ? (
+
+                      <button
+                        className="milkPage-btn-add"
+                        onClick={()=>{
+                          dispatch(addToCart(item));
+                          notifyAdd(item.name);
+                        }}
+                      >
+                        Add
+                      </button>
+
+                    ):(
+
+                      <div className="milkPage-counter">
+
+                        <button
+                          onClick={()=>{
+                            dispatch(decreaseItem(item));
+                            notifyDecrease(item.name);
+                          }}
+                        >
+                          −
+                        </button>
+
+                        <span>
+                          {cartItem.quantity}
+                        </span>
+
+                        <button
+                          onClick={()=>{
+                            dispatch(increaseItem(item));
+                            notifyIncrease(item.name);
+                          }}
+                        >
+                          +
+                        </button>
+
+                      </div>
+
+                    )}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            );
+
+          })
+
+        ):(
+          <p className="text-center">
+            No milk items available
+          </p>
+        )}
+
+      </div>
+
+      {/* PAGINATION */}
+
+      {totalPages>1 &&(
+
+        <div className="milkPage-pagination">
+
+          <button
+            onClick={()=>handlePageChange(currentPage-1)}
+            disabled={currentPage===1}
+          >
+            Prev
+          </button>
+
+          {Array.from({length:totalPages},(_,i)=>(
+            <button
+              key={i}
+              className={
+                currentPage===i+1 ? "active" : ""
+              }
+              onClick={()=>handlePageChange(i+1)}
+            >
+              {i+1}
+            </button>
+          ))}
+
+          <button
+            onClick={()=>handlePageChange(currentPage+1)}
+            disabled={currentPage===totalPages}
+          >
+            Next
+          </button>
+
+        </div>
+
       )}
 
-      <ToastContainer />
     </div>
+
   );
+
 }
 
 export default Milk;

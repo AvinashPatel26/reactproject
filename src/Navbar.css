@@ -3,38 +3,139 @@
   justify-content:space-between;
   align-items:center;
   padding:15px 30px;
+
+  /* ADDED: sticky navbar */
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+
   background:white;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 
+/* LOGO */
+
 .nav-logo{
-  font-weight:bold;
-  font-size:20px;
+  font-weight:700;
+  font-size:22px;
+
+  /* ADDED: gradient text */
+
+  background:linear-gradient(135deg,#ff7a18,#ffb347);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
+
+/* NAV LINKS */
 
 .nav-links{
   display:flex;
-  gap:20px;
+  gap:22px;
 }
 
 .nav-links a{
   text-decoration:none;
-  color:black;
+  color:#333;
+  font-weight:500;
+  position:relative;
+  transition:0.3s;
 }
+
+/* HOVER UNDERLINE */
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  width:0%;
+  height:2px;
+  left:0;
+  bottom:-4px;
+  background:#ff7a18;
+  transition:0.3s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+/* ACTIVE LINK */
+
+.nav-links a.active{
+  color:#ff7a18;
+}
+
+/* CART */
 
 .cart-link{
   position:relative;
   text-decoration:none;
   font-weight:600;
+  color:#333;
+  transition:0.3s;
 }
+
+.cart-link:hover{
+  color:#ff7a18;
+}
+
+/* CART BADGE */
 
 .cart-badge{
   position:absolute;
   top:-8px;
   right:-10px;
-  background:red;
+  background:#ff4d4d;
   color:white;
-  font-size:12px;
-  padding:3px 6px;
+  font-size:11px;
+  padding:4px 7px;
   border-radius:50%;
+
+  /* ADDED: animation */
+
+  animation:bounce 1.4s infinite;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+
+/* MOBILE MENU BUTTON */
+
+.menu-toggle{
+  display:none;
+  font-size:22px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+  .menu-toggle{
+    display:block;
+  }
+
+  .nav-links{
+    position:absolute;
+    top:65px;
+    left:0;
+    right:0;
+    background:white;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    padding:20px;
+
+    transform:translateY(-120%);
+    transition:0.35s;
+  }
+
+  .nav-links.open{
+    transform:translateY(0);
+  }
+
 }

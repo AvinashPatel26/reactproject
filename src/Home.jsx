@@ -5,6 +5,7 @@ import "./Home.css";
 import Marquee from "./Marquee";
 import axios from "./api/axios";
 import { BACKEND_URL } from "./config/backend";
+import { toast } from "react-toastify"; // ADDED
 
 function Home() {
 
@@ -96,6 +97,15 @@ function Home() {
     filter === "all"
       ? items
       : items.filter((item)=>item.type===filter);
+
+  /* =============================================
+     NEWSLETTER SUBMIT
+  ============================================= */
+
+  const handleNewsletter = (e) => {  // ADDED
+    e.preventDefault();
+    toast.success("Subscribed successfully! 🎉");
+  };
 
   return (
 
@@ -275,7 +285,7 @@ function Home() {
 
         <p>Subscribe to get our latest offers and updates.</p>
 
-        <form className="newsletter-form">
+        <form className="newsletter-form" onSubmit={handleNewsletter}> {/* ADDED */}
 
           <input
             type="email"

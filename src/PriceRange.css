@@ -1,16 +1,64 @@
 .price-range-container {
-  margin: 20px 0;
+  margin: 25px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
+/* Label */
+
 .price-range-label {
-  margin-bottom: 8px;
-  font-weight: bold;
+  font-weight: 600;
+  color: #444;
+  font-size: 14px;
 }
+
+/* Slider */
 
 .price-range-slider {
   width: 80%;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg,#ff7a18,#ffb347);
+  outline: none;
   cursor: pointer;
+}
+
+/* Chrome / Edge thumb */
+
+.price-range-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #ff7a18;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform .2s;
+}
+
+.price-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Firefox thumb */
+
+.price-range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #ff7a18;
+  cursor: pointer;
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+  .price-range-slider{
+    width:100%;
+  }
 }

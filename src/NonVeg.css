@@ -3,32 +3,38 @@
 .nonvegPage-bg {
   max-width: 1200px;
   margin: auto;
+  padding: 10px;
 }
 
 
 /* HEADER */
 
 .nonvegPage-heading {
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: .4px;
 }
 
 .nonvegPage-subtitle {
   font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 20px;
 }
 
 
 /* CARD */
 
 .nonvegPage-card {
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition: all 0.35s ease;
   background: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  height: 100%;
 }
 
 .nonvegPage-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
 }
 
 
@@ -38,6 +44,11 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.nonvegPage-card:hover .nonveg-img {
+  transform: scale(1.06);
 }
 
 
@@ -45,6 +56,7 @@
 
 .nonvegPage-name {
   font-weight: 600;
+  font-size: 16px;
 }
 
 .nonvegPage-desc {
@@ -55,23 +67,26 @@
 .nonvegPage-price-amount {
   color: #ff4d4f;
   font-size: 16px;
+  font-weight: 700;
 }
 
 
 /* ADD BUTTON */
 
 .nonvegPage-btn-add {
-  background: #a63e23;
+  background: linear-gradient(135deg,#a63e23,#822d18);
   color: white;
   border: none;
-  padding: 7px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-size: 14px;
-  transition: background 0.2s ease;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .nonvegPage-btn-add:hover {
-  background: #822d18;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 
@@ -81,15 +96,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
 }
 
 .nonvegPage-btn-counter {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   border: none;
   background: #f1f3f5;
   font-weight: bold;
+  transition:.2s;
 }
 
 .nonvegPage-btn-counter:hover {
@@ -106,7 +123,8 @@
 /* PAGINATION */
 
 .nonvegPage-pagination .page-link {
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 6px 12px;
 }
 
 .nonvegPage-pagination .active .page-link {

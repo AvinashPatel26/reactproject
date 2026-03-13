@@ -1,23 +1,51 @@
-import React, { useState } from "react";
-import "./PriceRange.css"; // optional, for styling
+import React, { useState, useEffect } from "react";
+import "./PriceRange.css";
 
-function PriceRange({ products, onFilter, minPrice = 0, maxPrice = 1000, step = 10, className = "" }) {
+function PriceRange({
+  products = [],
+  onFilter,
+  minPrice = 0,
+  maxPrice = 1000,
+  step = 10,
+  className = ""
+}) {
+
   const [price, setPrice] = useState(maxPrice);
 
+  // Reset slider when products update
+  useEffect(() => {
+    setPrice(maxPrice);
+  }, [maxPrice, products]);
+
   const handleChange = (e) => {
+
     const value = Number(e.target.value);
+
     setPrice(value);
 
-    // filter products and pass back
-    const filtered = products.filter((item) => item.price <= value);
+    const filtered = products.filter(
+      (item) => item.price <= value
+    );
+
     onFilter(filtered);
+
   };
 
   return (
     <div className={`price-range-container ${className}`}>
-      <label className="price-range-label">
-        Max Price: <strong>₹{price}</strong>
-      </label>
+
+      <div className="price-range-header">
+
+        <span>₹{minPrice}</span>
+
+        <span className="price-range-label">
+          Max Price: <strong>₹{price}</strong>
+        </span>
+
+        <span>₹{maxPrice}</span>
+
+      </div>
+
       <input
         type="range"
         min={minPrice}
@@ -27,6 +55,7 @@ function PriceRange({ products, onFilter, minPrice = 0, maxPrice = 1000, step = 
         onChange={handleChange}
         className="price-range-slider"
       />
+
     </div>
   );
 }

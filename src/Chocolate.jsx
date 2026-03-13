@@ -6,126 +6,163 @@ import {
   decreaseItem,
   fetchProductsByCategory,
 } from "./store";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Chocolate.css";
 import PriceRange from "./PriceRange";
 import { BACKEND_URL } from "./config/backend";
 
 function Chocolate() {
+
   const dispatch = useDispatch();
 
-  const chocolateProducts = useSelector((state) => state.products.chocolate);
+  const chocolateProducts = useSelector(
+    (state) => state.products.chocolate
+  );
+
   const cartItems = useSelector((state) => state.cart);
 
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredItems,setFilteredItems] = useState([]);
+  const [currentPage,setCurrentPage] = useState(1);
 
-  /* fetch from backend */
-  useEffect(() => {
+  /* FETCH PRODUCTS */
+
+  useEffect(()=>{
     dispatch(fetchProductsByCategory("chocolate"));
-  }, [dispatch]);
+  },[dispatch]);
 
-  /* Sync filter when data arrives */
-  useEffect(() => {
+  useEffect(()=>{
     setFilteredItems(chocolateProducts);
-  }, [chocolateProducts]);
+  },[chocolateProducts]);
 
-  /* FIXED */
-  const getCartItem = (id) => cartItems.find((i) => i._id === id);
+  const getCartItem = (id)=>
+    cartItems.find((i)=>i._id===id);
 
-  const notifyAdd = (name) =>
-    toast.success(`${name} added to cart!`, {
-      autoClose: 2000,
-      theme: "colored",
-      style: {
-        backgroundColor: "#a0522d",
-        color: "#fff",
-        fontWeight: "bold",
-      },
-    });
+  const notifyAdd=(name)=>
+    toast.success(`${name} added to cart!`);
 
-  const notifyIncrease = (name) =>
-    toast.info(`Increased ${name} quantity!`, {
-      autoClose: 2000,
-    });
+  const notifyIncrease=(name)=>
+    toast.info(`Increased ${name} quantity`);
 
-  const notifyDecrease = (name) =>
-    toast.info(`Decreased ${name} quantity!`, {
-      autoClose: 2000,
-    });
+  const notifyDecrease=(name)=>
+    toast.info(`Decreased ${name} quantity`);
 
-  /* Pagination */
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  /* PAGINATION */
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  const itemsPerPage = 6;
+
+  const totalPages =
+    Math.ceil(filteredItems.length/itemsPerPage);
+
+  const indexOfLastItem = currentPage*itemsPerPage;
+
+  const indexOfFirstItem =
+    indexOfLastItem-itemsPerPage;
+
+  const currentItems =
+    filteredItems.slice(indexOfFirstItem,indexOfLastItem);
+
+  const handlePageChange=(page)=>{
+    if(page>=1 && page<=totalPages)
+      setCurrentPage(page);
   };
 
-  return (
-    <div className="container-fluid choco-container">
-      <ToastContainer />
+  return(
 
-      <h1 className="choco-heading text-center">
-        Chocolates you love 🍫🍬🍭
-      </h1>
+    <div className="choco-page">
 
-      <PriceRange
-        products={chocolateProducts}
-        onFilter={(items) => {
-          setFilteredItems(items);
-          setCurrentPage(1);
-        }}
-        minPrice={0}
-        maxPrice={500}
-        step={10}
-        className="choco-price-filter mb-4"
-      />
+      <ToastContainer/>
 
-      <div className="row justify-content-center">
-        {currentItems.length > 0 ? (
-          currentItems.map((item) => {
+      {/* HEADER */}
+
+      <section className="choco-header">
+
+        <h1>Delicious Chocolates 🍫</h1>
+
+        <p>Sweet treats crafted with love</p>
+
+      </section>
+
+      {/* FILTER */}
+
+      <div className="choco-filter">
+
+        <PriceRange
+          products={chocolateProducts}
+          onFilter={(items)=>{
+            setFilteredItems(items);
+            setCurrentPage(1);
+          }}
+          minPrice={0}
+          maxPrice={500}
+          step={10}
+        />
+
+      </div>
+
+      {/* PRODUCT GRID */}
+
+      <div className="choco-grid">
+
+        {currentItems.length>0 ? (
+
+          currentItems.map((item)=>{
+
             const cartItem = getCartItem(item._id);
 
-            return (
-              <div className="col-md-3 mb-4" key={item._id}>
-                <div className="choco-card shadow-sm">
+            return(
 
-                  <img
-                    src={`${BACKEND_URL}${item.imageurl}`}
-                    alt={item.name}
-                    className="img-fluid choco-img"
-                  />
+              <div
+                className="choco-card"
+                key={item._id}
+              >
 
-                  <div className="choco-overlay">
-                    <h6 className="choco-name">
-                      {item.name} /-{" "}
-                      <span className="choco-price-amount">
-                        ₹{item.price}
-                      </span>
-                    </h6>
+                <img
+                  src={`${BACKEND_URL}${item.imageurl}`}
+                  alt={item.name}
+                  className="choco-img"
+                />
 
-                    <p className="choco-desc">{item.description}</p>
+                <div className="choco-body">
+
+                  <h3>{item.name}</h3>
+
+                  {item.rating && (
+                    <span className="choco-rating">
+                      ⭐ {item.rating}
+                    </span>
+                  )}
+
+                  <p className="choco-desc">
+                    {item.description}
+                  </p>
+
+                  <div className="choco-footer">
+
+                    <span className="choco-price">
+                      ₹{item.price}
+                    </span>
 
                     {!cartItem ? (
+
                       <button
-                        className="choco-btn-add"
-                        onClick={() => {
+                        className="choco-add-btn"
+                        onClick={()=>{
                           dispatch(addToCart(item));
                           notifyAdd(item.name);
                         }}
                       >
-                        Add To Cart
+                        Add
                       </button>
-                    ) : (
+
+                    ):(
+
                       <div className="choco-counter">
+
                         <button
-                          className="choco-btn-counter"
-                          onClick={() => {
+                          onClick={()=>{
                             dispatch(decreaseItem(item));
                             notifyDecrease(item.name);
                           }}
@@ -133,68 +170,81 @@ function Chocolate() {
                           −
                         </button>
 
-                        <span className="choco-quantity">
+                        <span>
                           {cartItem.quantity}
                         </span>
 
                         <button
-                          className="choco-btn-counter"
-                          onClick={() => {
+                          onClick={()=>{
                             dispatch(increaseItem(item));
                             notifyIncrease(item.name);
                           }}
                         >
                           +
                         </button>
+
                       </div>
+
                     )}
+
                   </div>
+
                 </div>
+
               </div>
+
             );
+
           })
-        ) : (
-          <p className="text-muted text-center">
-            No chocolate items available.
+
+        ):(
+          <p className="text-center">
+            No chocolate items available
           </p>
         )}
+
       </div>
 
-      {totalPages > 1 && (
-        <div className="choco-pagination d-flex justify-content-center mt-3">
+      {/* PAGINATION */}
+
+      {totalPages>1 &&(
+
+        <div className="choco-pagination">
+
           <button
-            className="btn btn-outline-secondary mx-1"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            onClick={()=>handlePageChange(currentPage-1)}
+            disabled={currentPage===1}
           >
-            Previous
+            Prev
           </button>
 
-          {Array.from({ length: totalPages }, (_, index) => (
+          {Array.from({length:totalPages},(_,i)=>(
             <button
-              key={index + 1}
-              className={`btn mx-1 ${
-                currentPage === index + 1
-                  ? "btn-secondary"
-                  : "btn-outline-secondary"
-              }`}
-              onClick={() => handlePageChange(index + 1)}
+              key={i}
+              className={
+                currentPage===i+1 ? "active" : ""
+              }
+              onClick={()=>handlePageChange(i+1)}
             >
-              {index + 1}
+              {i+1}
             </button>
           ))}
 
           <button
-            className="btn btn-outline-secondary mx-1"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            onClick={()=>handlePageChange(currentPage+1)}
+            disabled={currentPage===totalPages}
           >
             Next
           </button>
+
         </div>
+
       )}
+
     </div>
+
   );
+
 }
 
 export default Chocolate;

@@ -5,6 +5,7 @@ import {
   Routes,
   useNavigate,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 
 import Home from "./Home";
@@ -22,10 +23,25 @@ import AdminAddProduct from "./AdminAddProduct";
 
 import { useSelector } from "react-redux";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import "./App.css";
+
+/* ================= SCROLL TO TOP ================= */
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function AppLayout() {
 
@@ -38,9 +54,7 @@ function AppLayout() {
 
   const navigate = useNavigate();
 
-  /* ======================================================
-     JWT AUTH CHECK
-  ====================================================== */
+  /* ================= JWT AUTH ================= */
 
   const token = localStorage.getItem("accessToken");
   const userName = localStorage.getItem("userName");
@@ -68,7 +82,7 @@ function AppLayout() {
     { to: "/milk", label: "Milk" },
     { to: "/chocolate", label: "Chocolate" },
     { to: "/cart", label: "🛒 Cart", badge: cartCount },
-    { to: "/orders", label: "Order" },
+    { to: "/orders", label: "Orders" },
     { to: "/aboutus", label: "About Us" },
     { to: "/contactus", label: "Contact Us" },
 
@@ -90,6 +104,8 @@ function AppLayout() {
 
     <div className="app-wrapper min-vh-100">
 
+      <ScrollToTop />
+
       {/* ================= NAVBAR ================= */}
 
       <nav className="navbar navbar-expand-lg glass-navbar shadow-sm fixed-top">
@@ -97,9 +113,7 @@ function AppLayout() {
         <div className="container-fluid">
 
           <span className="navbar-brand text-primary fw-bold fs-4">
-
             🍔 Food Sensations
-
           </span>
 
           <button
@@ -177,7 +191,6 @@ function AppLayout() {
 
       </nav>
 
-
       {/* ================= FLOATING CART ================= */}
 
       <Link to="/cart" className="floating-cart">
@@ -196,10 +209,9 @@ function AppLayout() {
 
       </Link>
 
-
       {/* ================= ROUTES ================= */}
 
-      <div className="page-container py-4" style={{ paddingTop: "80px" }}>
+      <div className="page-container py-4" style={{ paddingTop: "90px" }}>
 
         <Routes>
 
@@ -216,7 +228,9 @@ function AppLayout() {
           <Route
             path="/signup"
             element={
-              isAuthenticated ? <Navigate to="/home" replace /> : <SignUp />
+              isAuthenticated
+                ? <Navigate to="/home" replace />
+                : <SignUp />
             }
           />
 
@@ -239,6 +253,14 @@ function AppLayout() {
         </Routes>
 
       </div>
+
+      {/* GLOBAL TOAST */}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="colored"
+      />
 
     </div>
 

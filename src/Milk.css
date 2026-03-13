@@ -3,31 +3,38 @@
 .milkPage-bg {
   max-width: 1200px;
   margin: auto;
+  padding: 10px;
 }
+
 
 /* HEADINGS */
 
 .milkPage-heading {
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: .4px;
 }
 
 .milkPage-subtitle {
   font-size: 14px;
+  margin-bottom: 20px;
+  color: #6c757d;
 }
 
 
 /* CARD */
 
 .milkPage-card {
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition: all 0.35s ease;
   background: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  height: 100%;
 }
 
 .milkPage-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
 }
 
 
@@ -37,6 +44,11 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.milkPage-card:hover .milk-img{
+  transform: scale(1.06);
 }
 
 
@@ -44,6 +56,7 @@
 
 .milkPage-name {
   font-weight: 600;
+  font-size: 16px;
 }
 
 .milkPage-desc {
@@ -54,23 +67,26 @@
 .milkPage-price-amount {
   color: #ff4d4f;
   font-size: 16px;
+  font-weight: 700;
 }
 
 
 /* ADD BUTTON */
 
 .milkPage-btn-add {
-  background: #627d98;
+  background: linear-gradient(135deg,#627d98,#4a637a);
   color: white;
   border: none;
-  padding: 7px 10px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 14px;
-  transition: background 0.2s ease;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .milkPage-btn-add:hover {
-  background: #4a637a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 
@@ -80,15 +96,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
 }
 
 .milkPage-btn-counter {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   border: none;
   background: #f1f3f5;
   font-weight: bold;
+  transition:.2s;
 }
 
 .milkPage-btn-counter:hover {
@@ -105,7 +123,8 @@
 /* PAGINATION */
 
 .milkPage-pagination .page-link {
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 6px 12px;
 }
 
 .milkPage-pagination .active .page-link {

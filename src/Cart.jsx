@@ -84,6 +84,20 @@ const Cart = () => {
     toast.error(`${item.name} removed from cart.`);
   };
 
+  // ADDED: Apply coupon handler
+  const handleApplyCoupon = () => {
+    if (!couponCode) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
+
+    if (couponResult?.valid) {
+      toast.success(`Coupon Applied! You saved ₹${couponDiscountAmount}`);
+    } else {
+      toast.error("Invalid coupon code");
+    }
+  };
+
   const handleCheckout = async () => {
     const token = localStorage.getItem("accessToken");
 
@@ -127,9 +141,10 @@ const Cart = () => {
         );
       }
 
+      // ADDED: Bigger confetti celebration
       confetti({
-        particleCount: 150,
-        spread: 70,
+        particleCount: 250,
+        spread: 120,
         origin: { y: 0.6 },
       });
 
@@ -156,171 +171,244 @@ const Cart = () => {
     }
   };
 
-  return (
-    <div className="cart-page py-5">
-      <ToastContainer />
+  
+    // Only UI improvements added – logic untouched
 
-      <div className="container cart-main-container p-4 rounded">
-        <h2 className="mb-4 text-center fw-bold cart-title">
-          🛒 YOUR CART ({totalItems} ITEMS)
+return (
+  <div className="cart-page py-5">
+    <ToastContainer />
+
+    <div className="container cart-main-container">
+
+      {/* CART HEADER */}
+
+      <div className="cart-header-box">
+
+        <h2 className="cart-title">
+          🛒 Your Cart
         </h2>
 
-        {cartItems.length === 0 ? (
-          <div className="alert cart-empty text-center">
-            Your cart is empty
-          </div>
-        ) : (
-          <div className="row g-4">
-            {/* CART ITEMS */}
+        <span className="cart-count-label">
+          {totalItems} items
+        </span>
 
-            <div className="col-lg-8">
-              {cartItems.map((item) => (
-                <div
-                  key={item._id}
-                  className="card mb-3 border-0 cart-item-card"
-                >
-                  <div className="row g-0 align-items-center h-100">
-                    <div className="col-md-3">
-                      <img
-                        src={`${BACKEND_URL}${item.imageurl}`}
-                        alt={item.name}
-                        className="img-fluid rounded-start cart-item-image"
-                      />
-                    </div>
+      </div>
 
-                    <div className="col-md-7">
-                      <div className="card-body">
-                        <h6 className="fw-bold">{item.name}</h6>
+      {cartItems.length === 0 ? (
 
-                        <p className="small cart-desc">
-                          {item.description}
-                        </p>
+        <div className="cart-empty-box text-center">
 
-                        <p className="cart-price">
-                          ₹{item.price.toFixed(2)}
-                        </p>
+          <h4>Your cart is empty</h4>
 
-                        <div className="btn-group">
-                          <button
-                            className="btn btn-outline-secondary btn-sm"
-                            onClick={() => itemDecreaser(item)}
-                          >
-                            −
-                          </button>
-
-                          <span className="px-3 align-self-center fw-bold">
-                            {item.quantity}
-                          </span>
-
-                          <button
-                            className="btn btn-outline-secondary btn-sm"
-                            onClick={() => itemIncreaser(item)}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-2 text-end">
-                      <button
-                        className="btn btn-sm remove-btn"
-                        onClick={() => removeItem(item)}
-                      >
-                        ✖
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* ORDER SUMMARY */}
-
-            <div className="col-lg-4">
-              <div className="p-4 rounded summary-card shadow-sm">
-                <h4 className="text-center mb-3">Order Summary</h4>
-
-                <p className="d-flex justify-content-between">
-                  <span>Subtotal</span>
-                  <span>₹{totalPrice.toFixed(2)}</span>
-                </p>
-
-                <p className="d-flex justify-content-between">
-                  <span>Tax (18%)</span>
-                  <span>₹{taxAmount.toFixed(2)}</span>
-                </p>
-
-                {paymentMethod === "cod" && (
-                  <p className="d-flex justify-content-between">
-                    <span>COD Charge</span>
-                    <span>₹50</span>
-                  </p>
-                )}
-
-                <hr />
-
-                <p className="d-flex justify-content-between fw-bold">
-                  <span>Total</span>
-                  <span>₹{grandTotal.toFixed(2)}</span>
-                </p>
-
-                <input
-                  type="email"
-                  placeholder="Enter email"
-                  className="form-control my-3"
-                  value={customerEmail}
-                  onChange={(e) => setCustomerEmail(e.target.value)}
-                />
-
-                <div className="text-center mb-3">
-                  <button
-                    className="btn btn-outline-primary me-2"
-                    onClick={() => setPaymentMethod("qr")}
-                  >
-                    QR
-                  </button>
-
-                  <button
-                    className="btn btn-outline-success"
-                    onClick={() => setPaymentMethod("cod")}
-                  >
-                    COD
-                  </button>
-                </div>
-
-                {paymentMethod === "qr" && (
-                  <div className="text-center">
-                    <QRCode
-                      value={`upi://pay?pa=avinash7346patel-5@okaxis&am=${grandTotal}`}
-                      size={140}
-                    />
-                  </div>
-                )}
-
-                <button
-                  className="btn btn-success w-100 mt-3"
-                  onClick={handleCheckout}
-                  disabled={loading}
-                >
-                  {loading ? "Processing..." : "Place Order"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="text-center mt-5">
           <button
-            className="btn continue-btn px-4 py-2"
+            className="btn continue-btn mt-3"
             onClick={() => navigate("/home")}
           >
-            🛍️ Continue Shopping
+            Browse Food
           </button>
+
         </div>
-      </div>
+
+      ) : (
+
+        <div className="row g-4">
+
+          {/* CART ITEMS */}
+
+          <div className="col-lg-8">
+
+            {cartItems.map((item) => (
+
+              <div
+                key={item._id}
+                className="cart-item-card"
+              >
+
+                <img
+                  src={`${BACKEND_URL}${item.imageurl}`}
+                  alt={item.name}
+                  className="cart-item-image"
+                />
+
+                <div className="cart-item-details">
+
+                  <h5>{item.name}</h5>
+
+                  <p className="cart-desc">
+                    {item.description}
+                  </p>
+
+                  <span className="cart-price">
+                    ₹{item.price.toFixed(2)}
+                  </span>
+
+                </div>
+
+                <div className="cart-controls">
+
+                  <button
+                    onClick={() => itemDecreaser(item)}
+                  >
+                    −
+                  </button>
+
+                  <span>
+                    {item.quantity}
+                  </span>
+
+                  <button
+                    onClick={() => itemIncreaser(item)}
+                  >
+                    +
+                  </button>
+
+                </div>
+
+                <button
+                  className="remove-btn"
+                  onClick={() => removeItem(item)}
+                >
+                  ✖
+                </button>
+
+              </div>
+
+            ))}
+
+          </div>
+
+          {/* ORDER SUMMARY */}
+
+          <div className="col-lg-4">
+
+            <div className="summary-card">
+
+              <h4 className="summary-title">
+                Order Summary
+              </h4>
+
+              <div className="summary-row">
+                <span>Subtotal</span>
+                <span>₹{totalPrice.toFixed(2)}</span>
+              </div>
+
+              {couponDiscountAmount > 0 && (
+                <div className="summary-row discount">
+                  <span>Coupon</span>
+                  <span>-₹{couponDiscountAmount.toFixed(2)}</span>
+                </div>
+              )}
+
+              <div className="summary-row">
+                <span>Tax</span>
+                <span>₹{taxAmount.toFixed(2)}</span>
+              </div>
+
+              {paymentMethod === "cod" && (
+                <div className="summary-row">
+                  <span>COD Fee</span>
+                  <span>₹50</span>
+                </div>
+              )}
+
+              <hr />
+
+              <div className="summary-total">
+                <span>Total</span>
+                <span>₹{grandTotal.toFixed(2)}</span>
+              </div>
+
+              {/* COUPON */}
+
+              <div className="coupon-box">
+
+                <input
+                  type="text"
+                  placeholder="Coupon Code"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                />
+
+                <button onClick={handleApplyCoupon}>
+                  Apply
+                </button>
+
+              </div>
+
+              {/* EMAIL */}
+
+              <input
+                type="email"
+                placeholder="Enter email"
+                className="email-input"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+              />
+
+              {/* PAYMENT METHOD */}
+
+              <div className="payment-methods">
+
+                <button
+                  className={
+                    paymentMethod === "qr"
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() => setPaymentMethod("qr")}
+                >
+                  QR Pay
+                </button>
+
+                <button
+                  className={
+                    paymentMethod === "cod"
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() => setPaymentMethod("cod")}
+                >
+                  Cash
+                </button>
+
+              </div>
+
+              {paymentMethod === "qr" && (
+
+                <div className="qr-box">
+
+                  <QRCode
+                    value={`upi://pay?pa=avinash7346patel-5@okaxis&am=${grandTotal}`}
+                    size={140}
+                  />
+
+                </div>
+
+              )}
+
+              <button
+                className="checkout-btn"
+                onClick={handleCheckout}
+                disabled={loading}
+              >
+                {loading
+                  ? "Processing..."
+                  : "Place Order"}
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
     </div>
-  );
+
+  </div>
+);
 };
+
 
 export default Cart;

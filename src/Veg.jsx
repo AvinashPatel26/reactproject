@@ -6,189 +6,242 @@ import {
   decreaseItem,
   fetchProductsByCategory,
 } from "./store";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Veg.css";
 import PriceRange from "./PriceRange";
 import { BACKEND_URL } from "./config/backend";
 
 function Veg() {
+
   const dispatch = useDispatch();
 
   const vegItems = useSelector((state) => state.products.veg);
   const cartItems = useSelector((state) => state.cart);
 
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredItems,setFilteredItems] = useState([]);
+  const [currentPage,setCurrentPage] = useState(1);
 
   /* FETCH FROM BACKEND */
-  useEffect(() => {
+
+  useEffect(()=>{
     dispatch(fetchProductsByCategory("veg"));
-  }, [dispatch]);
+  },[dispatch]);
 
-  /* Sync filter after data loads */
-  useEffect(() => {
+  useEffect(()=>{
     setFilteredItems(vegItems);
-  }, [vegItems]);
+  },[vegItems]);
 
-  /* FIXED */
-  const getCartItem = (id) => cartItems.find((item) => item._id === id);
+  const getCartItem = (id) => cartItems.find((item)=>item._id===id);
 
-  const notifyAdd = (itemName) =>
-    toast.success(`${itemName} added to cart!`, {
-      autoClose: 2000,
-      theme: "colored",
-      style: {
-        backgroundColor: "#ff6f61",
-        color: "#fff",
-        fontWeight: "bold",
-      },
-    });
+  const notifyAdd = (itemName)=>
+    toast.success(`${itemName} added to cart!`);
 
-  const notifyIncrease = (itemName) =>
-    toast.info(`Increased ${itemName} quantity!`, { autoClose: 2000 });
+  const notifyIncrease = (itemName)=>
+    toast.info(`Increased ${itemName} quantity`);
 
-  const notifyDecrease = (itemName) =>
-    toast.info(`Decreased ${itemName} quantity!`, { autoClose: 2000 });
+  const notifyDecrease = (itemName)=>
+    toast.info(`Decreased ${itemName} quantity`);
 
-  /* Pagination */
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  /* PAGINATION */
+
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(filteredItems.length/itemsPerPage);
+
+  const indexOfLastItem = currentPage*itemsPerPage;
+
+  const indexOfFirstItem = indexOfLastItem-itemsPerPage;
+
+  const currentItems =
+    filteredItems.slice(indexOfFirstItem,indexOfLastItem);
 
   return (
+
     <div className="veg-page">
-      <ToastContainer />
 
-      <header className="veg-header">
-        <h1 className="veg-title">Welcome to the Veg Page</h1>
-      </header>
+      <ToastContainer/>
 
-      <PriceRange
-        products={vegItems}
-        onFilter={(items) => {
-          setFilteredItems(items);
-          setCurrentPage(1);
-        }}
-        minPrice={0}
-        maxPrice={500}
-        step={10}
-        className="veg-filter"
-      />
+      {/* HERO HEADER */}
+
+      <section className="veg-header">
+
+        <div className="veg-header-content">
+
+          <h1>Fresh Vegetarian Meals 🥗</h1>
+
+          <p>
+            Healthy, delicious and freshly prepared veg meals.
+          </p>
+
+        </div>
+
+      </section>
+
+      {/* FILTER */}
+
+      <div className="veg-filter-wrapper">
+
+        <PriceRange
+          products={vegItems}
+          onFilter={(items)=>{
+            setFilteredItems(items);
+            setCurrentPage(1);
+          }}
+          minPrice={0}
+          maxPrice={500}
+          step={10}
+        />
+
+      </div>
+
+      {/* MENU GRID */}
 
       <main className="veg-main">
-        <div className="container">
-          <div className="veg-row">
-            {currentItems.length > 0 ? (
-              currentItems.map((item) => {
-                const cartItem = getCartItem(item._id);
 
-                return (
-                  <div className="veg-col" key={item._id}>
-                    <div className="veg-card">
+        <div className="veg-grid">
 
-                      <img
-                        src={`${BACKEND_URL}${item.imageurl}`}
-                        alt={item.name}
-                        className="veg-img"
-                      />
+          {currentItems.length>0 ? (
 
-                      <div className="veg-body">
-                        <h6 className="veg-name">{item.name}</h6>
+            currentItems.map((item)=>{
 
-                        {item.rating && (
-                          <p className="veg-rating">{item.rating} ★</p>
-                        )}
+              const cartItem = getCartItem(item._id);
 
-                        <p className="veg-desc">{item.description}</p>
-                        <p className="veg-price">₹{item.price}</p>
+              return(
 
-                        <div className="veg-actions">
-                          {!cartItem ? (
-                            <button
-                              className="veg-btn-add"
-                              onClick={() => {
-                                dispatch(addToCart(item));
-                                notifyAdd(item.name);
-                              }}
-                            >
-                              🛒 Add to Cart
-                            </button>
-                          ) : (
-                            <div className="veg-quantity-controls">
-                              <button
-                                className="veg-btn-qty"
-                                onClick={() => {
-                                  dispatch(decreaseItem(item));
-                                  notifyDecrease(item.name);
-                                }}
-                              >
-                                −
-                              </button>
+                <div className="veg-card" key={item._id}>
 
-                              <span className="veg-qty-value">
-                                {cartItem.quantity}
-                              </span>
+                  <div className="veg-img-wrapper">
 
-                              <button
-                                className="veg-btn-qty"
-                                onClick={() => {
-                                  dispatch(increaseItem(item));
-                                  notifyIncrease(item.name);
-                                }}
-                              >
-                                +
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    <img
+                      src={`${BACKEND_URL}${item.imageurl}`}
+                      alt={item.name}
+                    />
+
                   </div>
-                );
-              })
-            ) : (
-              <p className="veg-no-items">No vegetarian items available.</p>
-            )}
-          </div>
+
+                  <div className="veg-card-body">
+
+                    <h3>{item.name}</h3>
+
+                    {item.rating && (
+                      <span className="veg-rating">
+                        ⭐ {item.rating}
+                      </span>
+                    )}
+
+                    <p className="veg-desc">
+                      {item.description}
+                    </p>
+
+                    <div className="veg-price-row">
+
+                      <span className="veg-price">
+                        ₹{item.price}
+                      </span>
+
+                      {!cartItem ? (
+
+                        <button
+                          className="veg-add-btn"
+                          onClick={()=>{
+                            dispatch(addToCart(item));
+                            notifyAdd(item.name);
+                          }}
+                        >
+                          Add
+                        </button>
+
+                      ):(
+
+                        <div className="veg-qty-controls">
+
+                          <button
+                            onClick={()=>{
+                              dispatch(decreaseItem(item));
+                              notifyDecrease(item.name);
+                            }}
+                          >
+                            −
+                          </button>
+
+                          <span>
+                            {cartItem.quantity}
+                          </span>
+
+                          <button
+                            onClick={()=>{
+                              dispatch(increaseItem(item));
+                              notifyIncrease(item.name);
+                            }}
+                          >
+                            +
+                          </button>
+
+                        </div>
+
+                      )}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              );
+
+            })
+
+          ):(
+            <p className="veg-no-items">
+              No vegetarian items available
+            </p>
+          )}
+
         </div>
+
       </main>
 
-      {totalPages > 1 && (
-        <nav className="veg-pagination">
+      {/* PAGINATION */}
+
+      {totalPages>1 &&(
+
+        <div className="veg-pagination">
+
           <button
-            className="veg-pagination-btn"
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 1}
+            disabled={currentPage===1}
+            onClick={()=>setCurrentPage(currentPage-1)}
           >
-            Previous
+            Prev
           </button>
 
-          {Array.from({ length: totalPages }, (_, index) => (
+          {Array.from({length:totalPages},(_,i)=>(
             <button
-              key={index + 1}
-              className={`veg-pagination-btn ${
-                currentPage === index + 1 ? "active" : ""
-              }`}
-              onClick={() => setCurrentPage(index + 1)}
+              key={i}
+              className={currentPage===i+1 ? "active":""}
+              onClick={()=>setCurrentPage(i+1)}
             >
-              {index + 1}
+              {i+1}
             </button>
           ))}
 
           <button
-            className="veg-pagination-btn"
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            disabled={currentPage===totalPages}
+            onClick={()=>setCurrentPage(currentPage+1)}
           >
             Next
           </button>
-        </nav>
+
+        </div>
+
       )}
+
     </div>
+
   );
+
 }
 
 export default Veg;

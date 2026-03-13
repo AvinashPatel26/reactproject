@@ -3,7 +3,8 @@
 .veg-page {
   max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 25px;
+  background:#f7f9fc;
 }
 
 
@@ -11,11 +12,13 @@
 
 .veg-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .veg-title {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing:.4px;
 }
 
 
@@ -24,7 +27,7 @@
 .veg-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 25px;
+  gap: 28px;
 }
 
 
@@ -32,15 +35,16 @@
 
 .veg-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  transition: 0.25s;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  transition: 0.35s;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  position: relative;
 }
 
 .veg-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.15);
 }
 
 
@@ -50,49 +54,60 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: 0.35s;
+}
+
+.veg-card:hover .veg-img{
+  transform: scale(1.06);
 }
 
 
 /* BODY */
 
 .veg-body {
-  padding: 15px;
+  padding: 16px;
 }
 
 .veg-name {
   font-weight: 600;
+  font-size:16px;
 }
 
 .veg-rating {
   font-size: 13px;
   color: #f4b400;
+  margin-top:2px;
 }
 
 .veg-desc {
   font-size: 13px;
   color: #777;
+  margin-top:4px;
 }
 
 .veg-price {
-  font-weight: 600;
+  font-weight: 700;
   color: #ff6f61;
+  font-size:17px;
 }
 
 
 /* BUTTON */
 
 .veg-btn-add {
-  background: #ff6f61;
+  background: linear-gradient(135deg,#ff7a18,#ffb347);
   border: none;
   color: white;
-  padding: 7px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-size: 14px;
-  transition: 0.2s;
+  font-weight:600;
+  transition: 0.3s;
 }
 
 .veg-btn-add:hover {
-  background: #e6594d;
+  transform:translateY(-2px);
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
 
@@ -105,12 +120,13 @@
 }
 
 .veg-btn-qty {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #f1f3f5;
   font-weight: bold;
+  transition:.2s;
 }
 
 .veg-btn-qty:hover {
@@ -125,22 +141,28 @@
 /* PAGINATION */
 
 .veg-pagination {
-  margin-top: 30px;
+  margin-top: 35px;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .veg-pagination-btn {
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   background: #f1f3f5;
+  transition:.25s;
+}
+
+.veg-pagination-btn:hover{
+  background:#e9ecef;
 }
 
 .veg-pagination-btn.active {
-  background: #ff6f61;
+  background: linear-gradient(135deg,#ff7a18,#ffb347);
   color: white;
+  font-weight:600;
 }
 
 

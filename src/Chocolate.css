@@ -3,11 +3,13 @@
 .choco-container {
   max-width: 1200px;
   margin: auto;
+  padding: 10px;
 }
 
 .choco-heading {
-  font-weight: 600;
-  margin-bottom: 25px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  letter-spacing: .4px;
 }
 
 
@@ -15,16 +17,17 @@
 
 .choco-card {
   position: relative;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   background: white;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   height: 100%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .choco-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.15);
 }
 
 
@@ -34,13 +37,18 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.choco-card:hover .choco-img{
+  transform: scale(1.07);
 }
 
 
 /* OVERLAY CONTENT */
 
 .choco-overlay {
-  padding: 15px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -53,6 +61,7 @@
 .choco-name {
   font-weight: 600;
   margin-bottom: 6px;
+  font-size: 16px;
 }
 
 .choco-price-amount {
@@ -63,24 +72,26 @@
 .choco-desc {
   font-size: 13px;
   color: #777;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 
 /* ADD BUTTON */
 
 .choco-btn-add {
-  background: #a0522d;
+  background: linear-gradient(135deg,#a0522d,#7a3b20);
   color: white;
-  padding: 7px;
-  border-radius: 6px;
+  padding: 8px;
+  border-radius: 8px;
   border: none;
   font-size: 14px;
-  transition: background 0.2s ease;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .choco-btn-add:hover {
-  background: #7a3b20;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 
@@ -94,12 +105,13 @@
 }
 
 .choco-btn-counter {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   border: none;
   background: #f1f3f5;
   font-weight: bold;
+  transition:.2s;
 }
 
 .choco-btn-counter:hover {
@@ -116,7 +128,13 @@
 /* PAGINATION */
 
 .choco-pagination button {
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 6px 12px;
+  transition:.25s;
+}
+
+.choco-pagination button:hover{
+  transform:translateY(-1px);
 }
 
 

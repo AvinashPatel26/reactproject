@@ -1,0 +1,31 @@
+.skeleton-card{
+background:white;
+padding:15px;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.skeleton-img{
+height:180px;
+background:#eee;
+border-radius:10px;
+animation:pulse 1.4s infinite;
+}
+
+.skeleton-line{
+height:12px;
+background:#eee;
+margin-top:10px;
+border-radius:6px;
+animation:pulse 1.4s infinite;
+}
+
+.skeleton-line.short{
+width:60%;
+}
+
+@keyframes pulse{
+0%{opacity:.6}
+50%{opacity:1}
+100%{opacity:.6}
+}
