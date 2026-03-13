@@ -43,6 +43,7 @@
   object-fit: cover;
   border-bottom: 1px solid rgba(226, 232, 240, 0.5);
   transition: transform 0.5s ease;
+  flex-shrink: 0;
 }
 
 /* image zoom */
@@ -193,42 +194,46 @@
 }
 
 /* ================= RESPONSIVE ================= */
-
 @media (max-width: 992px) {
-
   .veg-img,
   .nonveg-img,
   .milk-img,
   .choco-img {
-
-    height: 160px;
-
+    height: 180px;
   }
-
 }
 
 @media (max-width: 768px) {
+  .row {
+    gap: 16px;
+  }
 
   .veg-img,
   .nonveg-img,
   .milk-img,
   .choco-img {
-
-    height: 150px;
-
+    height: 160px;
   }
 
+  .veg-body,
+  .card-body,
+  .choco-overlay {
+    padding: 16px;
+  }
+
+  .veg-name,
+  .nonvegPage-name,
+  .milkPage-name,
+  .choco-name {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-
   .veg-img,
   .nonveg-img,
   .milk-img,
   .choco-img {
-
     height: 140px;
-
   }
-
 }

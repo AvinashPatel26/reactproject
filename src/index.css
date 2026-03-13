@@ -39,6 +39,7 @@
   object-fit: cover;
   display: block;
   transition: transform 0.5s ease;
+  flex-shrink: 0;
 }
 .veg-card:hover img,
 .nonveg-card:hover img,

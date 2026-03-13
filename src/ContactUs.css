@@ -45,6 +45,7 @@
   object-fit: contain;
   margin-bottom: 1rem;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 /* Zoom on image hover */

@@ -128,6 +128,8 @@ section {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   border: 1px solid rgba(226, 232, 240, 0.8);
+  display: block;
+  text-decoration: none;
 }
 
 .category-card:hover {
@@ -141,6 +143,7 @@ section {
   height: 200px;
   object-fit: cover;
   transition: transform 0.5s ease;
+  flex-shrink: 0;
 }
 
 .category-card:hover img {
@@ -196,6 +199,7 @@ section {
   height: 220px;
   object-fit: cover;
   transition: transform 0.5s ease;
+  flex-shrink: 0;
 }
 
 .item-card:hover .item-img {
@@ -204,6 +208,9 @@ section {
 
 .item-info {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .item-info h3 {
@@ -217,7 +224,8 @@ section {
 .item-meta {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-top: auto;
+  padding-top: 12px;
   font-size: 0.875rem;
 }
 
@@ -346,19 +354,51 @@ section {
 }
 
 /* ================= MOBILE ================= */
-
 @media (max-width: 768px) {
+  section {
+    padding: 3rem 0;
+  }
+
+  .home-page h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
 
   .hero-overlay h1 {
-    font-size: 2.1rem;
+    font-size: 2.5rem;
   }
 
   .hero-overlay p {
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
 
   .hero-section {
     height: 70vh;
+    border-radius: 24px;
   }
 
+  .hero-btn {
+    padding: 14px 32px;
+    font-size: 1rem;
+  }
+
+  .categories-grid,
+  .items-grid,
+  .why-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .why-card {
+    padding: 24px;
+  }
+
+  .newsletter {
+    padding: 3rem 1rem;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    max-width: 300px;
+  }
 }
