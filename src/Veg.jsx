@@ -201,9 +201,10 @@ function Veg() {
 
       {totalPages>1 &&(
 
-        <div className="veg-pagination">
+        <div className="veg-pagination reveal">
 
           <button
+            className="veg-pagination-btn"
             disabled={currentPage===1}
             onClick={()=>setCurrentPage(currentPage-1)}
           >
@@ -213,16 +214,17 @@ function Veg() {
           {Array.from({length:totalPages},(_,i)=>(
             <button
               key={i}
-              className={currentPage===i+1 ? "active":""}
+              className={`veg-pagination-btn ${currentPage===i+1 ? "active":""}`}
               onClick={()=>setCurrentPage(i+1)}
             >
-              {i+1}
+               {i+1}
             </button>
           ))}
 
           <button
+            className="veg-pagination-btn"
             disabled={currentPage===totalPages}
-            onClick={()=>setCurrentPage(currentPage+1)}
+             onClick={()=>setCurrentPage(currentPage+1)}
           >
             Next
           </button>

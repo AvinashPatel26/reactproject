@@ -29,14 +29,17 @@ letter-spacing:.5px;
 
 /* CART ITEMS */
 .cart-item-card {
-  border-radius: 20px;
+  border-radius: 12px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   background: white;
   display: flex;
   align-items: center;
-  padding: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(226, 232, 240, 0.8);
   position: relative;
   z-index: 1;
@@ -50,6 +53,7 @@ letter-spacing:.5px;
   padding: 2px;
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.4), rgba(251, 146, 60, 0.1));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
@@ -68,105 +72,80 @@ letter-spacing:.5px;
 
 /* IMAGE */
 .cart-item-image {
-  width: 110px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   flex-shrink: 0;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item-details h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #1e293b;
 }
 
 /* ITEM DESCRIPTION */
 .cart-desc {
-  color: #64748b;
-  font-size: 0.875rem;
-  margin-bottom: 8px;
+  display: none; /* Hide desc in list as in snapshot */
 }
 
 /* PRICE */
 .cart-price {
-  font-weight: 800;
-  color: #f97316;
-  font-size: 1.125rem;
-  letter-spacing: -0.025em;
+  background: #3b82f6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* CART CONTROLS */
+.cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.cart-controls button {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px 8px;
 }
 
 /* REMOVE BUTTON */
 .remove-btn {
-  background: #ef4444;
-  color: white;
+  background: transparent;
+  color: #ef4444;
   border: none;
-  border-radius: 10px;
-  padding: 8px 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.25rem;
+  padding: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
 }
 
 .remove-btn:hover {
-  background: #dc2626;
-  transform: scale(1.05);
-  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+  transform: scale(1.15);
 }
 
 /* ORDER SUMMARY */
-
-.summary-card{
-position:sticky;
-top:90px;
-border-radius:18px;
-background:#f8f9fa;
-padding:20px;
-box-shadow:0 8px 24px rgba(0,0,0,0.08);
-}
-
-/* SUMMARY TITLE */
-
-.summary-card h4{
-font-weight:700;
-margin-bottom:15px;
-}
-
-/* COUPON INPUT */
-
-.input-group input{
-border-radius:12px 0 0 12px;
-border:1px solid #ddd;
-padding:10px;
-}
-
-.input-group button{
-border-radius:0 12px 12px 0;
-background:linear-gradient(135deg,#ff7a18,#ffb347);
-border:none;
-color:white;
-font-weight:600;
-transition:.25s;
-}
-
-.input-group button:hover{
-transform:translateY(-1px);
-box-shadow:0 6px 14px rgba(0,0,0,0.2);
-}
-
-/* PAYMENT BUTTONS */
-
-.btn-outline-primary,
-.btn-outline-success{
-border-radius:10px;
-font-weight:500;
-}
-
-/* PLACE ORDER BUTTON */
-
-.btn-success{
-background:linear-gradient(135deg,#22c55e,#16a34a);
-border:none;
-font-weight:600;
-letter-spacing:.4px;
-padding:12px;
-}
-
-.btn-success:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 18px rgba(0,0,0,0.2);
+.summary-card {
+  position: sticky;
+  top: 90px;
+  border-radius: 12px;
+  background: white;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 /* CONTINUE SHOPPING */

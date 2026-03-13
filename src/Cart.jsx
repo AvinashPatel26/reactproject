@@ -243,6 +243,7 @@ return (
 
                   <button
                     onClick={() => itemDecreaser(item)}
+                    style={{color: "#ef4444"}}
                   >
                     −
                   </button>
@@ -253,6 +254,7 @@ return (
 
                   <button
                     onClick={() => itemIncreaser(item)}
+                    style={{color: "#22c55e"}}
                   >
                     +
                   </button>
@@ -262,8 +264,9 @@ return (
                 <button
                   className="remove-btn"
                   onClick={() => removeItem(item)}
+                  title="Remove Item"
                 >
-                  ✖
+                  🗑️
                 </button>
 
               </div>
@@ -275,119 +278,124 @@ return (
           {/* ORDER SUMMARY */}
           <div className="col-lg-4">
             <div className="summary-card reveal-right delay-200">
-              <h4 className="summary-title">
-                Order Summary
+              <h4 className="summary-title text-center mb-4" style={{fontSize: "1.25rem", color: "#1e293b", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px"}}>
+                📄 Bill Summary
               </h4>
 
-              <div className="summary-row">
-                <span>Subtotal</span>
-                <span>₹{totalPrice.toFixed(2)}</span>
-              </div>
-
-              {couponDiscountAmount > 0 && (
-                <div className="summary-row discount">
-                  <span>Coupon</span>
-                  <span>-₹{couponDiscountAmount.toFixed(2)}</span>
+              {/* SLAB DISCOUNTS */}
+              <div className="mb-3 text-center">
+                <span className="d-block mb-2" style={{fontSize: "0.85rem", fontWeight: "600", color: "#334155"}}>Apply Discount</span>
+                <div className="d-flex justify-content-center gap-2">
+                  {[10, 20, 30].map((percent) => (
+                    <button
+                      key={percent}
+                      onClick={() => setSlabDiscount(percent)}
+                      style={{
+                        padding: "4px 12px", 
+                        fontSize: "0.75rem", 
+                        border: "1px solid #a855f7", 
+                        background: slabDiscount === percent ? "#a855f7" : "transparent",
+                        color: slabDiscount === percent ? "white" : "#a855f7",
+                        borderRadius: "4px",
+                        fontWeight: "600",
+                        transition: "all 0.2s"
+                      }}
+                    >
+                      {percent}% OFF
+                    </button>
+                  ))}
                 </div>
-              )}
-
-              <div className="summary-row">
-                <span>Tax</span>
-                <span>₹{taxAmount.toFixed(2)}</span>
-              </div>
-
-              {paymentMethod === "cod" && (
-                <div className="summary-row">
-                  <span>COD Fee</span>
-                  <span>₹50</span>
-                </div>
-              )}
-
-              <hr />
-
-              <div className="summary-total">
-                <span>Total</span>
-                <span>₹{grandTotal.toFixed(2)}</span>
               </div>
 
               {/* COUPON */}
+              <div className="mb-4 text-center">
+                 <span className="d-block mb-2" style={{fontSize: "0.85rem", fontWeight: "600", color: "#334155"}}>Apply Coupon</span>
+                 <div style={{display: "flex", gap: "10px"}}>
+                   <input
+                     type="text"
+                     placeholder="Enter Coupon Code"
+                     value={couponCode}
+                     onChange={(e) => setCouponCode(e.target.value)}
+                     style={{flex: 1, padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: "6px", fontSize: "0.85rem", outline: "none"}}
+                   />
+                   <button onClick={handleApplyCoupon} style={{borderRadius: "6px", padding: "8px 20px", background: "#3b82f6", color: "white", border:"none", fontSize: "0.85rem", fontWeight: "600", cursor: "pointer"}}>
+                     Apply
+                   </button>
+                 </div>
+              </div>
 
-              <div className="coupon-box">
+              {/* ROWS */}
+              <div className="d-flex justify-content-between mb-1" style={{fontSize: "0.85rem"}}>
+                <span style={{color: "#334155"}}>Total Amount</span>
+                <span style={{fontWeight: "600", color: "#0f172a"}}>₹{totalPrice.toFixed(2)}</span>
+              </div>
 
-                <input
-                  type="text"
-                  placeholder="Coupon Code"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                />
+              {(slabDiscountAmount > 0 || couponDiscountAmount > 0) && (
+                <div className="d-flex justify-content-between mb-1" style={{fontSize: "0.85rem"}}>
+                  <span style={{color: "#ef4444"}}>
+                    Discount {slabDiscount > 0 ? `(${slabDiscount}%)` : ""}
+                  </span>
+                  <span style={{fontWeight: "600", color: "#ef4444"}}>-₹{(slabDiscountAmount + couponDiscountAmount).toFixed(2)}</span>
+                </div>
+              )}
 
-                <button onClick={handleApplyCoupon}>
-                  Apply
-                </button>
+              <div className="d-flex justify-content-between mb-1" style={{fontSize: "0.85rem"}}>
+                <span style={{color: "#334155"}}>Price After Discount</span>
+                <span style={{fontWeight: "600", color: "#0f172a"}}>₹{finalAmount.toFixed(2)}</span>
+              </div>
 
+              <div className="d-flex justify-content-between mb-3" style={{fontSize: "0.85rem"}}>
+                <span style={{color: "#334155"}}>GST (18%)</span>
+                <span style={{fontWeight: "600", color: "#0f172a"}}>₹{taxAmount.toFixed(2)}</span>
+              </div>
+
+              <div className="d-flex justify-content-between mb-3 pt-2" style={{borderTop: "1px solid #e2e8f0"}}>
+                <span style={{fontSize: "1rem", color: "#3b82f6", fontWeight: "700"}}>Net Amount</span>
+                <span style={{fontSize: "1rem", color: "#3b82f6", fontWeight: "700"}}>₹{grandTotal.toFixed(2)}</span>
               </div>
 
               {/* EMAIL */}
-
-              <input
-                type="email"
-                placeholder="Enter email"
-                className="email-input"
-                value={customerEmail}
-                onChange={(e) => setCustomerEmail(e.target.value)}
-              />
-
-              {/* PAYMENT METHOD */}
-
-              <div className="payment-methods">
-
-                <button
-                  className={
-                    paymentMethod === "qr"
-                      ? "active"
-                      : ""
-                  }
-                  onClick={() => setPaymentMethod("qr")}
-                >
-                  QR Pay
-                </button>
-
-                <button
-                  className={
-                    paymentMethod === "cod"
-                      ? "active"
-                      : ""
-                  }
-                  onClick={() => setPaymentMethod("cod")}
-                >
-                  Cash
-                </button>
-
+              <div className="mb-4">
+                <input
+                  type="email"
+                  placeholder="Enter Email for receipt"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  style={{width: "100%", fontSize: "0.85rem", padding: "10px", borderRadius: "4px", border: "1px solid #cbd5e1", outline: "none"}}
+                />
               </div>
 
-              {paymentMethod === "qr" && (
-
-                <div className="qr-box">
-
-                  <QRCode
-                    value={`upi://pay?pa=avinash7346patel-5@okaxis&am=${grandTotal}`}
-                    size={140}
-                  />
-
-                </div>
-
-              )}
-
+              {/* TOTAL AMOUNT INFO */}
+              <div className="text-center mb-3">
+                <h3 style={{color: "#0d9488", fontWeight: "700", fontSize: "1.25rem", margin: 0}}>
+                  Total Amount: ₹{grandTotal.toFixed(2)}
+                </h3>
+              </div>
+              
               <button
-                className="checkout-btn"
                 onClick={handleCheckout}
                 disabled={loading}
+                style={{width: "100%", padding: "10px", borderRadius: "6px", background: "#3b82f6", color: "white", border: "none", fontWeight: "600", marginBottom: "12px", cursor: "pointer"}}
               >
-                {loading
-                  ? "Processing..."
-                  : "Place Order"}
+                {loading ? "Processing..." : "Checkout"}
               </button>
 
+              <button
+                onClick={() => setPaymentMethod(paymentMethod === "qr" ? "cod" : "qr")}
+                style={{width: "100%", padding: "8px", borderRadius: "4px", fontWeight: "600", background: "transparent", border: "1px solid #93c5fd", color: "#3b82f6", cursor: "pointer", fontSize: "0.85rem"}}
+              >
+                {paymentMethod === "qr" ? "SHOW UPI QR" : "SHOW UPI QR"} {/* Toggle logic kept but text matches original exact image */}
+              </button>
+
+              {paymentMethod === "qr" && (
+                <div className="text-center mt-3">
+                  <QRCode
+                    value={`upi://pay?pa=avinash7346patel-5@okaxis&am=${grandTotal}`}
+                    size={100}
+                  />
+                  <p className="mt-1 mb-0 text-muted" style={{fontSize: "0.75rem"}}>Scan to pay via UPI</p>
+                </div>
+              )}
             </div>
 
           </div>
