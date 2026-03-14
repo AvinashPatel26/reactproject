@@ -5,7 +5,7 @@ import axios from "./api/axios";
    API CONFIG
 ====================================================== */
 
-const API_URL = "/products";
+const API_URL = "/api/products/category";
 
 /* ======================================================
    ASYNC PRODUCT FETCH
@@ -15,12 +15,20 @@ export const fetchProductsByCategory = createAsyncThunk(
   "products/fetchByCategory",
   async (category, { rejectWithValue }) => {
     try {
+
       const response = await axios.get(`${API_URL}/${category}`);
-      return { category, data: response.data };
+
+      return {
+        category,
+        data: response.data || []
+      };
+
     } catch (error) {
+
       return rejectWithValue(
         error.response?.data || "Server Error"
       );
+
     }
   }
 );
@@ -31,6 +39,7 @@ export const fetchProductsByCategory = createAsyncThunk(
 
 const productSlice = createSlice({
   name: "products",
+
   initialState: {
     veg: [],
     nonveg: [],
@@ -41,12 +50,13 @@ const productSlice = createSlice({
   },
 
   reducers: {
+
     setVeg: (state, action) => {
       state.veg = action.payload;
     },
 
     setNonVeg: (state, action) => {
-      state.nonVeg = action.payload;
+      state.nonveg = action.payload;
     },
 
     setMilk: (state, action) => {
@@ -56,24 +66,38 @@ const productSlice = createSlice({
     setChocolate: (state, action) => {
       state.chocolate = action.payload;
     },
+
   },
 
   extraReducers: (builder) => {
+
     builder
+
       .addCase(fetchProductsByCategory.pending, (state) => {
         state.status = "loading";
       })
 
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+
         state.status = "succeeded";
-        state[action.payload.category] = action.payload.data;
+
+        const { category, data } = action.payload;
+
+        if (state[category]) {
+          state[category] = data;
+        }
+
       })
 
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
+
         state.status = "failed";
         state.error = action.payload || action.error.message;
+
       });
+
   },
+
 });
 
 /* ======================================================
@@ -81,58 +105,79 @@ const productSlice = createSlice({
 ====================================================== */
 
 const getCartFromStorage = () => {
+
   try {
     return JSON.parse(localStorage.getItem("cart")) || [];
   } catch {
     return [];
   }
+
 };
 
 const initialCartState = getCartFromStorage();
 
 const cartSlice = createSlice({
+
   name: "cart",
+
   initialState: initialCartState,
 
   reducers: {
+
     addToCart(state, action) {
+
       const item = state.find((p) => p._id === action.payload._id);
 
       if (item) {
+
         item.quantity += 1;
+
       } else {
+
         state.push({ ...action.payload, quantity: 1 });
+
       }
+
     },
 
     removeFromCart(state, action) {
+
       return state.filter((item) => item._id !== action.payload._id);
+
     },
 
     increaseItem(state, action) {
+
       const item = state.find((p) => p._id === action.payload._id);
 
       if (item) {
         item.quantity += 1;
       }
+
     },
 
     decreaseItem(state, action) {
+
       const item = state.find((p) => p._id === action.payload._id);
 
       if (item) {
+
         if (item.quantity > 1) {
           item.quantity -= 1;
         } else {
           return state.filter((i) => i._id !== item._id);
         }
+
       }
+
     },
 
     clearCart() {
       return [];
     },
+
   },
+
 });
 
 /* ======================================================
@@ -140,11 +185,13 @@ const cartSlice = createSlice({
 ====================================================== */
 
 const orderSlice = createSlice({
+
   name: "orders",
 
   initialState: [],
 
   reducers: {
+
     addOrder: (state, action) => {
       state.push(action.payload);
     },
@@ -152,7 +199,9 @@ const orderSlice = createSlice({
     setOrders: (state, action) => {
       return action.payload;
     },
+
   },
+
 });
 
 /* ======================================================
@@ -160,13 +209,15 @@ const orderSlice = createSlice({
 ====================================================== */
 
 const store = configureStore({
+
   reducer: {
     products: productSlice.reducer,
     cart: cartSlice.reducer,
     orders: orderSlice.reducer,
   },
 
-  devTools: import.meta.env.DEV, // enables Redux devtools in development
+  devTools: import.meta.env.DEV,
+
 });
 
 /* ======================================================
@@ -174,12 +225,19 @@ const store = configureStore({
 ====================================================== */
 
 store.subscribe(() => {
+
   try {
+
     const cart = store.getState().cart;
+
     localStorage.setItem("cart", JSON.stringify(cart));
+
   } catch (error) {
+
     console.error("Cart storage failed:", error);
+
   }
+
 });
 
 /* ======================================================
