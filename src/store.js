@@ -191,6 +191,8 @@ store.subscribe(() => {
    EXPORTS
 ====================================================== */
 
+export { fetchProducts };
+
 export const {
   addToCart,
   removeFromCart,
