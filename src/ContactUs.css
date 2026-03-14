@@ -20,12 +20,12 @@
 /* Card Design */
 .contact-card,
 .contact-form-card {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(24, 24, 27, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 20px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(63, 63, 70, 0.8);
   padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 1;
@@ -51,7 +51,7 @@
 .contact-card:hover,
 .contact-form-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(13, 110, 253, 0.15);
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6), 0 10px 15px -5px rgba(13, 110, 253, 0.15);
 }
 
 .contact-card:hover::before,
@@ -163,7 +163,7 @@
 
 .choco-pagination .btn {
   border: 1px solid #6f4e37;
-  background-color: white;
+  background-color: #18181b;
   color: #6f4e37;
   padding: 0.5rem 0.9rem;
   border-radius: 6px;

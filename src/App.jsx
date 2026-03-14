@@ -4,24 +4,20 @@ import {
   Link,
   Route,
   Routes,
-  useNavigate,
   Navigate,
   useLocation,
 } from "react-router-dom";
 
 import Home from "./Home";
 import Navbar from "./Navbar";
-import NonVeg from "./NonVeg";
-import Veg from "./Veg";
-import Milk from "./Milk";
-import Chocolate from "./Chocolate";
-import SignUp from "./SignUp";
 import Cart from "./Cart";
 import Orders from "./Orders";
+import SignUp from "./SignUp";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import PageNotFound from "./PageNotFound";
 import AdminAddProduct from "./AdminAddProduct";
+import CategoryPage from "./CategoryPage";
 
 import { useSelector } from "react-redux";
 
@@ -45,96 +41,93 @@ function ScrollToTop() {
   return null;
 }
 
-/* ================= GLOBAL ANIMATION OBSERVER ================= */
+/* ================= REVEAL ANIMATION ================= */
 
 function GlobalObserver() {
+
   const { pathname } = useLocation();
 
   React.useEffect(() => {
-    // Small timeout ensures the DOM has finished painting the new route's nodes
-    const timeoutId = setTimeout(() => {
+
+    const timeout = setTimeout(() => {
+
       const reveals = document.querySelectorAll(
         ".reveal, .reveal-left, .reveal-right, .reveal-scale"
       );
 
       const observer = new IntersectionObserver(
         (entries) => {
+
           entries.forEach((entry) => {
+
             if (entry.isIntersecting) {
               entry.target.classList.add("active");
             }
+
           });
+
         },
-        { threshold: 0.05, rootMargin: "0px 0px -50px 0px" }
+        { threshold: 0.1 }
       );
 
       reveals.forEach((el) => observer.observe(el));
 
-      return () => {
-        reveals.forEach((el) => observer.unobserve(el));
-      };
     }, 100);
 
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timeout);
 
   }, [pathname]);
 
   return null;
 }
 
+/* ================= APP LAYOUT ================= */
+
 function AppLayout() {
 
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart || []);
 
   const cartCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
-  const navigate = useNavigate();
-
   const token = localStorage.getItem("accessToken");
   const userRole = localStorage.getItem("userRole");
+
   const isAuthenticated = !!token;
   const isAdmin = userRole === "admin";
 
   return (
-    <div className="app-wrapper min-vh-100">
+    <div className="app-wrapper">
+
       <ScrollToTop />
       <GlobalObserver />
+
       <Navbar />
 
-      {/* ================= FLOATING CART ================= */}
+      {/* Floating Cart */}
 
       <Link to="/cart" className="floating-cart">
 
         🛒
 
         {cartCount > 0 && (
-
           <span className="cart-count">
-
             {cartCount}
-
           </span>
-
         )}
 
       </Link>
 
-      {/* ================= ROUTES ================= */}
-
-      <div className="page-container py-4" style={{ paddingTop: "90px" }}>
+      <main className="page-container">
 
         <Routes>
 
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
 
-          <Route path="/nonveg" element={<NonVeg />} />
-          <Route path="/veg" element={<Veg />} />
-          <Route path="/milk" element={<Milk />} />
-          <Route path="/chocolate" element={<Chocolate />} />
+          <Route path="/:category" element={<CategoryPage />} />
 
           <Route path="/cart" element={<Cart />} />
 
@@ -147,12 +140,17 @@ function AppLayout() {
             }
           />
 
-          <Route path="/orders" element={<Orders />} />
+          <Route
+            path="/orders"
+            element={
+              isAuthenticated
+                ? <Orders />
+                : <Navigate to="/signup" replace />
+            }
+          />
 
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
-
-          <Route path="/*" element={<PageNotFound />} />
 
           <Route
             path="/admin/add-product"
@@ -163,11 +161,17 @@ function AppLayout() {
             }
           />
 
+          <Route path="*" element={<PageNotFound />} />
+
         </Routes>
 
-      </div>
+      </main>
 
-      {/* GLOBAL TOAST */}
+      {/* FOOTER */}
+
+      <footer className="footer">
+        © {new Date().getFullYear()} Foody Sensations
+      </footer>
 
       <ToastContainer
         position="top-right"
@@ -176,21 +180,17 @@ function AppLayout() {
       />
 
     </div>
-
   );
-
 }
+
+/* ================= ROOT ================= */
 
 function App() {
 
   return (
-
     <BrowserRouter>
-
       <AppLayout />
-
     </BrowserRouter>
-
   );
 
 }

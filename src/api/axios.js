@@ -10,7 +10,8 @@ const api = axios.create({
   },
 });
 
-// Attach JWT token automatically
+/* Attach JWT */
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
@@ -24,13 +25,15 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Global error handler
+/* Global error handler */
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+
     if (!error.response) {
       console.error("Network error:", error);
-      alert("Server is waking up... please try again in a few seconds.");
+      alert("Backend server is starting. Try again in 10 seconds.");
       return Promise.reject(error);
     }
 

@@ -1,63 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import {
   addToCart,
   increaseItem,
   decreaseItem,
-  fetchProductsByCategory,
+  fetchProductsByCategory
 } from "./store";
+
+import ProductCard from "./ProductCard";
+import PriceRange from "./PriceRange";
+import { BACKEND_URL } from "./config/backend";
 
 import { toast } from "react-toastify";
 
-import "./Milk.css";
-import PriceRange from "./PriceRange";
-import { BACKEND_URL } from "./config/backend";
-import ProductCard from "./ProductCard";
+function CategoryPage() {
 
-function Milk() {
+  const { category } = useParams();
 
   const dispatch = useDispatch();
 
-  const milkMenu = useSelector(
-    (state) => state.products.milk || []
-  );
+  const products =
+    useSelector((state) => state.products[category]) || [];
 
-  const cartItems = useSelector(
-    (state) => state.cart || []
-  );
+  const cartItems =
+    useSelector((state) => state.cart) || [];
 
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* FETCH PRODUCTS */
+  useEffect(() => {
+
+    if (category) {
+      dispatch(fetchProductsByCategory(category));
+    }
+
+  }, [dispatch, category]);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("milk"));
-  }, [dispatch]);
 
-  useEffect(() => {
-    setFilteredItems(milkMenu);
+    setFilteredItems(products);
     setCurrentPage(1);
-  }, [milkMenu]);
 
-  /* FIND CART ITEM */
+  }, [products]);
 
   const getCartItem = (id) =>
     cartItems.find((item) => item._id === id);
 
-  /* TOASTS */
-
   const notifyAdd = (name) =>
-    toast.success(`${name} added to cart!`);
+    toast.success(`${name} added to cart`);
 
   const notifyIncrease = (name) =>
-    toast.info(`Increased ${name} quantity`);
+    toast.info(`Increased ${name}`);
 
   const notifyDecrease = (name) =>
-    toast.info(`Decreased ${name} quantity`);
+    toast.info(`Decreased ${name}`);
 
-  /* PAGINATION */
+  /* Pagination */
 
   const itemsPerPage = 6;
 
@@ -74,48 +74,41 @@ function Milk() {
     filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages)
+
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+    }
+
   };
 
   return (
 
-    <div className="milkPage-bg">
+    <div className="category-page">
 
-      {/* HEADER */}
+      <section className="category-header reveal">
 
-      <section className="milkPage-header reveal">
-
-        <h1 className="milkPage-heading">
-          🥛 Fresh Dairy Products
+        <h1 style={{ textTransform: "capitalize" }}>
+          {category} Products
         </h1>
-
-        <p className="milkPage-subtitle">
-          Creamy and fresh dairy items for you
-        </p>
 
       </section>
 
-      {/* FILTER */}
-
-      <div className="milkPage-filter">
+      <div className="category-filter">
 
         <PriceRange
-          products={milkMenu}
+          products={products}
           onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);
           }}
           minPrice={0}
-          maxPrice={500}
+          maxPrice={1000}
           step={10}
         />
 
       </div>
 
-      {/* PRODUCT GRID */}
-
-      <div className="milkPage-grid">
+      <div className="category-grid">
 
         {currentItems.length > 0 ? (
 
@@ -139,25 +132,20 @@ function Milk() {
         ) : (
 
           <p className="text-center">
-            No milk items available
+            No products available
           </p>
 
         )}
 
       </div>
 
-      {/* PAGINATION */}
-
       {totalPages > 1 && (
 
-        <div className="milk-pagination reveal">
+        <div className="pagination-box">
 
           <button
-            className="veg-pagination-btn"
             disabled={currentPage === 1}
-            onClick={() =>
-              handlePageChange(currentPage - 1)
-            }
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             Prev
           </button>
@@ -166,12 +154,8 @@ function Milk() {
 
             <button
               key={i}
-              className={`veg-pagination-btn ${
-                currentPage === i + 1 ? "active" : ""
-              }`}
-              onClick={() =>
-                handlePageChange(i + 1)
-              }
+              className={currentPage === i + 1 ? "active" : ""}
+              onClick={() => handlePageChange(i + 1)}
             >
               {i + 1}
             </button>
@@ -179,11 +163,8 @@ function Milk() {
           ))}
 
           <button
-            className="veg-pagination-btn"
             disabled={currentPage === totalPages}
-            onClick={() =>
-              handlePageChange(currentPage + 1)
-            }
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             Next
           </button>
@@ -195,7 +176,6 @@ function Milk() {
     </div>
 
   );
-
 }
 
-export default Milk;
+export default CategoryPage;

@@ -1,4 +1,12 @@
-export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const RAW_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-// Backend root URL (without /api)
+/* Ensure /api always exists */
+
+export const API_BASE = RAW_URL.endsWith("/api")
+  ? RAW_URL
+  : `${RAW_URL}/api`;
+
+/* Backend root (for images) */
+
 export const BACKEND_URL = API_BASE.replace("/api", "");

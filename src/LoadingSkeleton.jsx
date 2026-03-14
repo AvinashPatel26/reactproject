@@ -1,10 +1,21 @@
 import React from "react";
-function LoadingSkeleton() {
-  return (
-    <div className="row">
 
-      {Array.from({ length: 8 }).map((_, index) => (
-        <div className="col-md-3 mb-4" key={index}>
+function LoadingSkeleton({ count = 8 }) {
+
+  return (
+
+    <div
+      className="row"
+      aria-busy="true"
+      aria-live="polite"
+    >
+
+      {Array.from({ length: count }).map((_, index) => (
+
+        <div
+          className="col-md-3 mb-4"
+          key={`skeleton-${index}`}
+        >
 
           <div className="skeleton-card">
 
@@ -17,10 +28,13 @@ function LoadingSkeleton() {
           </div>
 
         </div>
+
       ))}
 
     </div>
+
   );
+
 }
 
 export default LoadingSkeleton;

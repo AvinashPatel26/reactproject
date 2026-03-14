@@ -12,11 +12,11 @@
 .nonvegPage-card,
 .milkPage-card,
 .choco-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(24, 24, 27, 0.95);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(39, 39, 42, 0.8);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -99,7 +99,7 @@
 .choco-name {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #0f172a;
+  color: #f4f4f5;
   letter-spacing: -0.025em;
   margin-bottom: 8px;
 }
@@ -111,7 +111,7 @@
 .milkPage-desc,
 .choco-desc {
   font-size: 0.875rem;
-  color: #64748b;
+  color: #a1a1aa;
   min-height: 48px;
   line-height: 1.5;
   margin-bottom: 16px;
@@ -158,7 +158,7 @@
   content: '';
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
-  background: white;
+  background: #18181b;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
@@ -209,13 +209,13 @@
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  border: 1px solid #cbd5e1;
-  background: white;
+  border: 1px solid #3f3f46;
+  background: #18181b;
   font-weight: bold;
   font-size: 1.125rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #0f172a;
+  color: #f4f4f5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,7 +225,7 @@
 .nonvegPage-btn-counter:hover,
 .milkPage-btn-counter:hover,
 .choco-btn-counter:hover {
-  background: #f8fafc;
+  background: #09090b;
   color: #f97316;
   border-color: #f97316;
 }
@@ -239,7 +239,7 @@
   font-weight: 700;
   min-width: 24px;
   text-align: center;
-  color: #0f172a;
+  color: #f4f4f5;
   font-size: 1.125rem;
 }
 

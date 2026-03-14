@@ -2,8 +2,8 @@
 
 body {
   font-family: 'Inter', sans-serif !important;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #09090b;
+  color: #f4f4f5;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -11,20 +11,17 @@ body {
    GLOBAL ANIMATIONS & REVEALS
    =============================== */
 
-/* Base Reveal Class */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
-
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Slide Left Reveal */
 .reveal-left {
   opacity: 0;
   transform: translateX(-40px);
@@ -35,7 +32,6 @@ body {
   transform: translateX(0);
 }
 
-/* Slide Right Reveal */
 .reveal-right {
   opacity: 0;
   transform: translateX(40px);
@@ -46,7 +42,6 @@ body {
   transform: translateX(0);
 }
 
-/* Scale Up Reveal */
 .reveal-scale {
   opacity: 0;
   transform: scale(0.9);
@@ -86,7 +81,6 @@ body {
   opacity: 0.2;
 }
 
-
 /* ===============================
    FIX CARD CONTENT VISIBILITY
    =============================== */
@@ -96,15 +90,15 @@ body {
 .milk-card,
 .chocolate-card,
 .product-card {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(24, 24, 27, 0.95) !important;
   border-radius: 24px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 420px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(63, 63, 70, 0.8);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .veg-card:hover,
@@ -113,11 +107,11 @@ body {
 .chocolate-card:hover,
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(161, 161, 170, 0.8);
 }
 
 /* IMAGE AREA */
-
 .veg-card img,
 .nonveg-card img,
 .milk-card img,
@@ -139,7 +133,6 @@ body {
 }
 
 /* CARD BODY */
-
 .card-body,
 .product-body {
   padding: 15px;
@@ -149,14 +142,13 @@ body {
 }
 
 /* PRODUCT NAME */
-
 .card-body h3,
 .product-body h3,
 .veg-card h3,
 .nonveg-card h3,
 .milk-card h3,
 .chocolate-card h3 {
-  color: #0f172a !important;
+  color: #f4f4f5 !important;
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -164,21 +156,19 @@ body {
 }
 
 /* DESCRIPTION */
-
 .card-body p,
 .product-body p,
 .veg-card p,
 .nonveg-card p,
 .milk-card p,
 .chocolate-card p {
-  color: #64748b !important;
+  color: #a1a1aa !important;
   font-size: 0.875rem;
   margin-bottom: 12px;
   line-height: 1.5;
 }
 
 /* PRICE */
-
 .price,
 .product-price {
   color: #f97316 !important;
@@ -189,7 +179,6 @@ body {
 }
 
 /* BUTTON */
-
 .add-cart-btn,
 button {
   margin-top: 16px;
@@ -217,7 +206,6 @@ button:active {
 }
 
 /* GRID LAYOUT */
-
 .products-container,
 .veg-container,
 .nonveg-container,
@@ -227,67 +215,60 @@ button:active {
   grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
   gap: 25px;
 }
-/* =========================
-   FAQ SECTION TEXT FIX
-   ========================= */
 
+/* FAQ SECTION TEXT FIX */
 .faq-section,
 .faq-container {
-  color: #1a1a1a !important;
+  color: #f4f4f5 !important;
 }
 
-/* FAQ card */
 .faq-item,
 .faq-card,
 .accordion-item {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #0f172a !important;
+  background: rgba(24, 24, 27, 0.9) !important;
+  color: #f4f4f5 !important;
   border-radius: 16px;
   margin-bottom: 16px;
   overflow: hidden;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(63, 63, 70, 0.8);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
 }
 
 .faq-item:hover,
 .faq-card:hover,
 .accordion-item:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  border-color: rgba(203, 213, 225, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  border-color: rgba(161, 161, 170, 0.8);
 }
 
-/* Question title */
 .faq-item h3,
 .faq-card h3,
 .accordion-header,
 .accordion-button {
-  color: #0f172a !important;
+  color: #f4f4f5 !important;
   font-weight: 600;
   font-size: 1.125rem;
   padding: 16px 20px;
 }
 
-/* Answer text */
 .faq-item p,
 .faq-card p,
 .accordion-body {
-  color: #475569 !important;
+  color: #d4d4d8 !important;
   font-size: 1rem;
   line-height: 1.6;
   padding: 0 20px 20px 20px;
 }
 
-/* Arrow icon */
 .faq-item svg,
 .accordion-button::after {
-  color: #1e6cff !important;
+  color: #3b82f6 !important;
 }
 
-/* Expanded state */
 .accordion-button:not(.collapsed) {
-  background-color: #e9eef7 !important;
-  color: #1a1a1a !important;
+  background-color: #27272a !important;
+  color: #f4f4f5 !important;
 }
 
 .row {

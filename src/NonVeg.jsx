@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   addToCart,
   increaseItem,
@@ -7,44 +8,50 @@ import {
   fetchProductsByCategory,
 } from "./store";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import "./NonVeg.css";
-import { useState, useEffect } from "react";
 import PriceRange from "./PriceRange";
 import { BACKEND_URL } from "./config/backend";
+import ProductCard from "./ProductCard";
 
 function NonVeg() {
 
   const dispatch = useDispatch();
 
-  const nonVegMenu = useSelector((state) => state.products.nonVeg);
-  const cartItems = useSelector((state) => state.cart);
+  /* FIXED STATE KEY */
+  const nonVegMenu = useSelector(
+    (state) => state.products.nonveg || []
+  );
 
-  const [filteredItems,setFilteredItems] = useState([]);
-  const [currentPage,setCurrentPage] = useState(1);
+  const cartItems = useSelector(
+    (state) => state.cart || []
+  );
+
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   /* FETCH PRODUCTS */
 
-  useEffect(()=>{
-    dispatch(fetchProductsByCategory("nonVeg"));
-  },[dispatch]);
+  useEffect(() => {
+    dispatch(fetchProductsByCategory("nonveg"));
+  }, [dispatch]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setFilteredItems(nonVegMenu);
-  },[nonVegMenu]);
+    setCurrentPage(1);
+  }, [nonVegMenu]);
 
-  const getCartItem=(id)=>
-    cartItems.find((item)=>item._id===id);
+  const getCartItem = (id) =>
+    cartItems.find((item) => item._id === id);
 
-  const notifyAdd=(name)=>
+  const notifyAdd = (name) =>
     toast.success(`${name} added to cart!`);
 
-  const notifyIncrease=(name)=>
+  const notifyIncrease = (name) =>
     toast.info(`Increased ${name} quantity`);
 
-  const notifyDecrease=(name)=>
+  const notifyDecrease = (name) =>
     toast.info(`Decreased ${name} quantity`);
 
   /* PAGINATION */
@@ -52,44 +59,47 @@ function NonVeg() {
   const itemsPerPage = 6;
 
   const totalPages =
-    Math.ceil(filteredItems.length/itemsPerPage);
+    Math.ceil(filteredItems.length / itemsPerPage);
 
-  const indexOfLastItem = currentPage*itemsPerPage;
+  const indexOfLastItem =
+    currentPage * itemsPerPage;
 
   const indexOfFirstItem =
-    indexOfLastItem-itemsPerPage;
+    indexOfLastItem - itemsPerPage;
 
   const currentItems =
-    filteredItems.slice(indexOfFirstItem,indexOfLastItem);
+    filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange=(page)=>{
-    if(page>=1 && page<=totalPages)
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages)
       setCurrentPage(page);
   };
 
-  return(
+  return (
 
     <div className="nonvegPage-bg">
 
-      <ToastContainer/>
-
       {/* HEADER */}
+
       <section className="nonvegPage-header reveal">
+
         <h1 className="nonvegPage-heading">
           🍖 Delicious Non-Veg Items
         </h1>
+
         <p className="nonvegPage-subtitle">
           Savor the flavors from our meat selection
         </p>
+
       </section>
 
-      {/* PRICE FILTER */}
+      {/* FILTER */}
 
       <div className="nonvegPage-filter">
 
         <PriceRange
           products={nonVegMenu}
-          onFilter={(items)=>{
+          onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);
           }}
@@ -104,134 +114,67 @@ function NonVeg() {
 
       <div className="nonvegPage-grid">
 
-        {currentItems.length>0 ? (
+        {currentItems.length > 0 ? (
 
-          currentItems.map((item)=>{
+          currentItems.map((item) => (
 
-            const cartItem = getCartItem(item._id);
+            <ProductCard
+              key={item._id}
+              item={item}
+              cartItem={getCartItem(item._id)}
+              addToCart={(p) => dispatch(addToCart(p))}
+              increaseItem={(p) => dispatch(increaseItem(p))}
+              decreaseItem={(p) => dispatch(decreaseItem(p))}
+              notifyAdd={notifyAdd}
+              notifyIncrease={notifyIncrease}
+              notifyDecrease={notifyDecrease}
+              BACKEND_URL={BACKEND_URL}
+            />
 
-            return(
-              <div
-                className={`nonvegPage-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`}
-                key={item._id}
-              >
+          ))
 
-                <img
-                  src={`${BACKEND_URL}${item.imageurl}`}
-                  alt={item.name}
-                  className="nonveg-img"
-                />
+        ) : (
 
-                <div className="nonvegPage-body">
-
-                  <h3 className="nonvegPage-name">
-                    {item.name}
-                  </h3>
-
-                  {item.rating && (
-                    <span className="nonvegPage-rating">
-                      ⭐ {item.rating}
-                    </span>
-                  )}
-
-                  <p className="nonvegPage-desc">
-                    {item.description}
-                  </p>
-
-                  <div className="nonvegPage-footer">
-
-                    <span className="nonvegPage-price-amount">
-                      ₹{item.price}
-                    </span>
-
-                    {!cartItem ? (
-
-                      <button
-                        className="nonvegPage-btn-add"
-                        onClick={()=>{
-                          dispatch(addToCart(item));
-                          notifyAdd(item.name);
-                        }}
-                      >
-                        Add
-                      </button>
-
-                    ):(
-
-                      <div className="nonvegPage-counter">
-
-                        <button
-                          onClick={()=>{
-                            dispatch(decreaseItem(item));
-                            notifyDecrease(item.name);
-                          }}
-                        >
-                          −
-                        </button>
-
-                        <span>
-                          {cartItem.quantity}
-                        </span>
-
-                        <button
-                          onClick={()=>{
-                            dispatch(increaseItem(item));
-                            notifyIncrease(item.name);
-                          }}
-                        >
-                          +
-                        </button>
-
-                      </div>
-
-                    )}
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            );
-
-          })
-
-        ):(
           <p className="text-center">
             No non-veg items available
           </p>
+
         )}
 
       </div>
 
       {/* PAGINATION */}
 
-      {totalPages>1 &&(
+      {totalPages > 1 && (
 
         <div className="nonveg-pagination reveal">
 
           <button
             className="veg-pagination-btn"
-            disabled={currentPage===1}
-            onClick={()=>setCurrentPage(currentPage-1)}
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             Prev
           </button>
 
-          {Array.from({length:totalPages},(_,i)=>(
+          {Array.from({ length: totalPages }, (_, i) => (
+
             <button
               key={i}
-              className={`veg-pagination-btn ${currentPage===i+1 ? "active":""}`}
-              onClick={()=>setCurrentPage(i+1)}
+              className={`veg-pagination-btn ${
+                currentPage === i + 1 ? "active" : ""
+              }`}
+              onClick={() => handlePageChange(i + 1)}
             >
-               {i+1}
+              {i + 1}
             </button>
+
           ))}
 
           <button
             className="veg-pagination-btn"
-            disabled={currentPage===totalPages}
-             onClick={()=>setCurrentPage(currentPage+1)}
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             Next
           </button>

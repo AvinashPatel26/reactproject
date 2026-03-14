@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "./api/axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import api from "./api/axios";
+import { toast } from "react-toastify";
 import "./SignUp.css";
 
 function SignUp() {
+
+  const navigate = useNavigate();
 
   const [isSignUp, setIsSignUp] = useState(true);
 
@@ -18,28 +19,58 @@ function SignUp() {
 
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
+  const resetForm = () => {
+
+    setForm({
+      name: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+    });
+
   };
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
+    if (loading) return;
+
     try {
 
       setLoading(true);
 
+      /* SIGN UP */
+
       if (isSignUp) {
 
         if (form.password !== form.confirmPassword) {
+
           toast.error("Passwords do not match");
+
+          setLoading(false);
           return;
+
         }
 
-        await axios.post("/auth/register", {
+        if (form.password.length < 6) {
+
+          toast.error("Password must be at least 6 characters");
+          setLoading(false);
+          return;
+
+        }
+
+        await api.post("/auth/register", {
           name: form.name,
           username: form.username,
           password: form.password,
@@ -47,35 +78,53 @@ function SignUp() {
 
         toast.success("Registration successful! Please login.");
 
+        resetForm();
+
         setIsSignUp(false);
 
-      } else {
+      }
 
-        const res = await axios.post("/auth/login", {
+      /* LOGIN */
+
+      else {
+
+        const res = await api.post("/auth/login", {
           username: form.username,
           password: form.password,
         });
 
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        localStorage.setItem("userName", res.data.name);
-        localStorage.setItem("userRole", res.data.role || "user");
+        const { accessToken, refreshToken, name, role } = res.data;
+
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userRole", role || "user");
 
         toast.success("Login successful!");
 
         setTimeout(() => {
           navigate("/home");
-        }, 1200);
+        }, 1000);
+
       }
 
-    } catch (err) {
+    }
+
+    catch (err) {
+
+      console.error(err);
 
       toast.error(
-        err.response?.data?.message || "Authentication failed"
+        err.response?.data?.message ||
+        "Authentication failed"
       );
 
-    } finally {
+    }
+
+    finally {
+
       setLoading(false);
+
     }
 
   };
@@ -87,10 +136,10 @@ function SignUp() {
       style={{ maxWidth: "420px" }}
     >
 
-      <ToastContainer />
-
       <h2 className="mb-3 text-primary fw-bold text-center">
+
         {isSignUp ? "🔐 Create Account" : "🔑 Login"}
+
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -98,6 +147,7 @@ function SignUp() {
         {isSignUp && (
 
           <div className="mb-3">
+
             <label className="form-label fw-semibold">
               Full Name
             </label>
@@ -110,6 +160,7 @@ function SignUp() {
               onChange={handleChange}
               required
             />
+
           </div>
 
         )}

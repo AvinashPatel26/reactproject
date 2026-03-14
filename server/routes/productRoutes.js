@@ -1,15 +1,26 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 import Product from "../models/Product.js";
 import { requireAuth, requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
+/* ---------------- ENSURE UPLOAD FOLDER EXISTS ---------------- */
+
+const uploadDir = "uploads";
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 /* ---------------- MULTER CONFIG ---------------- */
 
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
   filename: (req, file, cb) => {
     const uniqueName =
       Date.now() +
@@ -37,23 +48,22 @@ router.get("/", async (req, res) => {
 
 /* ---------------- GET PRODUCTS BY CATEGORY ---------------- */
 
-router.get("/:category", async (req, res) => {
+router.get("/category/:category", async (req, res) => {
   try {
     let category = req.params.category;
 
-    // fix frontend case issues
     if (category === "nonVeg") category = "nonveg";
 
     const products = await Product.find({ category });
 
     res.json(products);
   } catch (err) {
-    console.error("Get category products error:", err);
+    console.error("Category products error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-/* ---------------- CREATE PRODUCT WITH IMAGE ---------------- */
+/* ---------------- CREATE PRODUCT ---------------- */
 
 router.post(
   "/",
@@ -116,6 +126,7 @@ router.post("/bulk", requireAuth, requireAdmin, async (req, res) => {
 router.delete("/:id", requireAuth, requireAdmin, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
+
     res.json({ message: "Product deleted" });
   } catch (err) {
     console.error("Delete product error:", err);

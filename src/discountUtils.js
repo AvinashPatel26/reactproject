@@ -1,53 +1,106 @@
 // discountUtils.js
 
-// Calculate subtotal without tax
-export function calculateTotal(cartItems) {
-  return +cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+/* ================================
+   CALCULATE CART TOTAL
+================================ */
+
+export function calculateTotal(cartItems = []) {
+
+  const total = cartItems.reduce(
+    (sum, item) =>
+      sum + Number(item.price || 0) * Number(item.quantity || 0),
     0
-  ).toFixed(2);
+  );
+
+  return +total.toFixed(2);
+
 }
 
-// Calculate discount amount from a percentage
-export function calculateButtonDiscount(total, discountPercentage) {
-  return +(total * (discountPercentage / 100)).toFixed(2);
+/* ================================
+   BUTTON DISCOUNT (SLAB)
+================================ */
+
+export function calculateButtonDiscount(total, discountPercent = 0) {
+
+  if (!discountPercent || discountPercent <= 0) return 0;
+
+  const discount = total * (discountPercent / 100);
+
+  return +discount.toFixed(2);
+
 }
 
-// Get coupon discount details
+/* ================================
+   COUPON DISCOUNT
+================================ */
+
 export function getCouponDiscount(coupon, totalPrice) {
-  let discountPercent = 0;
-  switch (coupon) {
-    case "RATAN10":
-      discountPercent = 10;
-      break;
-    case "RATAN20":
-      discountPercent = 20;
-      break;
-    case "RATAN30":
-      discountPercent = 30;
-      break;
-    default:
-      discountPercent = 0; // invalid coupon
+
+  if (!coupon) {
+    return {
+      isValid: false,
+      discountPercent: 0,
+      discountAmount: 0,
+    };
   }
-  const discountAmount = +(totalPrice * discountPercent / 100).toFixed(2);
+
+  const COUPONS = {
+    RATAN10: 10,
+    RATAN20: 20,
+    RATAN30: 30,
+  };
+
+  const code = coupon.trim().toUpperCase();
+
+  const discountPercent = COUPONS[code] || 0;
+
+  const discountAmount =
+    discountPercent > 0
+      ? +(totalPrice * discountPercent / 100).toFixed(2)
+      : 0;
+
   return {
     isValid: discountPercent > 0,
     discountPercent,
-    discountAmount
+    discountAmount,
   };
+
 }
 
-// ✅ Combined discount helper
-export function calculateCombinedDiscount(totalPrice, slabDiscountPercent, couponCode) {
-  const slabDiscountAmount = calculateButtonDiscount(totalPrice, slabDiscountPercent);
-  const couponResult = getCouponDiscount(couponCode, totalPrice);
-  const couponDiscountAmount = couponResult.isValid ? couponResult.discountAmount : 0;
+/* ================================
+   COMBINED DISCOUNT
+================================ */
+
+export function calculateCombinedDiscount(
+  totalPrice,
+  slabDiscountPercent,
+  couponCode
+) {
+
+  const slabDiscountAmount =
+    calculateButtonDiscount(totalPrice, slabDiscountPercent);
+
+  const couponResult =
+    getCouponDiscount(couponCode, totalPrice);
+
+  const couponDiscountAmount =
+    couponResult.isValid ? couponResult.discountAmount : 0;
+
+  const totalDiscount =
+    +(slabDiscountAmount + couponDiscountAmount).toFixed(2);
+
+  const finalAmount =
+    Math.max(
+      0,
+      +(totalPrice - totalDiscount).toFixed(2)
+    );
 
   return {
     slabDiscountAmount,
     couponDiscountAmount,
-    totalDiscount: +(slabDiscountAmount + couponDiscountAmount).toFixed(2),
-    finalAmount: +(totalPrice - slabDiscountAmount - couponDiscountAmount).toFixed(2),
-    couponResult
+    totalDiscount,
+    finalAmount,
+    couponResult,
   };
+
 }

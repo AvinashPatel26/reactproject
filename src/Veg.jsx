@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   addToCart,
   increaseItem,
@@ -7,71 +8,90 @@ import {
   fetchProductsByCategory,
 } from "./store";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import "./Veg.css";
 import PriceRange from "./PriceRange";
 import { BACKEND_URL } from "./config/backend";
+import ProductCard from "./ProductCard";
 
 function Veg() {
 
   const dispatch = useDispatch();
 
-  const vegItems = useSelector((state) => state.products.veg);
-  const cartItems = useSelector((state) => state.cart);
+  const vegItems = useSelector(
+    (state) => state.products.veg || []
+  );
 
-  const [filteredItems,setFilteredItems] = useState([]);
-  const [currentPage,setCurrentPage] = useState(1);
+  const cartItems = useSelector(
+    (state) => state.cart || []
+  );
+
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   /* FETCH FROM BACKEND */
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchProductsByCategory("veg"));
-  },[dispatch]);
+  }, [dispatch]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setFilteredItems(vegItems);
-  },[vegItems]);
+    setCurrentPage(1);
+  }, [vegItems]);
 
-  const getCartItem = (id) => cartItems.find((item)=>item._id===id);
+  const getCartItem = (id) =>
+    cartItems.find((item) => item._id === id);
 
-  const notifyAdd = (itemName)=>
+  const notifyAdd = (itemName) =>
     toast.success(`${itemName} added to cart!`);
 
-  const notifyIncrease = (itemName)=>
+  const notifyIncrease = (itemName) =>
     toast.info(`Increased ${itemName} quantity`);
 
-  const notifyDecrease = (itemName)=>
+  const notifyDecrease = (itemName) =>
     toast.info(`Decreased ${itemName} quantity`);
 
   /* PAGINATION */
 
   const itemsPerPage = 6;
 
-  const totalPages = Math.ceil(filteredItems.length/itemsPerPage);
+  const totalPages =
+    Math.ceil(filteredItems.length / itemsPerPage);
 
-  const indexOfLastItem = currentPage*itemsPerPage;
+  const indexOfLastItem =
+    currentPage * itemsPerPage;
 
-  const indexOfFirstItem = indexOfLastItem-itemsPerPage;
+  const indexOfFirstItem =
+    indexOfLastItem - itemsPerPage;
 
   const currentItems =
-    filteredItems.slice(indexOfFirstItem,indexOfLastItem);
+    filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages)
+      setCurrentPage(page);
+  };
 
   return (
 
     <div className="veg-page">
 
-      <ToastContainer/>
-
       {/* HERO HEADER */}
+
       <section className="veg-header reveal">
+
         <div className="veg-header-content">
+
           <h1>Fresh Vegetarian Meals 🥗</h1>
+
           <p>
             Healthy, delicious and freshly prepared veg meals.
           </p>
+
         </div>
+
       </section>
 
       {/* FILTER */}
@@ -80,7 +100,7 @@ function Veg() {
 
         <PriceRange
           products={vegItems}
-          onFilter={(items)=>{
+          onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);
           }}
@@ -91,106 +111,37 @@ function Veg() {
 
       </div>
 
-      {/* MENU GRID */}
+      {/* PRODUCT GRID */}
 
       <main className="veg-main">
 
         <div className="veg-grid">
 
-          {currentItems.length>0 ? (
+          {currentItems.length > 0 ? (
 
-            currentItems.map((item)=>{
+            currentItems.map((item) => (
 
-              const cartItem = getCartItem(item._id);
+              <ProductCard
+                key={item._id}
+                item={item}
+                cartItem={getCartItem(item._id)}
+                addToCart={(p) => dispatch(addToCart(p))}
+                increaseItem={(p) => dispatch(increaseItem(p))}
+                decreaseItem={(p) => dispatch(decreaseItem(p))}
+                notifyAdd={notifyAdd}
+                notifyIncrease={notifyIncrease}
+                notifyDecrease={notifyDecrease}
+                BACKEND_URL={BACKEND_URL}
+              />
 
-              return(
-                <div className={`veg-card reveal-scale delay-${(item._id.charCodeAt(0) % 5) * 100}`} key={item._id}>
+            ))
 
-                  <div className="veg-img-wrapper">
+          ) : (
 
-                    <img
-                      src={`${BACKEND_URL}${item.imageurl}`}
-                      alt={item.name}
-                    />
-
-                  </div>
-
-                  <div className="veg-card-body">
-
-                    <h3>{item.name}</h3>
-
-                    {item.rating && (
-                      <span className="veg-rating">
-                        ⭐ {item.rating}
-                      </span>
-                    )}
-
-                    <p className="veg-desc">
-                      {item.description}
-                    </p>
-
-                    <div className="veg-price-row">
-
-                      <span className="veg-price">
-                        ₹{item.price}
-                      </span>
-
-                      {!cartItem ? (
-
-                        <button
-                          className="veg-add-btn"
-                          onClick={()=>{
-                            dispatch(addToCart(item));
-                            notifyAdd(item.name);
-                          }}
-                        >
-                          Add
-                        </button>
-
-                      ):(
-
-                        <div className="veg-qty-controls">
-
-                          <button
-                            onClick={()=>{
-                              dispatch(decreaseItem(item));
-                              notifyDecrease(item.name);
-                            }}
-                          >
-                            −
-                          </button>
-
-                          <span>
-                            {cartItem.quantity}
-                          </span>
-
-                          <button
-                            onClick={()=>{
-                              dispatch(increaseItem(item));
-                              notifyIncrease(item.name);
-                            }}
-                          >
-                            +
-                          </button>
-
-                        </div>
-
-                      )}
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              );
-
-            })
-
-          ):(
             <p className="veg-no-items">
               No vegetarian items available
             </p>
+
           )}
 
         </div>
@@ -199,32 +150,42 @@ function Veg() {
 
       {/* PAGINATION */}
 
-      {totalPages>1 &&(
+      {totalPages > 1 && (
 
         <div className="veg-pagination reveal">
 
           <button
             className="veg-pagination-btn"
-            disabled={currentPage===1}
-            onClick={()=>setCurrentPage(currentPage-1)}
+            disabled={currentPage === 1}
+            onClick={() =>
+              handlePageChange(currentPage - 1)
+            }
           >
             Prev
           </button>
 
-          {Array.from({length:totalPages},(_,i)=>(
+          {Array.from({ length: totalPages }, (_, i) => (
+
             <button
               key={i}
-              className={`veg-pagination-btn ${currentPage===i+1 ? "active":""}`}
-              onClick={()=>setCurrentPage(i+1)}
+              className={`veg-pagination-btn ${
+                currentPage === i + 1 ? "active" : ""
+              }`}
+              onClick={() =>
+                handlePageChange(i + 1)
+              }
             >
-               {i+1}
+              {i + 1}
             </button>
+
           ))}
 
           <button
             className="veg-pagination-btn"
-            disabled={currentPage===totalPages}
-             onClick={()=>setCurrentPage(currentPage+1)}
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              handlePageChange(currentPage + 1)
+            }
           >
             Next
           </button>

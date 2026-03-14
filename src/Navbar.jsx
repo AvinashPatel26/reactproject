@@ -1,71 +1,197 @@
-import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import "./Navbar.css";
+import {
+  configureStore,
+  createSlice,
+  createAsyncThunk,
+} from "@reduxjs/toolkit";
+import api from "./api/axios";
+import { Navbar } from "react-bootstrap";
 
-function Navbar() {
+/* ======================================================
+   FETCH PRODUCTS BY CATEGORY
+====================================================== */
 
-  const cartItems = useSelector((state) => state.cart);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
+export const fetchProductsByCategory = createAsyncThunk(
+  "products/fetchByCategory",
+  async (category, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/products/${category}`);
 
-  const totalItems = cartItems.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+      return {
+        category,
+        data: response.data,
+      };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Server Error");
+    }
+  },
+);
 
-  const token = localStorage.getItem("accessToken");
-  const userName = localStorage.getItem("userName");
-  const isAuthenticated = !!token;
+/* ======================================================
+   PRODUCT SLICE
+====================================================== */
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userRole");
-    navigate("/home");
-  };
+const productSlice = createSlice({
+  name: "products",
 
-  return (
-    <nav className="navbar-custom">
-      <div className="nav-container">
-        {/* LOGO */}
-        <Link to="/" className="nav-logo">
-          🍔 Food Sensations
-        </Link>
+  initialState: {
+    veg: [],
+    nonveg: [],
+    milk: [],
+    chocolate: [],
+    status: "idle",
+    error: null,
+  },
 
-        {/* MOBILE MENU BUTTON */}
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
-        </button>
+  reducers: {},
 
-        {/* NAV LINKS */}
-        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <Link to="/home" className={location.pathname === "/home" || location.pathname === "/" ? "active" : ""} onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/veg" className={location.pathname === "/veg" ? "active" : ""} onClick={() => setMenuOpen(false)}>Veg</Link>
-          <Link to="/nonveg" className={location.pathname === "/nonveg" ? "active" : ""} onClick={() => setMenuOpen(false)}>NonVeg</Link>
-          <Link to="/milk" className={location.pathname === "/milk" ? "active" : ""} onClick={() => setMenuOpen(false)}>Milk</Link>
-          <Link to="/chocolate" className={location.pathname === "/chocolate" ? "active" : ""} onClick={() => setMenuOpen(false)}>Chocolate</Link>
-          <Link to="/cart" className={location.pathname === "/cart" ? "active cart-link" : "cart-link"} onClick={() => setMenuOpen(false)}>
-            🛒 Cart {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-          </Link>
-          <Link to="/orders" className={location.pathname === "/orders" ? "active" : ""} onClick={() => setMenuOpen(false)}>Orders</Link>
-          <Link to="/aboutus" className={location.pathname === "/aboutus" ? "active" : ""} onClick={() => setMenuOpen(false)}>About Us</Link>
-          <Link to="/contactus" className={location.pathname === "/contactus" ? "active" : ""} onClick={() => setMenuOpen(false)}>Contact Us</Link>
-        </div>
+  extraReducers: (builder) => {
+    builder
 
-        {/* SIGN IN / AUTH */}
-        <div className="nav-auth">
-          {!isAuthenticated ? (
-            <Link to="/signup" className="sign-in-btn">🔑 SignUp</Link>
-          ) : (
-            <button onClick={handleLogout} className="sign-in-btn logout-btn">Logout ({userName})</button>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
-}
+      .addCase(fetchProductsByCategory.pending, (state) => {
+        state.status = "loading";
+      })
+
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+        state.status = "succeeded";
+
+        const { category, data } = action.payload;
+
+        if (state[category] !== undefined) {
+          state[category] = data;
+        }
+      })
+
+      .addCase(fetchProductsByCategory.rejected, (state, action) => {
+        state.status = "failed";
+
+        state.error = action.payload || action.error.message;
+      });
+  },
+});
+
+/* ======================================================
+   CART SLICE
+====================================================== */
+
+const getCartFromStorage = () => {
+  try {
+    const saved = localStorage.getItem("cart");
+
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
+
+const cartSlice = createSlice({
+  name: "cart",
+
+  initialState: getCartFromStorage(),
+
+  reducers: {
+    addToCart(state, action) {
+      const item = state.find((p) => p._id === action.payload._id);
+
+      if (item) {
+        item.quantity += 1;
+      } else {
+        state.push({
+          ...action.payload,
+          quantity: 1,
+        });
+      }
+    },
+
+    removeFromCart(state, action) {
+      return state.filter((item) => item._id !== action.payload._id);
+    },
+
+    increaseItem(state, action) {
+      const item = state.find((p) => p._id === action.payload._id);
+
+      if (item) {
+        item.quantity += 1;
+      }
+    },
+
+    decreaseItem(state, action) {
+      const item = state.find((p) => p._id === action.payload._id);
+
+      if (!item) return;
+
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+      } else {
+        return state.filter((i) => i._id !== item._id);
+      }
+    },
+
+    clearCart() {
+      return [];
+    },
+  },
+});
+
+/* ======================================================
+   ORDER SLICE
+====================================================== */
+
+const orderSlice = createSlice({
+  name: "orders",
+
+  initialState: [],
+
+  reducers: {
+    addOrder(state, action) {
+      state.push(action.payload);
+    },
+
+    setOrders(state, action) {
+      return action.payload;
+    },
+  },
+});
+
+/* ======================================================
+   STORE CONFIG
+====================================================== */
+
+const store = configureStore({
+  reducer: {
+    products: productSlice.reducer,
+    cart: cartSlice.reducer,
+    orders: orderSlice.reducer,
+  },
+
+  devTools: import.meta.env.DEV,
+});
+
+/* ======================================================
+   LOCAL STORAGE PERSISTENCE
+====================================================== */
+
+store.subscribe(() => {
+  try {
+    const cart = store.getState().cart;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  } catch (error) {
+    console.error("Cart storage failed:", error);
+  }
+});
+
+/* ======================================================
+   EXPORTS
+====================================================== */
+
+export const {
+  addToCart,
+  removeFromCart,
+  increaseItem,
+  decreaseItem,
+  clearCart,
+} = cartSlice.actions;
+
+export const { addOrder, setOrders } = orderSlice.actions;
 
 export default Navbar;

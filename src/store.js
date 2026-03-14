@@ -5,13 +5,10 @@ import axios from "./api/axios";
    API CONFIG
 ====================================================== */
 
-const BASE_API =
-  import.meta.env.VITE_API_URL || "http://localhost:8080/api";
-
-const API_URL = `${BASE_API}/products`;
+const API_URL = "/products";
 
 /* ======================================================
-   ASYNC PRODUCT FETCH (MATCHES BACKEND)
+   ASYNC PRODUCT FETCH
 ====================================================== */
 
 export const fetchProductsByCategory = createAsyncThunk(
@@ -36,7 +33,7 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     veg: [],
-    nonVeg: [],
+    nonveg: [],
     milk: [],
     chocolate: [],
     status: "idle",

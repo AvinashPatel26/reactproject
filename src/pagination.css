@@ -6,7 +6,7 @@
 
 /* Responsive card styling for cart items */
 .cart-items .card {
-  background-color: #fff;
+  background-color: #18181b;
   border: none;
   border-radius: 0.375rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -15,7 +15,7 @@
 
 .cart-items .card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.6);
 }
 
 .cart-items .card img {
@@ -56,7 +56,7 @@
 
 .page-item .page-link {
   color: #0d6efd;
-  background-color: #fff;
+  background-color: #18181b;
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
   padding: 0.5rem 1rem;
@@ -74,14 +74,14 @@
 
 .page-item .page-link:hover {
   color: #0056b3;
-  background-color: #f8f9fa;
+  background-color: #09090b;
   border-color: #dee2e6;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .page-item.disabled .page-link {
   color: #6c757d;
-  background-color: #fff;
+  background-color: #18181b;
   border-color: #dee2e6;
   cursor: not-allowed;
   opacity: 0.65;

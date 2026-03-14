@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: auto;
   padding: 40px 25px;
-  background:#f8fafc;
+  background:#09090b;
 }
 
 /* HEADER */
@@ -56,7 +56,7 @@
 
 .nonvegPage-desc {
   font-size: 13px;
-  color: #777;
+  color: #a1a1aa;
 }
 
 .nonvegPage-price-amount {
@@ -99,13 +99,13 @@
   height: 30px;
   border-radius: 8px;
   border: none;
-  background: #f1f3f5;
+  background: #27272a;
   font-weight: bold;
   transition:.2s;
 }
 
 .nonvegPage-btn-counter:hover {
-  background: #dee2e6;
+  background: #52525b;
 }
 
 .nonvegPage-quantity {
@@ -127,17 +127,17 @@
   border: none;
   padding: 10px 18px;
   border-radius: 12px;
-  background: white;
+  background: #18181b;
   font-weight: 600;
-  color: #0f172a;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  color: #f4f4f5;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
 }
 
 .nonvegPage-pagination button:hover {
-  background: #f1f5f9;
+  background: #27272a;
   transform: translateY(-2px);
-  box-shadow: 0 6px 10px -2px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.6);
 }
 
 .nonvegPage-pagination button:disabled {

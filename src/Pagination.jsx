@@ -1,7 +1,12 @@
 import React from "react";
 import "./pagination.css";
 
-function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
+function Pagination({
+  totalItems = 0,
+  itemsPerPage = 6,
+  currentPage = 1,
+  onPageChange
+}) {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -12,8 +17,20 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
     (_, index) => index + 1
   );
 
+  const handlePrev = () => {
+    if (currentPage > 1) onPageChange(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) onPageChange(currentPage + 1);
+  };
+
   return (
-    <nav aria-label="pagination" className="pagination-container mt-4">
+
+    <nav
+      aria-label="pagination"
+      className="pagination-container mt-4"
+    >
 
       <ul className="pagination justify-content-center">
 
@@ -23,7 +40,7 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
 
           <button
             className="page-link"
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={handlePrev}
             disabled={currentPage === 1}
           >
             Previous
@@ -55,15 +72,11 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
 
         {/* Next */}
 
-        <li
-          className={`page-item ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}
-        >
+        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
 
           <button
             className="page-link"
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={handleNext}
             disabled={currentPage === totalPages}
           >
             Next
@@ -74,7 +87,9 @@ function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }) {
       </ul>
 
     </nav>
+
   );
+
 }
 
 export default Pagination;
