@@ -59,6 +59,28 @@
   opacity: 1;
 }
 
+/* Form Styles */
+.form-label {
+  color: #f4f4f5;
+}
+
+.form-control {
+  background-color: #27272a !important;
+  color: #f4f4f5 !important;
+  border: 1px solid rgba(63, 63, 70, 0.8) !important;
+}
+
+.form-control::placeholder {
+  color: #a1a1aa !important;
+}
+
+.form-control:focus {
+  background-color: #27272a !important;
+  color: #f4f4f5 !important;
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
 /* Product Image */
 .choco-img {
   width: 100%;

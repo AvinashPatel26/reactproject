@@ -3,9 +3,9 @@ import "./ContactUs.css";
 
 function ContactUs() {
   return (
-    <div className="container mt-4 bg-light">
+    <div className="container mt-4 contact-container">
       <h1 className="text-center text-primary mb-4 fw-bold reveal">Contact Us</h1>
-      <p className="text-center mb-5 text-muted reveal delay-100">
+      <p className="text-center mb-5 reveal delay-100" style={{ color: "#a1a1aa" }}>
         Have questions, feedback, or just want to say hi? We'd love to hear from you!
       </p>
 
@@ -18,16 +18,16 @@ function ContactUs() {
           <div key={index} className={`col-md-4 mb-3 reveal-scale delay-${(index % 3) * 100 + 200}`}>
             <div className="card contact-card shadow-sm h-100">
               <div className="card-body text-center">
-                <h5 className="fw-bold">{info.icon} {info.title}</h5>
-                <p className="text-muted">{info.value}</p>
+                <h5 className="fw-bold text-primary">{info.icon} {info.title}</h5>
+                <p style={{ color: "#a1a1aa" }}>{info.value}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="card shadow p-4 contact-form-card bg-white reveal-right delay-200">
-        <h4 className="mb-3 text-success fw-bold">Send us a message</h4>
+      <div className="card shadow p-4 contact-form-card reveal-right delay-200">
+        <h4 className="mb-3 text-primary fw-bold">Send us a message</h4>
         <form>
           <div className="mb-3">
             <label className="form-label fw-semibold">Full Name</label>
