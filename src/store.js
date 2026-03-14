@@ -2,26 +2,17 @@ import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "./api/axios";
 
 /* ======================================================
-   API CONFIG
+   API CALL
 ====================================================== */
 
-const API_URL = "/api/products/category";
-
-/* ======================================================
-   ASYNC PRODUCT FETCH
-====================================================== */
-
-export const fetchProductsByCategory = createAsyncThunk(
-  "products/fetchByCategory",
-  async (category, { rejectWithValue }) => {
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async (_, { rejectWithValue }) => {
     try {
 
-      const response = await axios.get(`${API_URL}/${category}`);
+      const response = await axios.get("/api/products");
 
-      return {
-        category,
-        data: response.data || []
-      };
+      return response.data || [];
 
     } catch (error) {
 
@@ -38,62 +29,33 @@ export const fetchProductsByCategory = createAsyncThunk(
 ====================================================== */
 
 const productSlice = createSlice({
+
   name: "products",
 
   initialState: {
-    veg: [],
-    nonveg: [],
-    milk: [],
-    chocolate: [],
+    products: [],
     status: "idle",
     error: null,
   },
 
-  reducers: {
-
-    setVeg: (state, action) => {
-      state.veg = action.payload;
-    },
-
-    setNonVeg: (state, action) => {
-      state.nonveg = action.payload;
-    },
-
-    setMilk: (state, action) => {
-      state.milk = action.payload;
-    },
-
-    setChocolate: (state, action) => {
-      state.chocolate = action.payload;
-    },
-
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
 
     builder
 
-      .addCase(fetchProductsByCategory.pending, (state) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.status = "loading";
       })
 
-      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-
+      .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
-
-        const { category, data } = action.payload;
-
-        if (state[category]) {
-          state[category] = data;
-        }
-
+        state.products = action.payload;
       })
 
-      .addCase(fetchProductsByCategory.rejected, (state, action) => {
-
+      .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload || action.error.message;
-
+        state.error = action.payload;
       });
 
   },
@@ -114,13 +76,11 @@ const getCartFromStorage = () => {
 
 };
 
-const initialCartState = getCartFromStorage();
-
 const cartSlice = createSlice({
 
   name: "cart",
 
-  initialState: initialCartState,
+  initialState: getCartFromStorage(),
 
   reducers: {
 
@@ -129,13 +89,9 @@ const cartSlice = createSlice({
       const item = state.find((p) => p._id === action.payload._id);
 
       if (item) {
-
         item.quantity += 1;
-
       } else {
-
         state.push({ ...action.payload, quantity: 1 });
-
       }
 
     },
@@ -150,9 +106,7 @@ const cartSlice = createSlice({
 
       const item = state.find((p) => p._id === action.payload._id);
 
-      if (item) {
-        item.quantity += 1;
-      }
+      if (item) item.quantity += 1;
 
     },
 
@@ -162,11 +116,8 @@ const cartSlice = createSlice({
 
       if (item) {
 
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        } else {
-          return state.filter((i) => i._id !== item._id);
-        }
+        if (item.quantity > 1) item.quantity -= 1;
+        else return state.filter((i) => i._id !== item._id);
 
       }
 
@@ -205,7 +156,7 @@ const orderSlice = createSlice({
 });
 
 /* ======================================================
-   STORE CONFIG
+   STORE
 ====================================================== */
 
 const store = configureStore({
@@ -221,7 +172,7 @@ const store = configureStore({
 });
 
 /* ======================================================
-   LOCAL STORAGE PERSISTENCE
+   LOCAL STORAGE
 ====================================================== */
 
 store.subscribe(() => {
@@ -232,24 +183,13 @@ store.subscribe(() => {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-  } catch (error) {
-
-    console.error("Cart storage failed:", error);
-
-  }
+  } catch {}
 
 });
 
 /* ======================================================
    EXPORTS
 ====================================================== */
-
-export const {
-  setVeg,
-  setNonVeg,
-  setMilk,
-  setChocolate,
-} = productSlice.actions;
 
 export const {
   addToCart,

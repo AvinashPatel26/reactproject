@@ -5,7 +5,7 @@ import {
   addToCart,
   increaseItem,
   decreaseItem,
-  fetchProductsByCategory,
+  fetchProducts,
 } from "./store";
 
 import { toast } from "react-toastify";
@@ -19,8 +19,8 @@ function Veg() {
 
   const dispatch = useDispatch();
 
-  const vegItems = useSelector(
-    (state) => state.products.veg || []
+  const { products, status } = useSelector(
+    (state) => state.products
   );
 
   const cartItems = useSelector(
@@ -30,16 +30,28 @@ function Veg() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* FETCH FROM BACKEND */
+  /* FETCH PRODUCTS */
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("veg"));
-  }, [dispatch]);
+
+    if (status === "idle") {
+      dispatch(fetchProducts());
+    }
+
+  }, [dispatch, status]);
+
+  /* FILTER VEG ITEMS */
 
   useEffect(() => {
+
+    const vegItems = products.filter(
+      (p) => p.category === "veg"
+    );
+
     setFilteredItems(vegItems);
     setCurrentPage(1);
-  }, [vegItems]);
+
+  }, [products]);
 
   const getCartItem = (id) =>
     cartItems.find((item) => item._id === id);
@@ -70,9 +82,16 @@ function Veg() {
     filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages)
+
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+    }
+
   };
+
+  if (status === "loading") {
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  }
 
   return (
 
@@ -99,7 +118,7 @@ function Veg() {
       <div className="veg-filter-wrapper">
 
         <PriceRange
-          products={vegItems}
+          products={filteredItems}
           onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);
