@@ -46,47 +46,48 @@ function ProductCard({
 
       <div className="product-body">
 
-        <h6 className="product-name">
-          {item.name || "Food Item"}
-        </h6>
-
-        {item.rating && (
-          <span className="product-rating">
-            ⭐ {item.rating}
+        <div className="product-header">
+          <h3 className="product-title">
+            {item.name || "Food Item"}
+          </h3>
+          <span className="product-price-pill">
+            ₹{price}
           </span>
-        )}
+        </div>
 
         <p className="product-desc">
           {item.description || "Delicious food item"}
         </p>
 
-        <div className="product-footer">
+        <div className="product-footer-row">
 
-          <span className="product-price">
-            ₹{price}
+          <span className="product-rating-pill">
+            {item.rating || "4.5"} ★
           </span>
 
           {!cartItem ? (
 
             <button
-              className="product-add-btn"
+              className="product-add-btn-outline"
               aria-label={`Add ${item.name} to cart`}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 addToCart(item);
                 notifyAdd(item.name);
               }}
             >
-              Add
+              🛒 Add to Cart
             </button>
 
           ) : (
 
-            <div className="product-counter">
+            <div className="product-counter-pill">
 
               <button
-                className="counter-btn"
+                className="counter-btn-outline"
                 aria-label="Decrease quantity"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   decreaseItem(item);
                   notifyDecrease(item.name);
                 }}
@@ -94,14 +95,15 @@ function ProductCard({
                 −
               </button>
 
-              <span className="counter-value">
+              <span className="counter-value-outline">
                 {cartItem.quantity}
               </span>
 
               <button
-                className="counter-btn"
+                className="counter-btn-outline"
                 aria-label="Increase quantity"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   increaseItem(item);
                   notifyIncrease(item.name);
                 }}

@@ -1,289 +1,145 @@
-/* ================= PRODUCT CARD GRID ================= */
+/* ================= PRODUCT CARD SPECIFIC STYLES ================= */
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-/* ================= PRODUCT CARD ================= */
-
-.veg-card,
-.nonvegPage-card,
-.milkPage-card,
-.choco-card {
-  background: rgba(24, 24, 27, 0.95);
-  border-radius: 24px;
+.product-img-wrapper {
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(39, 39, 42, 0.8);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-  z-index: 1;
+  border-bottom: 1px solid rgba(63, 63, 70, 0.4);
 }
 
-.veg-card::before,
-.nonvegPage-card::before,
-.milkPage-card::before,
-.choco-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  padding: 2px;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.6), rgba(251, 146, 60, 0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -1;
-}
-
-.veg-card:hover,
-.nonvegPage-card:hover,
-.milkPage-card:hover,
-.choco-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(249, 115, 22, 0.1);
-}
-
-.veg-card:hover::before,
-.nonvegPage-card:hover::before,
-.milkPage-card:hover::before,
-.choco-card:hover::before {
-  opacity: 1;
-}
-
-/* ================= PRODUCT IMAGE ================= */
-
-.veg-img,
-.nonveg-img,
-.milk-img,
-.choco-img {
+.product-card .product-img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
   transition: transform 0.5s ease;
-  flex-shrink: 0;
+  display: block;
 }
 
-/* image zoom */
-.veg-card:hover .veg-img,
-.nonvegPage-card:hover .nonveg-img,
-.milkPage-card:hover .milk-img,
-.choco-card:hover .choco-img {
+.product-card:hover .product-img {
   transform: scale(1.05);
 }
 
-/* ================= CARD BODY ================= */
-
-.veg-body,
-.card-body,
-.choco-overlay {
-  padding: 20px;
+.product-body {
+  padding: 16px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-/* ================= PRODUCT NAME ================= */
-
-.veg-name,
-.nonvegPage-name,
-.milkPage-name,
-.choco-name {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #f4f4f5;
-  letter-spacing: -0.025em;
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 8px;
+  gap: 12px;
 }
 
-/* ================= DESCRIPTION ================= */
+.product-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f4f4f5;
+  margin: 0;
+  line-height: 1.3;
+}
 
-.veg-desc,
-.nonvegPage-desc,
-.milkPage-desc,
-.choco-desc {
+.product-price-pill {
+  background: #10b981; /* emerald green */
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.product-desc {
   font-size: 0.875rem;
   color: #a1a1aa;
-  min-height: 48px;
-  line-height: 1.5;
   margin-bottom: 16px;
-}
-
-/* ================= PRICE ================= */
-
-.veg-price,
-.nonvegPage-price-amount,
-.milkPage-price-amount,
-.choco-price-amount {
-  font-weight: 800;
-  font-size: 1.25rem;
-  margin: 8px 0;
-  color: #f97316;
-  letter-spacing: -0.025em;
-}
-
-/* ================= ADD TO CART BUTTON ================= */
-
-.veg-btn-add,
-.nonvegPage-btn-add,
-.milkPage-btn-add,
-.choco-btn-add {
-  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 9999px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
-  width: 100%;
-  position: relative;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  z-index: 1;
+  text-overflow: ellipsis;
 }
 
-.veg-btn-add::after,
-.nonvegPage-btn-add::after,
-.milkPage-btn-add::after,
-.choco-btn-add::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: #18181b;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-  border-radius: inherit;
-}
-
-.veg-btn-add:hover,
-.nonvegPage-btn-add:hover,
-.milkPage-btn-add:hover,
-.choco-btn-add:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
-}
-
-.veg-btn-add:hover::after,
-.nonvegPage-btn-add:hover::after,
-.milkPage-btn-add:hover::after,
-.choco-btn-add:hover::after {
-  opacity: 0.15;
-}
-
-.veg-btn-add:active,
-.nonvegPage-btn-add:active,
-.milkPage-btn-add:active,
-.choco-btn-add:active {
-  transform: translateY(1px) scale(0.98);
-}
-
-/* ================= QUANTITY COUNTER ================= */
-
-.veg-quantity-controls,
-.nonvegPage-counter,
-.milkPage-counter,
-.choco-counter {
+.product-footer-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 8px;
+  margin-top: auto;
 }
 
-/* ================= COUNTER BUTTON ================= */
-
-.veg-btn-qty,
-.nonvegPage-btn-counter,
-.milkPage-btn-counter,
-.choco-btn-counter {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  border: 1px solid #3f3f46;
-  background: #18181b;
-  font-weight: bold;
-  font-size: 1.125rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #f4f4f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.veg-btn-qty:hover,
-.nonvegPage-btn-counter:hover,
-.milkPage-btn-counter:hover,
-.choco-btn-counter:hover {
-  background: #09090b;
-  color: #f97316;
-  border-color: #f97316;
-}
-
-/* ================= QUANTITY NUMBER ================= */
-
-.veg-qty-value,
-.nonvegPage-quantity,
-.milkPage-quantity,
-.choco-quantity {
+.product-rating-pill {
+  background: #fbbf24; /* amber yellow */
+  color: #18181b; /* dark text for contrast */
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
   font-weight: 700;
-  min-width: 24px;
-  text-align: center;
-  color: #f4f4f5;
-  font-size: 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 992px) {
-  .veg-img,
-  .nonveg-img,
-  .milk-img,
-  .choco-img {
-    height: 180px;
-  }
+/* OUTLINE ADD BUTTON (RED/PINK) */
+.product-add-btn-outline {
+  background: transparent;
+  color: #f43f5e; /* rose/pinkish red */
+  border: 1px solid #f43f5e;
+  padding: 6px 16px;
+  border-radius: 9999px; /* pill shape */
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .row {
-    gap: 16px;
-  }
-
-  .veg-img,
-  .nonveg-img,
-  .milk-img,
-  .choco-img {
-    height: 160px;
-  }
-
-  .veg-body,
-  .card-body,
-  .choco-overlay {
-    padding: 16px;
-  }
-
-  .veg-name,
-  .nonvegPage-name,
-  .milkPage-name,
-  .choco-name {
-    font-size: 1rem;
-  }
+.product-add-btn-outline:hover {
+  background: rgba(244, 63, 94, 0.1);
 }
 
-@media (max-width: 480px) {
-  .veg-img,
-  .nonveg-img,
-  .milk-img,
-  .choco-img {
-    height: 140px;
-  }
+.product-add-btn-outline:active {
+  transform: scale(0.95);
+}
+
+/* COUNTER BUTTON OUTLINE */
+.product-counter-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #f43f5e;
+  border-radius: 9999px;
+  overflow: hidden;
+  height: 32px;
+}
+
+.counter-btn-outline {
+  background: transparent;
+  color: #f43f5e;
+  border: none;
+  width: 32px;
+  height: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.counter-btn-outline:hover {
+  background: rgba(244, 63, 94, 0.1);
+}
+
+.counter-value-outline {
+  padding: 0 8px;
+  font-weight: 700;
+  color: #f43f5e;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
 }
