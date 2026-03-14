@@ -179,24 +179,25 @@ function Home() {
           <div className="hero-gallery">
 
             {[
-              "/images/vegg.jpg",
-              "/images/nonveg.jpg",
-              "/images/dairyproducts.jpeg",
-              "/images/chocolatep.jpeg",
-            ].map((img, idx) => (
+              { img: "/images/vegg.jpg", link: "/veg" },
+              { img: "/images/nonveg.jpg", link: "/nonveg" },
+              { img: "/images/dairyproducts.jpeg", link: "/milk" },
+              { img: "/images/chocolatep.jpeg", link: "/chocolate" },
+            ].map((item, idx) => (
 
-              <div
-                key={img}
+              <Link
+                key={item.img}
+                to={item.link}
                 className="hero-gallery-item"
               >
 
                 <img
-                  src={img}
+                  src={item.img}
                   alt="Gallery"
                   loading="lazy"
                 />
 
-              </div>
+              </Link>
 
             ))}
 
