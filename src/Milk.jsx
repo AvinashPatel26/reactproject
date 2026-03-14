@@ -5,7 +5,7 @@ import {
   addToCart,
   increaseItem,
   decreaseItem,
-  fetchProductsByCategory,
+  fetchProducts,
 } from "./store";
 
 import { toast } from "react-toastify";
@@ -19,8 +19,8 @@ function Milk() {
 
   const dispatch = useDispatch();
 
-  const milkMenu = useSelector(
-    (state) => state.products.milk || []
+  const { products } = useSelector(
+    (state) => state.products
   );
 
   const cartItems = useSelector(
@@ -33,13 +33,21 @@ function Milk() {
   /* FETCH PRODUCTS */
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("milk"));
+    dispatch(fetchProducts());
   }, [dispatch]);
 
+  /* FILTER MILK PRODUCTS */
+
   useEffect(() => {
-    setFilteredItems(milkMenu);
+
+    const milkItems = products.filter(
+      (p) => p.category?.toLowerCase() === "milk"
+    );
+
+    setFilteredItems(milkItems);
     setCurrentPage(1);
-  }, [milkMenu]);
+
+  }, [products]);
 
   /* FIND CART ITEM */
 
@@ -74,8 +82,11 @@ function Milk() {
     filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages)
+
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+    }
+
   };
 
   return (
@@ -101,7 +112,7 @@ function Milk() {
       <div className="milkPage-filter">
 
         <PriceRange
-          products={milkMenu}
+          products={filteredItems}
           onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);

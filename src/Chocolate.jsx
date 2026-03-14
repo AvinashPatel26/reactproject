@@ -5,7 +5,7 @@ import {
   addToCart,
   increaseItem,
   decreaseItem,
-  fetchProductsByCategory,
+  fetchProducts,
 } from "./store";
 
 import { toast } from "react-toastify";
@@ -19,8 +19,8 @@ function Chocolate() {
 
   const dispatch = useDispatch();
 
-  const chocolateProducts = useSelector(
-    (state) => state.products.chocolate || []
+  const { products } = useSelector(
+    (state) => state.products
   );
 
   const cartItems = useSelector((state) => state.cart || []);
@@ -31,13 +31,21 @@ function Chocolate() {
   /* FETCH PRODUCTS */
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("chocolate"));
+    dispatch(fetchProducts());
   }, [dispatch]);
 
+  /* FILTER CHOCOLATE PRODUCTS */
+
   useEffect(() => {
+
+    const chocolateProducts = products.filter(
+      (p) => p.category?.toLowerCase() === "chocolate"
+    );
+
     setFilteredItems(chocolateProducts);
     setCurrentPage(1);
-  }, [chocolateProducts]);
+
+  }, [products]);
 
   /* FIND CART ITEM */
 
@@ -71,9 +79,11 @@ function Chocolate() {
     filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
+
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
+
   };
 
   return (
@@ -92,7 +102,7 @@ function Chocolate() {
       <div className="choco-filter">
 
         <PriceRange
-          products={chocolateProducts}
+          products={filteredItems}
           onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);

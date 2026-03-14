@@ -5,7 +5,7 @@ import {
   addToCart,
   increaseItem,
   decreaseItem,
-  fetchProductsByCategory,
+  fetchProducts,
 } from "./store";
 
 import { toast } from "react-toastify";
@@ -19,9 +19,8 @@ function NonVeg() {
 
   const dispatch = useDispatch();
 
-  /* FIXED STATE KEY */
-  const nonVegMenu = useSelector(
-    (state) => state.products.nonveg || []
+  const { products } = useSelector(
+    (state) => state.products
   );
 
   const cartItems = useSelector(
@@ -34,13 +33,21 @@ function NonVeg() {
   /* FETCH PRODUCTS */
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("nonveg"));
+    dispatch(fetchProducts());
   }, [dispatch]);
 
+  /* FILTER NONVEG PRODUCTS */
+
   useEffect(() => {
+
+    const nonVegMenu = products.filter(
+      (p) => p.category?.toLowerCase() === "nonveg"
+    );
+
     setFilteredItems(nonVegMenu);
     setCurrentPage(1);
-  }, [nonVegMenu]);
+
+  }, [products]);
 
   const getCartItem = (id) =>
     cartItems.find((item) => item._id === id);
@@ -71,8 +78,11 @@ function NonVeg() {
     filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages)
+
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+    }
+
   };
 
   return (
@@ -98,7 +108,7 @@ function NonVeg() {
       <div className="nonvegPage-filter">
 
         <PriceRange
-          products={nonVegMenu}
+          products={filteredItems}
           onFilter={(items) => {
             setFilteredItems(items);
             setCurrentPage(1);
