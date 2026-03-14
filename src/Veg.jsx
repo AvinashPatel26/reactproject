@@ -45,7 +45,7 @@ function Veg() {
   useEffect(() => {
 
     const vegItems = products.filter(
-      (p) => p.category === "veg"
+      (p) => p.category?.toLowerCase() === "veg"
     );
 
     setFilteredItems(vegItems);
