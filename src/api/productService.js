@@ -1,9 +1,29 @@
-import axios from "./axios";
+import api from "./axios";
 
-export const getProducts = () => axios.get("/products");
+/* GET ALL PRODUCTS */
 
-export const addProduct = (product) =>
-  axios.post("/products", product);
+export const getProducts = async () => {
+  const res = await api.get("/api/products");
+  return res.data;
+};
 
-export const deleteProduct = (id) =>
-  axios.delete(`/products/${id}`);
+/* GET PRODUCTS BY CATEGORY */
+
+export const getProductsByCategory = async (category) => {
+  const res = await api.get(`/api/products/category/${category}`);
+  return res.data;
+};
+
+/* ADD PRODUCT */
+
+export const addProduct = async (product) => {
+  const res = await api.post("/api/products", product);
+  return res.data;
+};
+
+/* DELETE PRODUCT */
+
+export const deleteProduct = async (id) => {
+  const res = await api.delete(`/api/products/${id}`);
+  return res.data;
+};
