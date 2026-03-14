@@ -3,9 +3,8 @@ const RAW_URL =
 
 /* Ensure /api always exists */
 
-export const API_BASE = RAW_URL.endsWith("/api")
-    ? RAW_URL
-    : `${RAW_URL}/api`;
+export const API_BASE =
+    "https://reactproject-backend-qzch.onrender.com"
 
 /* Backend root (for images) */
 

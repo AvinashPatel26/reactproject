@@ -14,30 +14,32 @@ function ProductCard({
 
   /* SAFE IMAGE URL */
 
-  const imageSrc = item.imageurl
-    ? item.imageurl.startsWith("http")
-      ? item.imageurl
-      : `${BACKEND_URL}${item.imageurl}`
-    : "/images/default.png";
+  const imagePath = item.imageurl || item.image || "";
+
+  const imageSrc =
+    imagePath && imagePath.startsWith("http")
+      ? imagePath
+      : imagePath
+      ? `${BACKEND_URL}${imagePath}`
+      : "/images/default.png";
+
+  const price = item.price ? Number(item.price).toFixed(2) : "0.00";
 
   return (
-
     <div className="product-card">
 
       {/* IMAGE */}
 
       <div className="product-img-wrapper">
-
         <img
           src={imageSrc}
-          alt={item.name}
+          alt={item.name || "Food item"}
           className="product-img"
           loading="lazy"
           onError={(e) => {
             e.target.src = "/images/default.png";
           }}
         />
-
       </div>
 
       {/* BODY */}
@@ -45,25 +47,23 @@ function ProductCard({
       <div className="product-body">
 
         <h6 className="product-name">
-          {item.name}
+          {item.name || "Food Item"}
         </h6>
 
         {item.rating && (
-
           <span className="product-rating">
             ⭐ {item.rating}
           </span>
-
         )}
 
         <p className="product-desc">
-          {item.description}
+          {item.description || "Delicious food item"}
         </p>
 
         <div className="product-footer">
 
           <span className="product-price">
-            ₹{Number(item.price).toFixed(2)}
+            ₹{price}
           </span>
 
           {!cartItem ? (
@@ -118,9 +118,7 @@ function ProductCard({
       </div>
 
     </div>
-
   );
-
 }
 
 export default ProductCard;
