@@ -1,66 +1,110 @@
-/* ================= THEME VARIABLES ================= */
-
-:root {
-
-  --bg: #09090b;
-  --card: #18181b;
-  --text: #f4f4f5;
-  --accent: #ff7a18;
-
-}
-
-.dark {
-
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #e2e8f0;
-  --accent: #fb923c;
-
-}
-
-/* ================= GLOBAL ================= */
-
-body {
-
-  background: var(--bg);
-  color: var(--text);
-
-}
-
-/* ================= CARD ================= */
-
-.card,
-.product-card {
-
-  background: var(--card);
-  color: var(--text);
-
-}
-
-/* ================= NAVBAR ================= */
-
-.navbar-custom {
-
-  background: var(--card);
-  color: var(--text);
-
-}
-
-/* ================= FOOTER ================= */
-
-.footer {
-
+.category-container {
   padding: 20px;
-  text-align: center;
-  background: var(--card);
-  border-top: 1px solid #3f3f46;
-
 }
 
-/* ================= LINKS ================= */
+.category-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-a {
+.page-controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
 
-  color: var(--accent);
+.search-box {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 
+.page-size-select {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* GRID */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+/* CARD */
+
+.food-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  transition: 0.2s;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+}
+
+.food-image-wrapper img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.food-body {
+  padding: 16px;
+}
+
+.food-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-tag {
+  background: #2f855a;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.food-desc {
+  margin: 10px 0;
+  color: #666;
+}
+
+.food-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-badge {
+  background: #ffc107;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.add-cart-btn {
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.pagination {
+  text-align: center;
+  margin: 30px;
+}
+
+.pagination button {
+  margin: 5px;
+  padding: 8px 14px;
+}
+
+.active-page {
+  background: #2563eb;
+  color: white;
 }

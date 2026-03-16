@@ -6,108 +6,65 @@ function ProductCard({
   addToCart,
   increaseItem,
   decreaseItem,
-  notifyAdd,
-  notifyIncrease,
-  notifyDecrease,
-  BACKEND_URL,
+  BACKEND_URL
 }) {
 
-  /* SAFE IMAGE URL */
-
-  const imagePath = item.imageurl || item.image || "";
-
-  const imageSrc =
-    imagePath && imagePath.startsWith("http")
-      ? imagePath
-      : imagePath
-      ? `${BACKEND_URL}${imagePath}`
-      : "/images/default.png";
-
-  const price = item.price ? Number(item.price).toFixed(2) : "0.00";
+  const imageSrc = item.imageurl
+    ? `${BACKEND_URL}${item.imageurl}`
+    : "/images/default.png";
 
   return (
-    <div className="product-card">
 
-      {/* IMAGE */}
+    <div className="food-card">
 
-      <div className="product-img-wrapper">
-        <img
-          src={imageSrc}
-          alt={item.name || "Food item"}
-          className="product-img"
-          loading="lazy"
-          onError={(e) => {
-            e.target.src = "/images/default.png";
-          }}
-        />
+      <div className="food-image-wrapper">
+
+        <img src={imageSrc} alt={item.name} />
+
       </div>
 
-      {/* BODY */}
+      <div className="food-body">
 
-      <div className="product-body">
+        <div className="food-header">
 
-        <div className="product-header">
-          <h3 className="product-title">
-            {item.name || "Food Item"}
-          </h3>
-          <span className="product-price-pill">
-            ₹{price}
+          <h3>{item.name}</h3>
+
+          <span className="price-tag">
+            ₹{item.price}
           </span>
+
         </div>
 
-        <p className="product-desc">
-          {item.description || "Delicious food item"}
+        <p className="food-desc">
+          {item.description}
         </p>
 
-        <div className="product-footer-row">
+        <div className="food-footer">
 
-          <span className="product-rating-pill">
-            {item.rating || "4.5"} ★
+          <span className="rating-badge">
+            ⭐ {item.rating || 4.5}
           </span>
 
           {!cartItem ? (
 
             <button
-              className="product-add-btn-outline"
-              aria-label={`Add ${item.name} to cart`}
-              onClick={(e) => {
-                e.preventDefault();
-                addToCart(item);
-                notifyAdd(item.name);
-              }}
+              className="add-cart-btn"
+              onClick={() => addToCart(item)}
             >
-              🛒 Add to Cart
+              Add to Cart
             </button>
 
           ) : (
 
-            <div className="product-counter-pill">
+            <div className="counter">
 
-              <button
-                className="counter-btn-outline"
-                aria-label="Decrease quantity"
-                onClick={(e) => {
-                  e.preventDefault();
-                  decreaseItem(item);
-                  notifyDecrease(item.name);
-                }}
-              >
+              <button onClick={() => decreaseItem(item)}>
                 −
               </button>
 
-              <span className="counter-value-outline">
-                {cartItem.quantity}
-              </span>
+              <span>{cartItem.quantity}</span>
 
-              <button
-                className="counter-btn-outline"
-                aria-label="Increase quantity"
-                onClick={(e) => {
-                  e.preventDefault();
-                  increaseItem(item);
-                  notifyIncrease(item.name);
-                }}
-              >
+              <button onClick={() => increaseItem(item)}>
                 +
               </button>
 
@@ -120,7 +77,9 @@ function ProductCard({
       </div>
 
     </div>
+
   );
+
 }
 
 export default ProductCard;
