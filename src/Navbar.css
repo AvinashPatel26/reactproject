@@ -7,11 +7,11 @@
   width: 100%;
   z-index: 2000;
 
-  background: #09090b;
+  background: rgba(9, 9, 11, 0.75);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 
@@ -106,8 +106,9 @@
 }
 
 .nav-links a.active{
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.25);
   color:#fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* ================= CART BADGE ================= */
@@ -119,7 +120,7 @@
 }
 
 .cart-badge{
-  background:linear-gradient(135deg,#f97316,#ea580c);
+  background:linear-gradient(135deg,#ef4444,#dc2626);
   color:white;
 
   font-size:11px;
@@ -129,7 +130,7 @@
 
   border-radius:12px;
 
-  box-shadow:0 2px 6px rgba(249,115,22,0.4);
+  box-shadow:0 2px 6px rgba(239,68,68,0.4);
 }
 
 /* ================= AUTH BUTTON ================= */

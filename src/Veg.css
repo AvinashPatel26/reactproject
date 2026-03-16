@@ -85,7 +85,7 @@
 
 .veg-price {
   font-weight: 700;
-  color: #ff6f61;
+  color: #ef4444;
   font-size:17px;
 }
 
@@ -93,7 +93,7 @@
 /* BUTTON */
 
 .veg-btn-add {
-  background: linear-gradient(135deg,#ff7a18,#ffb347);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   border: none;
   color: white;
   padding: 8px 14px;
@@ -187,7 +187,7 @@
 }
 
 .veg-pagination-btn.active {
-  background: linear-gradient(135deg,#ff7a18,#ffb347);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
   font-weight:600;
 }

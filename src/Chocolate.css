@@ -67,7 +67,7 @@
 }
 
 .choco-price-amount {
-  color: #ff4d4f;
+  color: #ef4444;
   font-weight: bold;
 }
 
@@ -81,7 +81,7 @@
 /* ADD BUTTON */
 
 .choco-btn-add {
-  background: linear-gradient(135deg,#a0522d,#7a3b20);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
   padding: 8px;
   border-radius: 8px;

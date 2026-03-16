@@ -1,145 +1,209 @@
-/* ================= PRODUCT CARD SPECIFIC STYLES ================= */
+/* ---------- GRID ---------- */
 
-.product-img-wrapper {
-  overflow: hidden;
-  border-bottom: 1px solid rgba(63, 63, 70, 0.4);
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:30px;
 }
 
-.product-card .product-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  display: block;
+/* ---------- CARD ---------- */
+
+.food-card{
+
+  background:white;
+
+  border-radius:16px;
+
+  overflow:hidden;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+  transition:.25s;
+
+  display:flex;
+
+  flex-direction:column;
+
+  height:100%;
 }
 
-.product-card:hover .product-img {
-  transform: scale(1.05);
+.food-card:hover{
+
+  transform:translateY(-6px);
+
+  box-shadow:0 14px 26px rgba(0,0,0,.12);
 }
 
-.product-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+/* ---------- IMAGE ---------- */
+
+.food-img{
+
+  width:100%;
+
+  height:190px;
+
+  overflow:hidden;
 }
 
-.product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-  gap: 12px;
+.food-img img{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+  transition:.3s;
 }
 
-.product-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #f4f4f5;
-  margin: 0;
-  line-height: 1.3;
+.food-card:hover img{
+  transform:scale(1.05);
 }
 
-.product-price-pill {
-  background: #10b981; /* emerald green */
-  color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+/* ---------- BODY ---------- */
+
+.food-body{
+
+  padding:18px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  flex-grow:1;
 }
 
-.product-desc {
-  font-size: 0.875rem;
-  color: #a1a1aa;
-  margin-bottom: 16px;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ---------- TITLE ---------- */
+
+.food-top{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
 }
 
-.product-footer-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
+.food-name{
+  font-size:20px;
+  font-weight:600;
 }
 
-.product-rating-pill {
-  background: #fbbf24; /* amber yellow */
-  color: #18181b; /* dark text for contrast */
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+/* ---------- PRICE ---------- */
+
+.price{
+
+  background:#2f855a;
+
+  color:white;
+
+  padding:6px 12px;
+
+  border-radius:20px;
+
+  font-weight:600;
 }
 
-/* OUTLINE ADD BUTTON (RED/PINK) */
-.product-add-btn-outline {
-  background: transparent;
-  color: #f43f5e; /* rose/pinkish red */
-  border: 1px solid #f43f5e;
-  padding: 6px 16px;
-  border-radius: 9999px; /* pill shape */
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.3s ease;
+/* ---------- DESCRIPTION ---------- */
+
+.food-desc{
+
+  font-size:14px;
+
+  color:#666;
+
+  margin-top:8px;
+
+  flex-grow:1;
 }
 
-.product-add-btn-outline:hover {
-  background: rgba(244, 63, 94, 0.1);
+/* ---------- FOOTER ---------- */
+
+.food-bottom{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-top:16px;
 }
 
-.product-add-btn-outline:active {
-  transform: scale(0.95);
+/* ---------- RATING ---------- */
+
+.rating{
+
+  background:#ffc107;
+
+  padding:6px 10px;
+
+  border-radius:8px;
+
+  font-weight:600;
 }
 
-/* COUNTER BUTTON OUTLINE */
-.product-counter-pill {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid #f43f5e;
-  border-radius: 9999px;
-  overflow: hidden;
-  height: 32px;
+/* ---------- ADD BUTTON ---------- */
+
+.cart-btn{
+
+  border:1px solid #ff4d4d;
+
+  background:white;
+
+  color:#ff4d4d;
+
+  padding:6px 16px;
+
+  border-radius:20px;
+
+  font-size:14px;
+
+  cursor:pointer;
+
+  transition:.2s;
 }
 
-.counter-btn-outline {
-  background: transparent;
-  color: #f43f5e;
-  border: none;
-  width: 32px;
-  height: 100%;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease;
+.cart-btn:hover{
+
+  background:#ff4d4d;
+
+  color:white;
 }
 
-.counter-btn-outline:hover {
-  background: rgba(244, 63, 94, 0.1);
+/* ---------- COUNTER ---------- */
+
+.counter{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
 }
 
-.counter-value-outline {
-  padding: 0 8px;
-  font-weight: 700;
-  color: #f43f5e;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
+.counter-btn{
+
+  width:28px;
+
+  height:28px;
+
+  border:none;
+
+  background:#ff7a18;
+
+  color:white;
+
+  border-radius:6px;
+
+  cursor:pointer;
+
+  font-size:16px;
+}
+
+.counter-value{
+
+  font-weight:600;
+
+  font-size:16px;
 }

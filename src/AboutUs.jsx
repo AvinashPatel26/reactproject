@@ -1,23 +1,30 @@
-import React from "react";
-import "./AboutUs.css"; // custom styles
+import React, { useState } from "react";
+// import "./AboutUs.css"; // You can likely delete this file now!
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 function AboutUs() {
+  const [activeFaq, setActiveFaq] = useState(0); // Set the first FAQ as open by default
+
   const sections = [
     {
-      title: "👨‍👩‍👧 Who We Are",
+      icon: "👨‍👩‍👧",
+      title: "Who We Are",
       text: "We are a dedicated team of food enthusiasts committed to providing authentic flavors and the freshest products. From traditional recipes to modern favorites, our menu is crafted with love and care.",
     },
     {
-      title: "🎯 Our Mission",
+      icon: "🎯",
+      title: "Our Mission",
       text: "Our mission is simple – to deliver great-tasting, hygienic, and affordable food that makes every occasion special. We believe good food brings joy, and we want to share that joy with you.",
     },
     {
-      title: "💡 Our Values",
+      icon: "💡",
+      title: "Our Values",
       text: "✔️ Quality ingredients only\n✔️ Customer satisfaction first\n✔️ Hygienic and safe preparation\n✔️ Innovation in every recipe",
     },
     {
-      title: "📞 Contact Us",
-      text: "Have questions or feedback? We’d love to hear from you!\n\n📧 patelavinash2693@gmail.com\n📱 +91 6387995406",
+      icon: "📞",
+      title: "Contact Us",
+      text: "Have questions or feedback? We’d love to hear from you!\n\n📧 patelavinash2693@gmail.com\n📱 +91 XXXXX XXXXX",
     },
   ];
 
@@ -40,55 +47,84 @@ function AboutUs() {
     },
   ];
 
-  return (
-    <div className="container mt-4">
-      <h1 className="mb-4 text-center text-primary reveal">About Us</h1>
+  const toggleFaq = (index) => {
+    setActiveFaq(activeFaq === index ? null : index);
+  };
 
-      <div className="row">
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-12 min-h-screen">
+      
+      {/* HEADER */}
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-orange-500 via-yellow-500 to-red-500 bg-clip-text text-transparent pb-2">
+          About Us
+        </h1>
+        <div className="w-24 h-1 bg-orange-500 mx-auto mt-2 rounded-full"></div>
+        <p className="text-gray-500 mt-4 max-w-2xl mx-auto text-lg">
+          Discover the story behind Foody Sensations and what drives us to deliver the best flavors to your door.
+        </p>
+      </div>
+
+      {/* INFO SECTIONS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
         {sections.map((sec, index) => (
-          <div className={`col-12 col-md-6 mb-4 reveal-scale delay-${(index % 4) * 100}`} key={index}>
-            <div className="card about-card shadow-sm h-100">
-              <div className="card-body">
-                <h5 className="card-title">{sec.title}</h5>
-                <p className="card-text" style={{ whiteSpace: "pre-line" }}>
-                  {sec.text}
-                </p>
-              </div>
+          <div 
+            key={index} 
+            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col items-start"
+          >
+            <div className="text-4xl mb-4 bg-orange-50 w-16 h-16 flex items-center justify-center rounded-2xl">
+              {sec.icon}
             </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">{sec.title}</h3>
+            <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+              {sec.text}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* FAQ Section */}
-      <div className="mt-5 reveal-left delay-200">
-        <h2 className="text-center text-primary mb-4">❓ Frequently Asked Questions</h2>
-        <div className="accordion" id="faqAccordion">
+      {/* FAQ SECTION */}
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          ❓ Frequently Asked Questions
+        </h2>
+        
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div className="accordion-item" key={index}>
-              <h2 className="accordion-header" id={`heading${index}`}>
-                <button
-                  className={`accordion-button ${index !== 0 ? "collapsed" : ""}`}
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={`#collapse${index}`}
-                  aria-expanded={index === 0 ? "true" : "false"}
-                  aria-controls={`collapse${index}`}
-                >
-                  {faq.question}
-                </button>
-              </h2>
-              <div
-                id={`collapse${index}`}
-                className={`accordion-collapse collapse ${index === 0 ? "show" : ""}`}
-                aria-labelledby={`heading${index}`}
-                data-bs-parent="#faqAccordion"
+            <div 
+              key={index} 
+              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                className="w-full flex justify-between items-center p-5 text-left bg-white hover:bg-orange-50 transition-colors focus:outline-none"
+                onClick={() => toggleFaq(index)}
+                aria-expanded={activeFaq === index}
               >
-                <div className="accordion-body">{faq.answer}</div>
+                <span className="font-semibold text-gray-800 text-lg">
+                  {faq.question}
+                </span>
+                {activeFaq === index ? (
+                  <ChevronUp className="text-orange-500 w-5 h-5 flex-shrink-0" />
+                ) : (
+                  <ChevronDown className="text-gray-400 w-5 h-5 flex-shrink-0" />
+                )}
+              </button>
+              
+              {/* Accordion Content */}
+              <div 
+                className={`transition-all duration-300 ease-in-out ${
+                  activeFaq === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                } overflow-hidden`}
+              >
+                <div className="p-5 pt-0 text-gray-600 border-t border-gray-50 bg-white">
+                  {faq.answer}
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
     </div>
   );
 }

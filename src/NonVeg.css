@@ -60,7 +60,7 @@
 }
 
 .nonvegPage-price-amount {
-  color: #ff4d4f;
+  color: #ef4444;
   font-size: 16px;
   font-weight: 700;
 }
@@ -69,7 +69,7 @@
 /* ADD BUTTON */
 
 .nonvegPage-btn-add {
-  background: linear-gradient(135deg,#a63e23,#822d18);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
   border: none;
   padding: 8px 14px;
