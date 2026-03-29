@@ -33,7 +33,7 @@ if (!fs.existsSync(uploadsDir)) {
 const allowedOrigins = [
   "http://localhost:5173", // Your local Vite React server
   "http://localhost:5174",
-  "https://delicious-bites-mauve.vercel.app" // Your deployed Vercel frontend!
+  "https://foodsensation.vercel.app" // Your deployed Vercel frontend!
 ];
 
 app.use(
