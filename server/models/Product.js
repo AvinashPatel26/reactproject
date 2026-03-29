@@ -21,6 +21,16 @@ const productSchema = new mongoose.Schema(
       min: 0,
     },
 
+    originalPrice: {
+      type: Number,
+      min: 0,
+    },
+
+    isVeg: {
+      type: Boolean,
+      default: true,
+    },
+
     description: {
       type: String,
       default: "",
@@ -44,6 +54,14 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+/* Virtual property 'image' mapping to 'imageurl' for the new React UI */
+productSchema.virtual("image").get(function () {
+  return this.imageurl;
+});
+
+productSchema.set("toJSON", { virtuals: true });
+productSchema.set("toObject", { virtuals: true });
 
 const Product = mongoose.model("Product", productSchema);
 

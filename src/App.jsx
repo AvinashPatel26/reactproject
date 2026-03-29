@@ -1,32 +1,18 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Link,
-  useLocation,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 // Component Imports
-import Home from "./Home";
 import Navbar from "./Navbar";
-import Cart from "./Cart";
-import Orders from "./Orders";
-import SignUp from "./SignUp";
-import AboutUs from "./AboutUs";
-import ContactUs from "./ContactUs";
-import PageNotFound from "./PageNotFound";
-import AdminAddProduct from "./AdminAddProduct";
+import Home from "./Home";
 import CategoryPage from "./CategoryPage";
-import Profile from "./Profile"; // 👈 Don't forget to import the Profile component!
+import Profile from "./Profile";
+import CartDrawer from "./CartDrawer";
+import AuthModal from "./AuthModal";
 
 // Styles
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
 
 function ScrollHandler() {
@@ -38,77 +24,59 @@ function ScrollHandler() {
 }
 
 function Layout() {
-  const cartItems = useSelector((state) => state.cart || []);
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
   const token = localStorage.getItem("accessToken");
-  const role = localStorage.getItem("userRole");
   const isAuth = !!token;
-  const isAdmin = role === "admin";
+  
+  const [isAuthModalOpen, setAuthModalOpen] = useState(false);
+  
+  useEffect(() => {
+    window.openAuth = () => setAuthModalOpen(true);
+    return () => delete window.openAuth;
+  }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
+    <div className="flex flex-col min-h-screen bg-bg font-sans">
       <ScrollHandler />
 
       <Navbar />
+      <CartDrawer />
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setAuthModalOpen(false)} 
+        initialMode="login" 
+      />
 
-      {/* Floating Cart Button */}
-      <Link
-        to="/cart"
-        className="fixed bottom-6 right-6 bg-orange-500 text-white p-4 rounded-full shadow-2xl hover:bg-orange-600 hover:scale-110 transition-transform z-50 flex items-center justify-center text-3xl"
-        title="Go to Cart"
-      >
-        🛒
-        {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-7 h-7 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
-            {cartCount}
-          </span>
-        )}
-      </Link>
-
-      <main className="flex-grow pt-20">
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Navigate to="/" />} />
-          <Route
-            path="/signup"
-            element={isAuth ? <Navigate to="/" /> : <SignUp />}
-          />
-          <Route
-            path="/orders"
-            element={isAuth ? <Orders /> : <Navigate to="/signup" />}
-          />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route
-            path="/admin/add-product"
-            element={isAdmin ? <AdminAddProduct /> : <Navigate to="/" />}
-          />
-
-          {/* 👈 Profile MUST be above the dynamic /:category route! */}
+          
+          {/* Dynamic Categories */}
+          <Route path="/:category" element={<CategoryPage />} />
+          
           <Route
             path="/profile"
-            element={isAuth ? <Profile /> : <Navigate to="/signup" />}
+            element={isAuth ? <Profile /> : <Navigate to="/" />}
           />
-
-          <Route path="/:category" element={<CategoryPage />} />
-          <Route path="*" element={<PageNotFound />} />
+          
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 text-center py-8 mt-auto">
-        <p className="text-sm font-medium">
-          Made with ❤️ & 🍕 by{" "}
-          <span className="text-orange-400 font-bold">Foody Sensations</span>
-        </p>
-        <p className="text-xs mt-2 text-gray-500">
-          © {new Date().getFullYear()} All Rights Reserved.
-        </p>
+      <footer className="bg-white border-t border-border py-12 text-center mt-auto">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <p className="font-sora font-extrabold text-xl text-primary mb-2 flex items-center justify-center gap-1">
+            Foody <span className="text-text-dark">Sensations</span>
+          </p>
+          <p className="text-sm text-text-muted mb-4">Premium dining and groceries, delivered fresh.</p>
+          <p className="text-xs text-text-muted font-medium">
+            © {new Date().getFullYear()} All Rights Reserved.
+          </p>
+        </div>
       </footer>
 
-      <ToastContainer position="top-right" autoClose={2000} theme="colored" />
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
     </div>
   );
 }

@@ -34,11 +34,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-/* ---------------- GET ALL PRODUCTS ---------------- */
+/* ---------------- GET ALL PRODUCTS (OR FILTER BY QUERY) ---------------- */
 
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const { category } = req.query; 
+
+    // Build flexible filter object based on query parameters
+    let filter = {};
+    if (category && category.toLowerCase() !== 'all') {
+      filter.category = (category.toLowerCase() === 'non-veg' || category.toLowerCase() === 'nonveg') ? 'nonveg' : category.toLowerCase();
+    }
+
+    const products = await Product.find(filter).sort({ createdAt: -1 });
     res.json(products);
   } catch (err) {
     console.error("Get products error:", err);
@@ -50,12 +58,10 @@ router.get("/", async (req, res) => {
 
 router.get("/category/:category", async (req, res) => {
   try {
-    let category = req.params.category;
-
-    if (category === "nonVeg") category = "nonveg";
+    let category = req.params.category.toLowerCase();
+    if (category === "non-veg" || category === "nonveg") category = "nonveg";
 
     const products = await Product.find({ category });
-
     res.json(products);
   } catch (err) {
     console.error("Category products error:", err);
@@ -72,11 +78,11 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     try {
-      const { name, category, price, description, rating } = req.body;
+      const { name, category, price, originalPrice, isVeg, description, rating } = req.body;
 
       const imageurl = req.file
         ? `/uploads/${req.file.filename}`
-        : req.body.imageurl;
+        : req.body.imageurl || req.body.image;
 
       if (!name || !category || !price || !imageurl) {
         return res.status(400).json({ message: "Missing required fields" });
@@ -86,6 +92,8 @@ router.post(
         name,
         category,
         price,
+        originalPrice,
+        isVeg: isVeg !== undefined ? isVeg : true,
         description,
         rating,
         imageurl,
@@ -109,7 +117,13 @@ router.post("/bulk", requireAuth, requireAdmin, async (req, res) => {
       return res.status(400).json({ message: "Products array required" });
     }
 
-    const inserted = await Product.insertMany(products);
+    // Map `image` to `imageurl` if receiving new UI payloads
+    const mappedProducts = products.map(p => ({
+      ...p,
+      imageurl: p.imageurl || p.image,
+    }));
+
+    const inserted = await Product.insertMany(mappedProducts);
 
     res.json({
       message: "Products inserted successfully",
@@ -126,7 +140,6 @@ router.post("/bulk", requireAuth, requireAdmin, async (req, res) => {
 router.delete("/:id", requireAuth, requireAdmin, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-
     res.json({ message: "Product deleted" });
   } catch (err) {
     console.error("Delete product error:", err);

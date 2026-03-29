@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-bg text-text-dark font-sans;
+}
+
 /* Smooth scrolling for anchor links and routing */
 html {
   scroll-behavior: smooth;

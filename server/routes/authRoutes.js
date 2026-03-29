@@ -7,7 +7,7 @@ const router = express.Router();
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "dev-access-secret";
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "dev-refresh-secret";
-const ADMIN_USERNAMES = (process.env.ADMIN_USERNAMES || "")
+const ADMIN_EMAILS = (process.env.ADMIN_USERNAMES || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -15,7 +15,7 @@ const ADMIN_USERNAMES = (process.env.ADMIN_USERNAMES || "")
 const signTokens = (user) => {
   const payload = {
     sub: user._id.toString(),
-    username: user.username,
+    email: user.email || user.username,
     name: user.name,
     role: user.role,
   };
@@ -28,26 +28,26 @@ const signTokens = (user) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, username, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!name || !username || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existing = await User.findOne({ username });
+    const existing = await User.findOne({ $or: [{ email }, { username: email }] });
     if (existing) {
-      return res.status(409).json({ message: "Username already taken" });
+      return res.status(409).json({ message: "Email already registered" });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const role = ADMIN_USERNAMES.includes(username) ? "admin" : "user";
-    const user = await User.create({ name, username, passwordHash, role });
+    const role = ADMIN_EMAILS.includes(email) ? "admin" : "user";
+    const user = await User.create({ name, email, passwordHash, role });
 
     return res.status(201).json({
       id: user._id,
       name: user.name,
-      username: user.username,
+      email: user.email,
       role: user.role,
     });
   } catch (err) {
@@ -58,9 +58,9 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ $or: [{ email }, { username: email }] });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -76,7 +76,7 @@ router.post("/login", async (req, res) => {
       accessToken,
       refreshToken,
       name: user.name,
-      username: user.username,
+      email: user.email || user.username,
       role: user.role,
     });
   } catch (err) {
@@ -86,4 +86,3 @@ router.post("/login", async (req, res) => {
 });
 
 export default router;
-
