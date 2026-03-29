@@ -1,6 +1,7 @@
 import React from 'react';
 import useCartStore from './store/cartStore';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
+import { BACKEND_URL } from './config/backend';
 
 export default function CartDrawer() {
   const { isCartOpen, closeCart, items, updateQty, removeItem, subtotal } = useCartStore();
@@ -40,7 +41,7 @@ export default function CartDrawer() {
               <div key={item._id} className="flex gap-4 p-3 bg-white border border-border rounded-lg shadow-sm">
                 <div className="w-[52px] h-[52px] shrink-0 bg-gray-100 rounded overflow-hidden">
                   {item.image ? (
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={item.image?.startsWith('http') ? item.image : `${BACKEND_URL}${item.image}`} alt={item.name} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">Img</div>
                   )}

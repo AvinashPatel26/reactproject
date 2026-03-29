@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { API_BASE } from './config/backend';
 
 export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   const [mode, setMode] = useState(initialMode);
@@ -38,7 +39,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
             return;
         }
 
-        await axios.post('http://localhost:8080/api/auth/register', payload);
+        await axios.post(`${API_BASE}/auth/register`, payload);
         toast.success("Account created successfully. Please sign in!");
         setMode('login');
       } else {
@@ -46,7 +47,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
           email: e.target.email.value,
           password: e.target.password.value
         };
-        const res = await axios.post('http://localhost:8080/api/auth/login', payload);
+        const res = await axios.post(`${API_BASE}/auth/login`, payload);
         localStorage.setItem('accessToken', res.data.accessToken);
         if (res.data.refreshToken) localStorage.setItem('refreshToken', res.data.refreshToken);
         localStorage.setItem('userName', res.data.name);

@@ -1,5 +1,6 @@
 import React from 'react';
 import useCartStore from './store/cartStore';
+import { BACKEND_URL } from './config/backend';
 
 const categoryBgMap = {
   Veg: '#ECFDF5',
@@ -22,7 +23,7 @@ function ProductCard({ _id, name, description, price, originalPrice, image, cate
       <div className="h-40 relative overflow-hidden" style={{ backgroundColor: categoryBgMap[category] || '#F4F4F5' }}>
         {image && (
           <img 
-            src={image} 
+            src={image.startsWith('http') ? image : `${BACKEND_URL}${image}`} 
             alt={name} 
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
           />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { API_BASE } from './config/backend';
 
 export default function CategoryPage() {
   const { category } = useParams();
@@ -16,8 +17,8 @@ export default function CategoryPage() {
     setLoading(true);
     try {
       const endpoint = category 
-        ? `http://localhost:8080/api/products?category=${category}` 
-        : `http://localhost:8080/api/products`;
+        ? `${API_BASE}/products?category=${category}` 
+        : `${API_BASE}/products`;
         
       const response = await axios.get(endpoint);
       if (response.data) {

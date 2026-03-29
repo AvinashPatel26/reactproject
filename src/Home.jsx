@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { API_BASE } from './config/backend';
 
 const CATEGORIES = ['All', 'Veg', 'Non-Veg', 'Dairy', 'Chocolates'];
 
@@ -13,8 +14,7 @@ export default function Home() {
     const fetchFeatured = async () => {
       setLoading(true);
       try {
-        // Fetch products. Since it's the home page, we fetch all and slice to limit.
-        const res = await axios.get('http://localhost:8080/api/products');
+        const res = await axios.get(`${API_BASE}/products`);
         if (res.data) {
           setProducts(res.data.slice(0, 12)); // Display up to 12 featured items
         }
